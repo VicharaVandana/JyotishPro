@@ -1,0 +1,9 @@
+requests
+beautifulsoup4
+PyQt5
+jyotishyamitra
+jyotichart
+pandas
+matplotlib
+fpdf2
+scipy

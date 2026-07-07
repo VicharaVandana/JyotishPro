@@ -1,0 +1,167 @@
++14.2798
++5.5
++74.4439
+1. All Divisional Charts
+2. Vimshottari Dasha
+3. All Yogas and Doshas
+4. Vimshopaka Bala
+5. Shadbala
+6. Bhava-bala
+7. Ashtaka Varga
+8. Lord In Houses Analysis
+Add
+Add the birth details to internal database.
+Aquarius
+Aries
+As
+Aspects
+Astrological Charts
+BirthChart
+BirthData Database
+Browse...
+Cancer
+Capricorn
+Celebrity
+Chart Settings
+Chart Style
+Chart Type :
+Click to get Details of Ascendant
+Click to get Details of Jupiter
+Click to get Details of Ketu
+Click to get Details of Mars
+Click to get Details of Mercury
+Click to get Details of Moon
+Click to get Details of Rahu
+Click to get Details of Saturn
+Click to get Details of Sun
+Click to get Details of Venus
+Comments
+D1
+D10
+D12
+D16
+D2
+D20
+D24
+D27
+D3
+D30
+D4
+D40
+D45
+D60
+D7
+D9
+Date of Birth
+Delete
+Delete the birth details of the selected user from internal database
+Deselect All
+Details of the planet selected.
+Display Settings
+Division: 
+English
+Enter birth place lattitude in decimal format. 
++ve for North and -ve for south
+Enter birth place longitude in decimal format. 
++ve for East and -ve for West. 
+Enter birthtime in 24 hour format 
+Enter native's name
+Enter place name where Native was born
+Export
+Export birth details of the native into a jsm file
+Fetch
+File
+First House Sign: 
+Gemini
+Gender
+Generate Astrological Report
+Generate PDF Report
+HH:mm:ss
+Hindi
+Honavar
+Import
+Import birth details of the native from a jsm file
+In hours with respect to GMT. 
+for example if its GMT + 5hr 30 min then enter +5.5
+Inner Chart
+Inner chart Aspects
+Ju
+Jupiter
+JyotioshyamProReport_<name>_<datetimestamp>
+JyotishyamPro
+Kannada
+Ke
+Ketu
+Language
+Lattitude
+Leo
+Libra
+Longitude
+Ma
+Mars
+Me
+Mercury
+Mixed Charts
+Mo
+Moon
+Name
+Natal
+North Indian
+Optional field where you can enter some comments on the userdata
+Outer Chart
+Outer chart Aspects
+PDF Report
+Personal
+Pisces
+Place of Birth
+Ra
+Rahu
+Report Name
+Report Sections
+Sa
+Saggitarius
+Saturn
+Save Location
+Scorpio
+Select All
+Select North Indian or South Indian chart style
+Select a folder to save the PDF...
+Select the date for which the transit chart has to be computed.
+Select the language for displaying chart symbols and labels
+Select the sign which should be first house in the chart
+Select the time for which the transit chart has to be computed.
+Select the type of Outer chart. Either Transit chart or Natal chart
+Select which Divisional chart must be considered for Vimshottari Dasha calculation
+Select which Divisional chart must be displayed
+Select which Divisional chart must be displayed for inner chart
+Select which Divisional chart must be displayed for outer chart
+Select which planet must be used as seed planet for Vimshottari Dasha calculation
+Settings
+Shadbala:
+South Indian
+Status
+Su
+Submit
+Submits the birth details and computes astrological data 
+and updates it to the app for user
+Sun
+T
+Taurus
+TextLabel
+Tick for showing aspects and untick for hiding aspects
+Tick for showing aspects and untick for hiding aspects for outer chart
+Tick for showing aspects and untick for hiding aspects. This is for inner chart
+Time of Birth
+Timezone
+Transit
+Transit DateTime
+UserDetails
+Ve
+Venus
+Virgo
+d/MMMM/yyyy
+female
+male
+other
+shows statuses of actions
+Include Cancelled Yogas/Doshas

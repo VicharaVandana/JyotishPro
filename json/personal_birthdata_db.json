@@ -1,0 +1,989 @@
+{
+    "Shyam Bhat": {
+        "name": "Shyam Bhat",
+        "gender": "male",
+        "DOB": {
+            "year": "1991",
+            "month": "10",
+            "day": "8"
+        },
+        "TOB": {
+            "hour": "14",
+            "min": "47",
+            "sec": "9"
+        },
+        "POB": {
+            "name": "Honavar",
+            "lon": "+74.4439",
+            "lat": "+14.2798",
+            "timezone": "+5.5"
+        },
+        "comments": "This is my own chart"
+    },
+    "Deepa Bhat": {
+        "name": "Deepa Bhat",
+        "gender": "female",
+        "DOB": {
+            "year": "1997",
+            "month": "7",
+            "day": "5"
+        },
+        "TOB": {
+            "hour": "8",
+            "min": "40",
+            "sec": "9"
+        },
+        "POB": {
+            "name": "Kundgol",
+            "lon": "+75.33975",
+            "lat": "+15.2306",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Ayushi Soraganvi": {
+        "name": "Ayushi Soraganvi",
+        "gender": "female",
+        "DOB": {
+            "year": "2021",
+            "month": "7",
+            "day": "14"
+        },
+        "TOB": {
+            "hour": "13",
+            "min": "53",
+            "sec": "52"
+        },
+        "POB": {
+            "name": "Ottawa",
+            "lon": "-75.69812",
+            "lat": "+45.41117",
+            "timezone": "-4.0"
+        },
+        "comments": ""
+    },
+    "Shridhar Hegde": {
+        "name": "Shridhar Hegde",
+        "gender": "male",
+        "DOB": {
+            "year": "1998",
+            "month": "6",
+            "day": "29"
+        },
+        "TOB": {
+            "hour": "12",
+            "min": "5",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Honavar",
+            "lon": "+74.4439",
+            "lat": "+14.2798",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Akshata GM": {
+        "name": "Akshata GM",
+        "gender": "female",
+        "DOB": {
+            "year": "1992",
+            "month": "9",
+            "day": "12"
+        },
+        "TOB": {
+            "hour": "8",
+            "min": "15",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "saundatti",
+            "lon": "+75.1253",
+            "lat": "+15.7522",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Mahantesh Akshu anna": {
+        "name": "Mahantesh Akshu anna",
+        "gender": "male",
+        "DOB": {
+            "year": "1982",
+            "month": "11",
+            "day": "30"
+        },
+        "TOB": {
+            "hour": "23",
+            "min": "30",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "kittur",
+            "lon": "+74.7885",
+            "lat": "+15.5988",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Kanchana Naravagol": {
+        "name": "Kanchana Naravagol",
+        "gender": "female",
+        "DOB": {
+            "year": "1992",
+            "month": "9",
+            "day": "13"
+        },
+        "TOB": {
+            "hour": "15",
+            "min": "2",
+            "sec": "5"
+        },
+        "POB": {
+            "name": "Gokak",
+            "lon": "+74.82393",
+            "lat": "+16.16901",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Kaveri Madar": {
+        "name": "Kaveri Madar",
+        "gender": "female",
+        "DOB": {
+            "year": "2010",
+            "month": "12",
+            "day": "22"
+        },
+        "TOB": {
+            "hour": "10",
+            "min": "30",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "lakshmeshwar",
+            "lon": "+75.4723",
+            "lat": "+15.1275",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Soujanya Madar": {
+        "name": "Soujanya Madar",
+        "gender": "female",
+        "DOB": {
+            "year": "2015",
+            "month": "3",
+            "day": "19"
+        },
+        "TOB": {
+            "hour": "14",
+            "min": "0",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "lakshmeshwar",
+            "lon": "+75.4723",
+            "lat": "+15.1275",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Krutika Madar": {
+        "name": "Krutika Madar",
+        "gender": "female",
+        "DOB": {
+            "year": "2014",
+            "month": "9",
+            "day": "15"
+        },
+        "TOB": {
+            "hour": "8",
+            "min": "5",
+            "sec": "14"
+        },
+        "POB": {
+            "name": "Mundargi",
+            "lon": "+75.8853",
+            "lat": "+15.2055",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "APJ Abdul Kalam": {
+        "name": "APJ Abdul Kalam",
+        "gender": "male",
+        "DOB": {
+            "year": "1931",
+            "month": "10",
+            "day": "15"
+        },
+        "TOB": {
+            "hour": "1",
+            "min": "15",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Rameswaram",
+            "lon": "+79.26",
+            "lat": "+9.26",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Vishnumurthy Hegde": {
+        "name": "Vishnumurthy Hegde",
+        "gender": "male",
+        "DOB": {
+            "year": "2002",
+            "month": "7",
+            "day": "8"
+        },
+        "TOB": {
+            "hour": "18",
+            "min": "24",
+            "sec": "31"
+        },
+        "POB": {
+            "name": "Kumta",
+            "lon": "+74.4",
+            "lat": "+14.4",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Napolean": {
+        "name": "Napolean",
+        "gender": "male",
+        "DOB": {
+            "year": "1769",
+            "month": "8",
+            "day": "15"
+        },
+        "TOB": {
+            "hour": "11",
+            "min": "30",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Ajaccio",
+            "lon": "+41.92723",
+            "lat": "+8.73462",
+            "timezone": "+1.0"
+        },
+        "comments": ""
+    },
+    "7planetin1house_Gurmeet": {
+        "name": "7planetin1house_Gurmeet",
+        "gender": "male",
+        "DOB": {
+            "year": "1962",
+            "month": "2",
+            "day": "3"
+        },
+        "TOB": {
+            "hour": "10",
+            "min": "3",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Ludhiana",
+            "lon": "+75.85229",
+            "lat": "+30.90015",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "keerthi saravi": {
+        "name": "keerthi saravi",
+        "gender": "female",
+        "DOB": {
+            "year": "2003",
+            "month": "2",
+            "day": "11"
+        },
+        "TOB": {
+            "hour": "10",
+            "min": "30",
+            "sec": "43"
+        },
+        "POB": {
+            "name": "lakshmeshwar",
+            "lon": "+75.4723",
+            "lat": "+15.1275",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Vinay Madar": {
+        "name": "Vinay Madar",
+        "gender": "male",
+        "DOB": {
+            "year": "2005",
+            "month": "5",
+            "day": "31"
+        },
+        "TOB": {
+            "hour": "5",
+            "min": "0",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Gadag",
+            "lon": "+75.62971",
+            "lat": "+15.42977",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "vinod madar": {
+        "name": "vinod madar",
+        "gender": "male",
+        "DOB": {
+            "year": "2023",
+            "month": "11",
+            "day": "5"
+        },
+        "TOB": {
+            "hour": "18",
+            "min": "40",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "madhalli",
+            "lon": "+75.4286",
+            "lat": "+15.2815",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "shwetha bhat": {
+        "name": "shwetha Bhat",
+        "gender": "female",
+        "DOB": {
+            "year": "1987",
+            "month": "6",
+            "day": "11"
+        },
+        "TOB": {
+            "hour": "14",
+            "min": "24",
+            "sec": "6"
+        },
+        "POB": {
+            "name": "Ramdurga",
+            "lon": "+75.2975",
+            "lat": "+15.95",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Aruthra": {
+        "name": "Aruthra",
+        "gender": "female",
+        "DOB": {
+            "year": "2002",
+            "month": "10",
+            "day": "8"
+        },
+        "TOB": {
+            "hour": "14",
+            "min": "30",
+            "sec": "9"
+        },
+        "POB": {
+            "name": "kanchipuram",
+            "lon": "+79.9833483",
+            "lat": "+12.6839952",
+            "timezone": "+5.5"
+        },
+        "comments": "This is my own chart"
+    },
+    "Akshay Bhat": {
+        "name": "Akshay Bhat",
+        "gender": "male",
+        "DOB": {
+            "year": "2024",
+            "month": "12",
+            "day": "22"
+        },
+        "TOB": {
+            "hour": "21",
+            "min": "36",
+            "sec": "9"
+        },
+        "POB": {
+            "name": "Marathalli Bangalore",
+            "lon": "+77.7011",
+            "lat": "+12.9569",
+            "timezone": "+5.5"
+        },
+        "comments": "This is details of my Son"
+    },
+    "Akshus nephew": {
+        "name": "Akshus nephew",
+        "gender": "male",
+        "DOB": {
+            "year": "2023",
+            "month": "6",
+            "day": "2"
+        },
+        "TOB": {
+            "hour": "15",
+            "min": "14",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "sattur",
+            "lon": "+75.0366",
+            "lat": "+15.4177",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Akshay Kumar": {
+        "name": "Akshay Kumar",
+        "gender": "male",
+        "DOB": {
+            "year": "1967",
+            "month": "9",
+            "day": "9"
+        },
+        "TOB": {
+            "hour": "12",
+            "min": "5",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Amritsar",
+            "lon": "+74.87476",
+            "lat": "+31.63661",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Roopa Saravi": {
+        "name": "Roopa Saravi",
+        "gender": "female",
+        "DOB": {
+            "year": "2000",
+            "month": "5",
+            "day": "31"
+        },
+        "TOB": {
+            "hour": "9",
+            "min": "30",
+            "sec": "37"
+        },
+        "POB": {
+            "name": "lakshmeshwar",
+            "lon": "+75.4723",
+            "lat": "+15.1275",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Vijay krishnaa": {
+        "name": "Vijay krishnaa",
+        "gender": "male",
+        "DOB": {
+            "year": "2002",
+            "month": "8",
+            "day": "30"
+        },
+        "TOB": {
+            "hour": "22",
+            "min": "30",
+            "sec": "9"
+        },
+        "POB": {
+            "name": "Pondicherry",
+            "lon": "+79.812325",
+            "lat": "+11.916064",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Pavan Saravi": {
+        "name": "Pavan Saravi",
+        "gender": "male",
+        "DOB": {
+            "year": "1996",
+            "month": "6",
+            "day": "1"
+        },
+        "TOB": {
+            "hour": "16",
+            "min": "30",
+            "sec": "9"
+        },
+        "POB": {
+            "name": "Sakkarepattana",
+            "lon": "+75.9289",
+            "lat": "+13.4278",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Rithika G": {
+        "name": "Rithika G",
+        "gender": "female",
+        "DOB": {
+            "year": "2002",
+            "month": "10",
+            "day": "7"
+        },
+        "TOB": {
+            "hour": "15",
+            "min": "30",
+            "sec": "9"
+        },
+        "POB": {
+            "name": "pollachi",
+            "lon": "+77.0085",
+            "lat": "+10.6583",
+            "timezone": "+5.5"
+        },
+        "comments": "Colleague on ProUDS in TTL"
+    },
+    "Jeyendra": {
+        "name": "Jeyendra",
+        "gender": "male",
+        "DOB": {
+            "year": "2003",
+            "month": "3",
+            "day": "1"
+        },
+        "TOB": {
+            "hour": "2",
+            "min": "20",
+            "sec": "9"
+        },
+        "POB": {
+            "name": "nellore",
+            "lon": "+79.9867",
+            "lat": "+14.4536",
+            "timezone": "+5.5"
+        },
+        "comments": "Colleague S in TTL"
+    },
+    "Deepa Maishale": {
+        "name": "Deepa Maishale",
+        "gender": "female",
+        "DOB": {
+            "year": "1991",
+            "month": "9",
+            "day": "22"
+        },
+        "TOB": {
+            "hour": "21",
+            "min": "10",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Belgaum",
+            "lon": "+74.5129",
+            "lat": "+15.8609",
+            "timezone": "+5.5"
+        },
+        "comments": "Deepa is my college friend from First Year Engineering."
+    },
+    "Shriprospect1": {
+        "name": "Shriprospect1",
+        "gender": "female",
+        "DOB": {
+            "year": "2000",
+            "month": "11",
+            "day": "30"
+        },
+        "TOB": {
+            "hour": "6",
+            "min": "17",
+            "sec": "9"
+        },
+        "POB": {
+            "name": "Honavar",
+            "lon": "+74.1299",
+            "lat": "+14.8074",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Savitatte": {
+        "name": "Savitatte",
+        "gender": "female",
+        "DOB": {
+            "year": "1972",
+            "month": "8",
+            "day": "18"
+        },
+        "TOB": {
+            "hour": "8",
+            "min": "15",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Honavar",
+            "lon": "+74.4439",
+            "lat": "+14.2798",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Vandana Madar": {
+        "name": "Vandana Madar",
+        "gender": "female",
+        "DOB": {
+            "year": "2025",
+            "month": "9",
+            "day": "14"
+        },
+        "TOB": {
+            "hour": "18",
+            "min": "30",
+            "sec": "9"
+        },
+        "POB": {
+            "name": "Gadag Govt Hospital",
+            "lon": "+75.6008",
+            "lat": "+15.3810",
+            "timezone": "+5.5"
+        },
+        "comments": "This is Keerthis and Ningappas Daughter. So my daughter by relation as well"
+    },
+    "Vasantraju": {
+        "name": "Vasantraju",
+        "gender": "male",
+        "DOB": {
+            "year": "1976",
+            "month": "10",
+            "day": "17"
+        },
+        "TOB": {
+            "hour": "5",
+            "min": "5",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Sidihosakote Anekal",
+            "lon": "+77.6837",
+            "lat": "+12.7301",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Mamatha akka": {
+        "name": "Mamatha akka",
+        "gender": "female",
+        "DOB": {
+            "year": "1990",
+            "month": "1",
+            "day": "12"
+        },
+        "TOB": {
+            "hour": "1",
+            "min": "55",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Halasuru",
+            "lon": "+77.6284",
+            "lat": "+12.9817",
+            "timezone": "+5.5"
+        },
+        "comments": "The timing is not sure. this jataka belongs to neighbour of our anekal home"
+    },
+    "Kushal Gowda": {
+        "name": "Kushal Gowda",
+        "gender": "male",
+        "DOB": {
+            "year": "2008",
+            "month": "4",
+            "day": "13"
+        },
+        "TOB": {
+            "hour": "12",
+            "min": "32",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Anekal",
+            "lon": "+77.6992",
+            "lat": "+12.7091",
+            "timezone": "+5.5"
+        },
+        "comments": "Neighbour kid elder"
+    },
+    "Bhuvan Gowda": {
+        "name": "Bhuvan Gowda",
+        "gender": "male",
+        "DOB": {
+            "year": "2009",
+            "month": "12",
+            "day": "31"
+        },
+        "TOB": {
+            "hour": "18",
+            "min": "45",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Anekal",
+            "lon": "+77.6992",
+            "lat": "+12.7091",
+            "timezone": "+5.5"
+        },
+        "comments": "Neighbour kid younger"
+    },
+    "Manjunath": {
+        "name": "Manjunath",
+        "gender": "male",
+        "DOB": {
+            "year": "1984",
+            "month": "12",
+            "day": "25"
+        },
+        "TOB": {
+            "hour": "23",
+            "min": "30",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Honavar",
+            "lon": "+77.6992",
+            "lat": "+12.7091",
+            "timezone": "+5.5"
+        },
+        "comments": "neighbour akkas anna"
+    },
+    "Puneeth Madesh": {
+        "name": "Puneeth Madesh",
+        "gender": "male",
+        "DOB": {
+            "year": "2009",
+            "month": "4",
+            "day": "9"
+        },
+        "TOB": {
+            "hour": "21",
+            "min": "0",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Chikballapur",
+            "lon": "+77.7315",
+            "lat": "+13.4355",
+            "timezone": "+5.5"
+        },
+        "comments": "vegetable aunty son"
+    },
+    "Manjula S Madesh": {
+        "name": "Manjula S Madesh",
+        "gender": "female",
+        "DOB": {
+            "year": "1986",
+            "month": "6",
+            "day": "1"
+        },
+        "TOB": {
+            "hour": "6",
+            "min": "0",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Chikballapur",
+            "lon": "+77.7315",
+            "lat": "+13.4355",
+            "timezone": "+5.5"
+        },
+        "comments": "vegetable aunty son"
+    },
+    "Aishwarya Madesh": {
+        "name": "Aishwarya Madesh",
+        "gender": "female",
+        "DOB": {
+            "year": "2006",
+            "month": "2",
+            "day": "21"
+        },
+        "TOB": {
+            "hour": "21",
+            "min": "5",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "chikkaballapura",
+            "lon": "+77.7315",
+            "lat": "+13.4355",
+            "timezone": "+5.5"
+        },
+        "comments": "vegetable aunty daughter"
+    },
+    "Venkatesh N": {
+        "name": "Venkatesh N",
+        "gender": "male",
+        "DOB": {
+            "year": "1995",
+            "month": "5",
+            "day": "3"
+        },
+        "TOB": {
+            "hour": "11",
+            "min": "30",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Ramachandrapuram",
+            "lon": "+77.938",
+            "lat": "+13.0",
+            "timezone": "+5.5"
+        },
+        "comments": "conductor uncle first son"
+    },
+    "Harish Kumar": {
+        "name": "Harish Kumar",
+        "gender": "male",
+        "DOB": {
+            "year": "1997",
+            "month": "8",
+            "day": "3"
+        },
+        "TOB": {
+            "hour": "14",
+            "min": "45",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Malur",
+            "lon": "+77.938",
+            "lat": "+13.0",
+            "timezone": "+5.5"
+        },
+        "comments": "conductor uncle Second son"
+    },
+    "Kathyayini R": {
+        "name": "Kathyayini R",
+        "gender": "female",
+        "DOB": {
+            "year": "1997",
+            "month": "7",
+            "day": "1"
+        },
+        "TOB": {
+            "hour": "17",
+            "min": "30",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Rammurthy nagar",
+            "lon": "+77.682",
+            "lat": "+13.014",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Pavitra Madar": {
+        "name": "Pavitra Madar",
+        "gender": "female",
+        "DOB": {
+            "year": "2019",
+            "month": "1",
+            "day": "28"
+        },
+        "TOB": {
+            "hour": "11",
+            "min": "45",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "KMC Hubli",
+            "lon": "+75.13",
+            "lat": "+15.36",
+            "timezone": "+5.5"
+        },
+        "comments": "Akshatas Chikkammas daughter"
+    },
+    "pranati": {
+        "name": "pranati",
+        "gender": "female",
+        "DOB": {
+            "year": "2017",
+            "month": "12",
+            "day": "10"
+        },
+        "TOB": {
+            "hour": "2",
+            "min": "8",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "mundaragi",
+            "lon": "+75.8853",
+            "lat": "+15.2055",
+            "timezone": "+5.5"
+        },
+        "comments": ""
+    },
+    "Pavan Madar": {
+        "name": "Pavan Madar",
+        "gender": "male",
+        "DOB": {
+            "year": "2015",
+            "month": "10",
+            "day": "22"
+        },
+        "TOB": {
+            "hour": "22",
+            "min": "35",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "KMC Hubli",
+            "lon": "+75.13",
+            "lat": "+15.36",
+            "timezone": "+5.5"
+        },
+        "comments": "Akshatas Chikkammas son"
+    },
+    "Renjith Shenoi": {
+        "name": "Renjith Shenoi",
+        "gender": "male",
+        "DOB": {
+            "year": "1991",
+            "month": "5",
+            "day": "1"
+        },
+        "TOB": {
+            "hour": "4",
+            "min": "45",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Cherthala Allapuzha",
+            "lon": "+76.343",
+            "lat": "+9.686",
+            "timezone": "+5.5"
+        },
+        "comments": "My Garrett Colleague and friend"
+    },
+    "gayathri": {
+        "name": "gayathri",
+        "gender": "female",
+        "DOB": {
+            "year": "1993",
+            "month": "10",
+            "day": "24"
+        },
+        "TOB": {
+            "hour": "16",
+            "min": "20",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "karimangalam",
+            "lon": "+78.2045",
+            "lat": "+12.3060",
+            "timezone": "+5.5"
+        },
+        "comments": "my TTL friend"
+    }
+}

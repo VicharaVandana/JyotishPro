@@ -1,0 +1,44 @@
+{
+    "Aamir Khan": {
+        "name": "Aamir Khan",
+        "gender": "male",
+        "DOB": {
+            "year": "1965",
+            "month": "3",
+            "day": "14"
+        },
+        "TOB": {
+            "hour": "6",
+            "min": "15",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Mumbai",
+            "lon": "+72.833333",
+            "lat": "+18.966667",
+            "timezone": "5.5"
+        },
+        "comments": "Celebrity Horoscope from astrosage. \nInformation source: Kundli Sangraha (Tendulkar)\nAstroSage Rating: Accurate"
+    },
+    "Indira Gandhi": {
+        "name": "Indira Gandhi",
+        "gender": "male",
+        "DOB": {
+            "year": "1917",
+            "month": "11",
+            "day": "19"
+        },
+        "TOB": {
+            "hour": "23",
+            "min": "11",
+            "sec": "9"
+        },
+        "POB": {
+            "name": "Allahabad",
+            "lon": "+81.833334",
+            "lat": "+25.95",
+            "timezone": "+5.5"
+        },
+        "comments": "Formal Prime minisher of India. Source: Kundli Sangraha (Bhat) and its accurate details\nMarriage: 26 March 1942 with Feroz Gandhi\nFirst Child Birth - Rajiv Gandhi: 20th August 1944\nSecond  Child Birth -Sanjiv Gandhi: 14th Dec 1946\nDeath : New Delhi: 31st October 1984"
+    }
+}
