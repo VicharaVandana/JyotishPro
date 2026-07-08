@@ -1177,34 +1177,7 @@ def generate_chart_pngs(charts, config):
         if os.path.exists(svg_path):
             svg_to_png(svg_path, png_path)
 
-    import support.graphplot as gp
     import copy
-    
-    # 1. Vimshopaka
-    vimshopaka_data = charts.get("Balas", {}).get("Vimshopaka", {})
-    # if vimshopaka_data:
-    #     gp.barPlot(vimshopaka_data, "VimshopakaBala", "Vimshopaka Bala of planets in various Varga-groups", "Planets", "Vimshopaka Bala")
-        
-    # 2. Shadbala (virupas and rupas)
-    shadbala_data = charts.get("Balas", {}).get("Shadbala", {})
-    if shadbala_data:
-        if "Total" in shadbala_data:
-            gp.barPlot(shadbala_data["Total"], "Shadbala", "ShadBala for planets", "Planets", "Shad Bala(virupas)", index=0)
-            
-        if "Rupas" in shadbala_data:
-            gp.barPlot(shadbala_data["Rupas"], "Shadbala_Rupas", "Shadbala of planets", "Planets", "Shad Bala(rupas)", index=0)
-        
-        # Sthanabala
-        sthana = shadbala_data.get("Sthanabala", {})
-        if sthana:
-            # Sthanabala dictionary has 'Total' + sub-balas, all with planet values.
-            # Passing it as index=999 (default) draws a grouped bar chart.
-            gp.barPlot(sthana, "Sthanabala", "Shadbala --> Sthanabala of planets", "Planets", "Sthana Bala(virupas)")
-            
-        # Kaalabala
-        kaala = shadbala_data.get("Kaalabala", {})
-        if kaala:
-            gp.barPlot(kaala, "Kaalabala", "Shadbala --> Kaalabala of planets", "Planets", "Kaala Bala(virupas)")
 
     # 3. BhavaBala
     bhavabala_data = charts.get("Balas", {}).get("BhavaBala", {}).get("Total", [])
