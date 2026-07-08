@@ -81,9 +81,7 @@ def calculate_dasha(birth_date, event_date, moon_longitude):
         'total': {'lord':'', 'startdate':'', 'enddate':''},
         'Mahadasha': {'lord':'', 'startdate':'', 'enddate':''},
         'Antardasha': {'lord':'', 'startdate':'', 'enddate':''},
-        'Pratyantardasha': {'lord':'', 'startdate':'', 'enddate':''},
-        'Sookshma Dasha': {'lord':'', 'startdate':'', 'enddate':''},
-        'Deha-Antara Dasha': {'lord':'', 'startdate':'', 'enddate':''}
+        'Pratyantardasha': {'lord':'', 'startdate':'', 'enddate':''}
     }
     # Calculate Nakshatra and starting Dasha lord
     nak_duration = 13.0 + (20/60)   #13 degree 20 minutes
@@ -108,7 +106,7 @@ def calculate_dasha(birth_date, event_date, moon_longitude):
 
     # Dynamically compute the levels
     current_level = 'total'
-    for level in ['Mahadasha', 'Antardasha', 'Pratyantardasha', 'Sookshma Dasha', 'Deha-Antara Dasha']:
+    for level in ['Mahadasha', 'Antardasha', 'Pratyantardasha']:
         if dasha_levels[current_level]['lord'] == None:
             break
         # Get planet name and period range for the current level
@@ -159,6 +157,19 @@ def get_dashadetails_fordate(ad,td,div="D1",planet_name="Moon"):
     planet_long = (((sign-1)*30) + deg_dec)
     dasha_levels = calculate_dasha(birth_date, event_date, planet_long)
 
+    # Calculate Gurubala
+    n_moon_sign_num = gen.signnum(ad[div]["planets"]["Moon"]["sign"])
+    t_jup_sign_num = gen.signnum(td[div]["planets"]["Jupiter"]["sign"])
+    housediff = gen.housediff(n_moon_sign_num, t_jup_sign_num)
+    gurubala = "Present" if housediff in [2, 5, 7, 9, 11] else "Absent"
+    gurubala_color = "green" if gurubala == "Present" else "red"
+
+    # Calculate Sade Sati
+    t_sat_sign_num = gen.signnum(td[div]["planets"]["Saturn"]["sign"])
+    sat_housediff = gen.housediff(n_moon_sign_num, t_sat_sign_num)
+    sadesati = "Present" if sat_housediff in [1, 2, 12] else "Absent"
+    sadesati_color = "red" if sadesati == "Present" else "green"
+
     # Formatting HTML content for PyQt5 label display with color coding
     try:
         html = f"""
@@ -180,15 +191,11 @@ def get_dashadetails_fordate(ad,td,div="D1",planet_name="Moon"):
     <span style="color: #2D9038;">Start Date: <b>{dasha_levels['Pratyantardasha']['startdate'].strftime('%Y-%b-%d  [%I:%M %p]')}</b></span><br>
     <span style="color: #D96B6B;">End Date: <b>{dasha_levels['Pratyantardasha']['enddate'].strftime('%Y-%b-%d  [%I:%M %p]')}</b></span><br><br>
 
-    <b><u>Sookshma Dasha:</u></b><br>
-    <span style="color: #3A7CA5;">Planet: <b>{dasha_levels['Sookshma Dasha']['lord']}</b></span><br>
-    <span style="color: #2D9038;">Start Date: <b>{dasha_levels['Sookshma Dasha']['startdate'].strftime('%Y-%b-%d  [%I:%M %p]')}</b></span><br>
-    <span style="color: #D96B6B;">End Date: <b>{dasha_levels['Sookshma Dasha']['enddate'].strftime('%Y-%b-%d  [%I:%M %p]')}</b></span><br><br>
+    <b><u>Gurubala:</u></b><br>
+    <span style="color: {gurubala_color};"><b>{gurubala}</b></span><br><br>
 
-    <b><u>Deha-Antara Dasha:</u></b><br>
-    <span style="color: #3A7CA5;">Planet: <b>{dasha_levels['Deha-Antara Dasha']['lord']}</b></span><br>
-    <span style="color: #2D9038;">Start Date: <b>{dasha_levels['Deha-Antara Dasha']['startdate'].strftime('%Y-%b-%d  [%I:%M %p]')}</b></span><br>
-    <span style="color: #D96B6B;">End Date: <b>{dasha_levels['Deha-Antara Dasha']['enddate'].strftime('%Y-%b-%d  [%I:%M %p]')}</b></span><br><br>
+    <b><u>Sade Sati:</u></b><br>
+    <span style="color: {sadesati_color};"><b>{sadesati}</b></span><br><br>
     </div>
     """
     except KeyError as e:
@@ -218,10 +225,7 @@ def get_dashaplanet_tabletransit_fordate(ad,td, transitdiv="D1", div="D1",planet
     dasha_transit_table_dict = {
         'Mahadasha': {'lord':'', 'impacting_signs':[], 'impacting_signNum':[]},
         'Antardasha': {'lord':'', 'impacting_signs':[], 'impacting_signNum':[]},
-        'Pratyantardasha': {'lord':'', 'impacting_signs':[], 'impacting_signNum':[]},
-        'Sookshma Dasha': {'lord':'', 'impacting_signs':[], 'impacting_signNum':[]},
-        'Deha-Antara Dasha': {'lord':'', 'impacting_signs':[], 'impacting_signNum':[]}
-
+        'Pratyantardasha': {'lord':'', 'impacting_signs':[], 'impacting_signNum':[]}
     }
     for key in dasha_levels:
         if(key == "total"):

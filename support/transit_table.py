@@ -397,7 +397,7 @@ class TransitTableWindow(QtWidgets.QWidget):
         properties = [
             "Natal Avastha", "Transit Avastha", "Degree", "Phaladeepika Gochar", 
             "Vedh", "Vipareet Vedh", "Moorthy Nirnaya", "Kakshya", "PAV Bindu", 
-            "BAV", "SAV"
+            "Drishti PAV", "BAV", "SAV"
         ]
         self.table.setRowCount(len(properties))
         
@@ -507,12 +507,12 @@ class TransitTableWindow(QtWidgets.QWidget):
                         item_bav.setForeground(QtGui.QColor(get_bav_color(bav_score)))
                         item_bav.setFont(font)
                         item_bav.setTextAlignment(Qt.AlignCenter)
-                        self.table.setItem(9, col, item_bav)
+                        self.table.setItem(10, col, item_bav)
                         
                         # PAV check
                         has_bindu = get_pav_contribution(p, transit_sign_num, k_lord, self.astrodata)
                 else:
-                    self.table.setItem(9, col, QtWidgets.QTableWidgetItem("-"))
+                    self.table.setItem(10, col, QtWidgets.QTableWidgetItem("-"))
                 
                 # SAV
                 sav_list = self.astrodata["AshtakaVarga"].get("Total", [])
@@ -523,12 +523,12 @@ class TransitTableWindow(QtWidgets.QWidget):
                     item_sav.setForeground(QtGui.QColor(get_sav_color(sav_score)))
                     item_sav.setFont(font)
                     item_sav.setTextAlignment(Qt.AlignCenter)
-                    self.table.setItem(10, col, item_sav)
+                    self.table.setItem(11, col, item_sav)
                 else:
-                    self.table.setItem(10, col, QtWidgets.QTableWidgetItem("-"))
+                    self.table.setItem(11, col, QtWidgets.QTableWidgetItem("-"))
             else:
-                self.table.setItem(9, col, QtWidgets.QTableWidgetItem("-"))
                 self.table.setItem(10, col, QtWidgets.QTableWidgetItem("-"))
+                self.table.setItem(11, col, QtWidgets.QTableWidgetItem("-"))
                 
             # PAV
             if p in ["Rahu", "Ketu"]:
@@ -538,3 +538,26 @@ class TransitTableWindow(QtWidgets.QWidget):
                 item_pav.setForeground(QtGui.QColor("green" if has_bindu else "red"))
             item_pav.setTextAlignment(Qt.AlignCenter)
             self.table.setItem(8, col, item_pav)
+
+            # Drishti PAV
+            DRISHTI_HOUSES = {
+                "Sun": [7], "Moon": [7], "Mars": [4, 7, 8], "Mercury": [7], 
+                "Jupiter": [5, 7, 9], "Venus": [7], "Saturn": [3, 7, 10], 
+                "Rahu": [5, 7, 9], "Ketu": [5, 7, 9]
+            }
+            if p in ["Rahu", "Ketu"]:
+                item_drishti_pav = QtWidgets.QTableWidgetItem("-")
+                item_drishti_pav.setTextAlignment(Qt.AlignCenter)
+                self.table.setItem(9, col, item_drishti_pav)
+            else:
+                drishti_list = DRISHTI_HOUSES.get(p, [])
+                drishti_text_parts = []
+                for d_house in drishti_list:
+                    drishti_sign_num = (transit_sign_num + d_house - 2) % 12 + 1
+                    has_d_bindu = get_pav_contribution(p, drishti_sign_num, k_lord, self.astrodata)
+                    symbol = "✓" if has_d_bindu else "✗"
+                    drishti_text_parts.append(f"{d_house}[{symbol}]")
+                drishti_text = " ".join(drishti_text_parts)
+                item_drishti_pav = QtWidgets.QTableWidgetItem(drishti_text)
+                item_drishti_pav.setTextAlignment(Qt.AlignCenter)
+                self.table.setItem(9, col, item_drishti_pav)
