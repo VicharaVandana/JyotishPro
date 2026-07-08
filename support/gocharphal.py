@@ -113,3 +113,44 @@ def get_gocharphaltype(planetName, natalMoonSign, transitAstrodata):
             pass
 
     return planetColour
+
+def get_gocharphal_details(planetName, natalMoonSign, transitAstrodata):
+    """
+    Returns a dictionary with details about the planet's transit results, 
+    including whether vedh or vipareet vedh is happening.
+    """
+    result = {
+        "phal_colour": ASHUBHPHAL,
+        "is_vedh": False,
+        "is_vipareet_vedh": False
+    }
+
+    # Find in which house the planet is placed in gochar with respect to natal moon
+    planet_gochar_hno = gen.housediff(gen.signnum(natalMoonSign), gen.signnum(transitAstrodata["D1"]["planets"][planetName]["sign"]))
+    
+    # Check if this house is natural shubh phal or not
+    if planet_gochar_hno in phaldeepika_planetPhalNature[planetName]["shubh"]:
+        result["phal_colour"] = SHUBHPHAL
+        
+        index = phaldeepika_planetPhalNature[planetName]["shubh"].index(planet_gochar_hno)
+        vedh_house = phaldeepika_planetPhalNature[planetName]["vedh"][index]
+        if vedh_house != 0:
+            vedh_planets = phaldeepika_planetPhalNature[planetName]["vedh_planets"]
+            vedh_house_occupants = transitAstrodata["D1"]["houses"][vedh_house-1]["planets"]
+            vedhPlanetsInVedhHouse = gen.list_intersection(vedh_planets, vedh_house_occupants)
+            
+            if len(vedhPlanetsInVedhHouse) > 0:
+                result["is_vedh"] = True
+                result["phal_colour"] = NEUTRALPHAL
+
+    # Check if planet is in ashubh_vedh stan and if vipareet vedh occurs
+    elif planet_gochar_hno in phaldeepika_planetPhalNature[planetName]["ashubh_vedh"]:
+        index = phaldeepika_planetPhalNature[planetName]["ashubh_vedh"].index(planet_gochar_hno)
+        vipareetvedh_house = phaldeepika_planetPhalNature[planetName]["vipareet_vedh"][index]
+        if vipareetvedh_house != 0:
+            vipareetvedh_house_occupants = transitAstrodata["D1"]["houses"][vipareetvedh_house-1]["planets"]
+            if len(vipareetvedh_house_occupants) > 0:
+                result["is_vipareet_vedh"] = True
+                result["phal_colour"] = SHUBHPHAL
+
+    return result

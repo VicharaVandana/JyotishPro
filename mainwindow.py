@@ -20,7 +20,7 @@ import support.dashascalculation as dashavim
 import support.balascalculation as shadbal
 
 import support.prediction_experiments as trial
-
+import support.transit_table as trans_tab
 
 class _ResizeEventFilter(QtCore.QObject):
     """Event filter installed on the real QMainWindow to catch resize events
@@ -148,6 +148,7 @@ class MainWindow_cls(Ui_MainWindow):
         
         #Trial parts for experimentation
         self.pushButton_transit_dashaTable.clicked.connect(self.show_transitdasha_Table)
+        self.pushButton_transitTable.clicked.connect(self.show_transit_table)
 
         #Action Menu Items Linking
         self.actionPersonal.triggered.connect(lambda: self.update_settings_json("personal_birthdata_db.json"))
@@ -219,6 +220,26 @@ class MainWindow_cls(Ui_MainWindow):
 
         return
     
+    def show_transit_table(self):
+        self.status.setText("Loading Transit Table...")
+        QtWidgets.QApplication.processEvents()
+        try:
+            # Safely extract current dasha info from global astrodata
+            dasha_dict = {}
+            if "Dashas" in gvar.astrodata and "Vimshottari" in gvar.astrodata["Dashas"]:
+                current = gvar.astrodata["Dashas"]["Vimshottari"].get("current", {})
+                dasha_dict = {
+                    "MD": current.get("dasha", ""),
+                    "AD": current.get("bhukti", ""),
+                    "PD": current.get("paryantardasha", "")
+                }
+                        
+            self.transit_window = trans_tab.TransitTableWindow(gvar.astrodata, gvar.transit_astrodata, dasha_dict)
+            self.transit_window.show()
+            self.status.setText("Transit Table displayed successfully.")
+        except Exception as e:
+            self.status.setText(f"Failed to load Transit Table: {e}")
+
     def show_transitdasha_Table(self):
         self.status.setText("Loading Dasha Transit Table...")
         QtWidgets.QApplication.processEvents()
