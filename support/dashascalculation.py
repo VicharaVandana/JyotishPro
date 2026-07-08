@@ -127,6 +127,25 @@ def calculate_dasha(birth_date, event_date, moon_longitude):
             current_level = level
     return dasha_levels
 
+def get_dasha_dict_fordate(ad, td, div="D1", planet_name="Moon"):
+    bd = ad["user_details"]["birthdetails"]["DOB"]
+    bt = ad["user_details"]["birthdetails"]["TOB"]
+    ed = td["user_details"]["birthdetails"]["DOB"]
+    et = td["user_details"]["birthdetails"]["TOB"]
+
+    birth_date = dt.datetime(int(bd["year"]), int(bd["month"]), int(bd["day"]), int(bt["hour"]), int(bt["min"]))
+    event_date = dt.datetime(int(ed["year"]), int(ed["month"]), int(ed["day"]), int(et["hour"]), int(et["min"]))
+    sign = gen.signnum(ad[div]["planets"][planet_name]["sign"])
+    deg_dec = ad[div]["planets"][planet_name]["pos"]["dec_deg"]
+    planet_long = (((sign-1)*30) + deg_dec)
+    dasha_levels = calculate_dasha(birth_date, event_date, planet_long)
+    
+    return {
+        "MD": dasha_levels['Mahadasha']['lord'],
+        "AD": dasha_levels['Antardasha']['lord'],
+        "PD": dasha_levels['Pratyantardasha']['lord']
+    }
+
 def get_dashadetails_fordate(ad,td,div="D1",planet_name="Moon"):
     bd = ad["user_details"]["birthdetails"]["DOB"]
     bt = ad["user_details"]["birthdetails"]["TOB"]

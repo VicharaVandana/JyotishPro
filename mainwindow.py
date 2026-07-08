@@ -224,17 +224,16 @@ class MainWindow_cls(Ui_MainWindow):
         self.status.setText("Loading Transit Table...")
         QtWidgets.QApplication.processEvents()
         try:
-            # Safely extract current dasha info from global astrodata
-            dasha_dict = {}
-            if "Dashas" in gvar.astrodata and "Vimshottari" in gvar.astrodata["Dashas"]:
-                current = gvar.astrodata["Dashas"]["Vimshottari"].get("current", {})
-                dasha_dict = {
-                    "MD": current.get("dasha", ""),
-                    "AD": current.get("bhukti", ""),
-                    "PD": current.get("paryantardasha", "")
-                }
-                        
-            self.transit_window = trans_tab.TransitTableWindow(gvar.astrodata, gvar.transit_astrodata, dasha_dict)
+            idx_planet = self.comboBox_DashaSeedPlanet.currentIndex()
+            planet_keys = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+            planet_name = planet_keys[idx_planet] if idx_planet >= 0 else "Moon"
+            dasha_div = self.comboBox_DashaDivision.currentText()
+            
+            dasha_dict = dashavim.get_dasha_dict_fordate(gvar.astrodata, gvar.transit_astrodata, dasha_div, planet_name)
+            
+            innerDiv = self.comboBox_innerChartDivision.currentText()
+            outerDiv = self.comboBox_outerChartDivision.currentText()
+            self.transit_window = trans_tab.TransitTableWindow(gvar.astrodata, gvar.transit_astrodata, dasha_dict, innerDiv, outerDiv)
             self.transit_window.show()
             self.status.setText("Transit Table displayed successfully.")
         except Exception as e:
@@ -377,6 +376,7 @@ class MainWindow_cls(Ui_MainWindow):
         outerAspects = self.checkBox_outerAspects.isChecked()
 
         if(outer_chartType == "Transit"):
+            self.pushButton_transitTable.show()
             astrocalc.transitAstroCalculations(self)    #Compute Transit Astrodata 
             #Plot the Mixed Chart with parameters in place
             chart.plot_astroMixedChart(
@@ -386,6 +386,7 @@ class MainWindow_cls(Ui_MainWindow):
                 language=gvar.chart_language, chart_style=gvar.chart_style
             )
         else:
+            self.pushButton_transitTable.hide()
             chart.plot_astroMixedChart(
                 "./images/mixedcharts/", "MixedChart",
                 gvar.astrodata, innerDiv, gvar.astrodata, outerDiv,

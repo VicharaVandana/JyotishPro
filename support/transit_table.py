@@ -272,11 +272,13 @@ def get_pav_contribution(transiting_planet, transiting_house_num, kakshya_lord, 
     return rel_pos in contributing_positions
 
 class TransitTableWindow(QtWidgets.QWidget):
-    def __init__(self, astrodata, transit_astrodata, current_dasha):
+    def __init__(self, astrodata, transit_astrodata, current_dasha, inner_div="D1", outer_div="D1"):
         super().__init__()
         self.astrodata = astrodata
         self.transit_astrodata = transit_astrodata
         self.current_dasha = current_dasha
+        self.inner_div = inner_div
+        self.outer_div = outer_div
         
         self.setWindowTitle("Transit Table")
         self.resize(1100, 450)
@@ -285,11 +287,85 @@ class TransitTableWindow(QtWidgets.QWidget):
         self.setStyleSheet("background-color: white; color: black;")
         
         layout = QtWidgets.QVBoxLayout(self)
+        
+        # Checkbox layout for planet columns
+        self.checkbox_layout = QtWidgets.QHBoxLayout()
+        
+        # Learn Button
+        self.learn_btn = QtWidgets.QPushButton("Learn")
+        self.learn_btn.setStyleSheet("background-color: #e0f7fa; border: 1px solid #00acc1; padding: 5px; font-weight: bold; color: #006064;")
+        self.learn_btn.clicked.connect(self.open_learn_document)
+        self.checkbox_layout.addWidget(self.learn_btn)
+        
+        # Spacer
+        self.checkbox_layout.addSpacing(20)
+        
+        self.checkboxes = {}
+        planets = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+        for i, p in enumerate(planets):
+            cb = QtWidgets.QCheckBox(p)
+            cb.setChecked(True)
+            cb.stateChanged.connect(lambda state, col=i+1: self.toggle_column(col, state))
+            self.checkbox_layout.addWidget(cb)
+            self.checkboxes[p] = cb
+            
+        self.checkbox_layout.addStretch()
+            
+        layout.addLayout(self.checkbox_layout)
+        
         self.table = QtWidgets.QTableWidget()
         layout.addWidget(self.table)
         
         self.setup_table()
         self.populate_data()
+        
+        # Auto-size the columns to content first, then window
+        self.table.resizeColumnsToContents()
+        self.adjust_window_size()
+        
+    def toggle_column(self, col, state):
+        if state == Qt.Checked:
+            self.table.showColumn(col)
+        else:
+            self.table.hideColumn(col)
+        self.adjust_window_size()
+        
+    def adjust_window_size(self):
+        QtWidgets.QApplication.processEvents()
+        width = self.table.verticalHeader().width() if not self.table.verticalHeader().isHidden() else 0
+        for i in range(self.table.columnCount()):
+            if not self.table.isColumnHidden(i):
+                width += self.table.columnWidth(i)
+        
+        # Add padding
+        width += 40
+        self.resize(width, self.height())
+        
+    def open_learn_document(self):
+        try:
+            import os
+            import markdown
+            doc_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "Learn", "transits_masterclass.md")
+            
+            with open(doc_path, "r", encoding="utf-8") as f:
+                md_text = f.read()
+                
+            html = markdown.markdown(md_text, extensions=['extra'])
+            
+            self.learn_window = QtWidgets.QWidget()
+            self.learn_window.setWindowTitle("Transits Masterclass")
+            self.learn_window.resize(800, 600)
+            layout = QtWidgets.QVBoxLayout(self.learn_window)
+            
+            text_browser = QtWidgets.QTextBrowser()
+            text_browser.setHtml(html)
+            text_browser.setOpenExternalLinks(True)
+            
+            layout.addWidget(text_browser)
+            self.learn_window.show()
+            
+        except Exception as e:
+            QtWidgets.QMessageBox.warning(self, "Error", f"Could not load Learn document: {e}")
         
     def setup_table(self):
         planets = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
@@ -297,8 +373,8 @@ class TransitTableWindow(QtWidgets.QWidget):
         self.table.setColumnCount(len(headers))
         self.table.setHorizontalHeaderLabels(headers)
         self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
+        self.table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
+        self.table.horizontalHeader().setStretchLastSection(False)
         
     def get_dasha_color(self, planet):
         """Color code planet font based on Mahadasha, Bhukti, Pratyantar"""
@@ -344,7 +420,7 @@ class TransitTableWindow(QtWidgets.QWidget):
             header_item.setFont(font)
             self.table.setHorizontalHeaderItem(col, header_item)
             
-        natal_moon_sign = self.astrodata["D1"]["planets"]["Moon"]["sign"]
+        natal_moon_sign = self.astrodata[self.inner_div]["planets"]["Moon"]["sign"]
         
         for col_idx, p in enumerate(planets):
             col = col_idx + 1
@@ -352,8 +428,8 @@ class TransitTableWindow(QtWidgets.QWidget):
             font.setBold(True)
             
             # 0. Natal Avastha
-            n_sign = self.astrodata["D1"]["planets"][p]["sign"]
-            n_pos = self.astrodata["D1"]["planets"][p]["pos"]
+            n_sign = self.astrodata[self.inner_div]["planets"][p]["sign"]
+            n_pos = self.astrodata[self.inner_div]["planets"][p]["pos"]
             n_deg = float(n_pos["deg"]) + float(n_pos["min"])/60.0
             n_avastha, n_av_col = get_avastha(n_sign, n_deg)
             item_n_av = QtWidgets.QTableWidgetItem(n_avastha)
@@ -362,8 +438,8 @@ class TransitTableWindow(QtWidgets.QWidget):
             self.table.setItem(0, col, item_n_av)
             
             # 1. Transit Avastha & 2. Degree
-            t_sign = self.transit_astrodata["D1"]["planets"][p]["sign"]
-            t_pos = self.transit_astrodata["D1"]["planets"][p]["pos"]
+            t_sign = self.transit_astrodata[self.outer_div]["planets"][p]["sign"]
+            t_pos = self.transit_astrodata[self.outer_div]["planets"][p]["pos"]
             t_deg = float(t_pos["deg"]) + float(t_pos["min"])/60.0
             t_avastha, t_av_col = get_avastha(t_sign, t_deg)
             
