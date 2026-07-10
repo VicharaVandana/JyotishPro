@@ -1,6 +1,16 @@
 import support.generic as gen
 import support.yogadoshas.common as common
 
+# ==========================================================================================
+# Function Name: AmalaYoga
+# Purpose: Calculates the presence of AmalaYoga in the provided horoscope.
+# Description: Evaluates AmalaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def AmalaYoga(charts):
     IsGlobalPresent = False
     IsAmalaYogaPresent = False

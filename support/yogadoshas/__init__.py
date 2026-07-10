@@ -4,6 +4,8 @@ import support.lordinhouses as lh
 from .panchamahapurusha import SasaYoga, BhadraYoga, HamsaYoga, MalavyaYoga, RuchakaYoga
 from .vipareeta_raja import HarshaYoga, SaralaYoga, VimalaYoga
 from .kaala_sarpa import kaalSarpaDosha, AnantaKaalSarpaDosha, KulikaKaalSarpaDosha, VasukiKaalSarpaDosha, ShankhapalaKaalSarpaDosha, PadamKaalSarpaDosha, MahapadmaKaalSarpaDosha, TakshakaKaalSarpaDosha, KarkotakKaalSarpaDosha, ShankhachurKaalSarpaDosha, GhatakKaalSarpaDosha, VishadharaKaalSarpaDosha, SheshanagaKaalSarpaDosha
+from .kemadruma_yoga import KemadrumaYoga
+from .kuja_dosha import KujaDosha
 from .other_yogas import GajaKesariYoga, ChandraMangalaYoga
 from .amala_yoga import AmalaYoga
 from .nabhasa_yogas import ParivarthanaYoga, AashrayaYoga, DalaYoga, AakritiYoga, SankhyaYoga
@@ -12,6 +14,16 @@ from .raja_yogas import DharmaKarmadhipatiYoga, NeechaBhangaRajaYoga, KendraTrik
 # Note: Placeholder for dhana_yogas will be imported here when functions are added.
 
 
+# ==========================================================================================
+# Function Name: ComputeYogaDoshas
+# Purpose: Calculates the presence of ComputeYogaDoshas in the provided horoscope.
+# Description: Evaluates standard planetary configurations.
+# Expected Impact: Returns boolean indicating presence.
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def ComputeYogaDoshas(charts):
 
     # This is to reset the globas if Compute is called consecutively for different chart selections 
@@ -42,11 +54,10 @@ def ComputeYogaDoshas(charts):
     # Gaja Kesari Yoga
     GajaKesariYoga(charts)
     
-    # Chandra Mangala Yoga
     ChandraMangalaYoga(charts)
-    
-    # Amala Yoga
     AmalaYoga(charts)
+    KemadrumaYoga(charts)
+    KujaDosha(charts)
     
     # Nabhasa Yogas
     ParivarthanaYoga(charts)

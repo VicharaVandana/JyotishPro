@@ -289,6 +289,63 @@ Karana : {mychart["user_details"].get("karana", "")}
         self.set_xy(18+imageWidth,30)
         self.multi_cell(w=(self.w - imageWidth - 23),h=6, txt=userdetails, align='L', border=True)
 
+    def addElementalPersonalityMatrixSection(self, charts):
+        self.start_section("Elemental Personality Matrix", level=0)
+        self.set_font('Times', 'BU', 16)
+        self.cell(0, 10, 'Elemental Personality Matrix', 0, 1, 'C')
+        self.ln(5)
+        
+        import support.elemental_personality_matrix as epm
+        import os
+        
+        # Calculate
+        matrix_data = epm.calculate_elemental_matrix(charts)
+        if not matrix_data:
+            self.set_font('Times', '', 12)
+            self.cell(0, 10, 'Data not available.', 0, 1, 'L')
+            return
+            
+        # Generate chart
+        chart_path = os.path.join(os.path.dirname(__file__), '../images/elemental_matrix.png')
+        epm.generate_elemental_charts(matrix_data['RawData'], matrix_data['WeightedData'], chart_path)
+        
+        # Insert image
+        if os.path.exists(chart_path):
+            self.image(chart_path, x=35, y=self.get_y(), w=140)
+            self.set_y(self.get_y() + 75) # Adjust Y past the image
+            
+        # Interpretive Summary
+        self.set_font('Times', 'BU', 14)
+        self.cell(0, 10, 'Interpretive Summary', 0, 1, 'L')
+        self.set_font('Times', '', 12)
+        self.multi_cell(0, 8, matrix_data['Summary'])
+        self.ln(5)
+        
+        # Detailed Table
+        self.set_font('Times', 'BU', 14)
+        self.cell(0, 10, 'Elemental Weight Breakdown', 0, 1, 'L')
+        self.ln(2)
+        
+        # Table Headers
+        self.set_fill_color(200, 220, 255)
+        self.set_font('Times', 'B', 10)
+        self.cell(40, 8, 'Planet', 1, 0, 'C', 1)
+        self.cell(40, 8, 'Sign', 1, 0, 'C', 1)
+        self.cell(40, 8, 'Element', 1, 0, 'C', 1)
+        self.cell(40, 8, 'Avastha', 1, 0, 'C', 1)
+        self.cell(30, 8, 'Final Weight', 1, 1, 'C', 1)
+        
+        # Table Rows
+        self.set_font('Times', '', 10)
+        for row in matrix_data['DetailedTable']:
+            self.cell(40, 8, str(row['Planet']), 1, 0, 'C')
+            self.cell(40, 8, str(row['Sign']), 1, 0, 'C')
+            self.cell(40, 8, str(row['Element']), 1, 0, 'C')
+            self.cell(40, 8, str(row['Avastha']), 1, 0, 'C')
+            self.cell(30, 8, str(row['Final_Weight']), 1, 1, 'C')
+        
+        self.ln(10)
+
     def addVargaChartsinaPage(self):
         #title of the page
         self.set_font('Times', 'BU', 12)
@@ -457,39 +514,70 @@ Place of Birth:  {mychart["user_details"]["birthdetails"]["POB"]["name"]}
         self.start_section("Yogas and Doshas", level=0)
         self.cell(txt="Yogas and Doshas in Native's Kundali", w=0, h=10, align='C')
 
-        #Enlisting all the Yogas and doshas in natives kundali
-        self.ln(10)
-        table_html = f"""
-        <table border="1" align="center" width="100%">
-        <thead>
-        <tr bgcolor="#e0e0e0">
-            <th width="50%" align="center"><b>Name of Yoga/Dosha</b></th>
-            <th width="25%" align="center"><b>Type</b></th>
-            <th width="25%" align="center"><b>Status</b></th>
-        </tr>
-        </thead>
-        <tbody>
-        """
+        # Categorize yogas and doshas
+        yogas = {}
+        doshas = {}
+        cancelled_yogas = {}
+        cancelled_doshas = {}
+
         for yg_key, yg_data in yd.common.yogadoshas_dict.items():
-            yg_name = yg_data.get("name", yg_key)
             yg_type = yg_data.get("type", "Yoga")
-            yg_status = "Existing" if yg_data.get("exist", False) else "Cancelled"
-            
-            # We only list if it's evaluated, meaning it exists or we explicitly want to list it
-            # The config check is already done when compiling yogadoshas_dict.
-            table_html += f"""
-            <tr>
-                <td align="left">{yg_name}</td>
-                <td align="center">{yg_type}</td>
-                <td align="center">{yg_status}</td>
-            </tr>
-            """
-        table_html += "</tbody></table><br>"
-        self.write_html(table_html)
-        self.ln(5)
+            if yg_data.get("exist", False):
+                if yg_type == "Yoga":
+                    yogas[yg_key] = yg_data
+                else:
+                    doshas[yg_key] = yg_data
+            else:
+                if yg_type == "Yoga":
+                    cancelled_yogas[yg_key] = yg_data
+                else:
+                    cancelled_doshas[yg_key] = yg_data
 
-
+        categories_to_print = [
+            ("Yogas Present", yogas),
+            ("Doshas Present", doshas)
+        ]
         
+        include_cancelled = config and config.get("cancelledYogas", False)
+        if include_cancelled:
+            categories_to_print.append(("Cancelled Yogas", cancelled_yogas))
+            categories_to_print.append(("Cancelled Doshas", cancelled_doshas))
+
+        # Enlisting all the Yogas and doshas in natives kundali
+        self.ln(10)
+        
+        for cat_name, cat_dict in categories_to_print:
+            if not cat_dict:
+                continue
+            
+            self.set_font('helvetica', 'B', 12)
+            self.set_text_color(0, 0, 0)
+            self.cell(txt=cat_name, w=0, h=8, align='L')
+            self.ln(8)
+            
+            table_html = f"""
+            <table border="1" align="center" width="100%">
+            <thead>
+            <tr bgcolor="#e0e0e0">
+                <th width="75%" align="center"><b>Name of {cat_name.split()[0]}</b></th>
+                <th width="25%" align="center"><b>Status</b></th>
+            </tr>
+            </thead>
+            <tbody>
+            """
+            for yg_key, yg_data in cat_dict.items():
+                yg_name = yg_data.get("name", yg_key)
+                yg_status = "Existing" if yg_data.get("exist", False) else "Cancelled"
+                table_html += f"""
+                <tr>
+                    <td align="left">{yg_name}</td>
+                    <td align="center">{yg_status}</td>
+                </tr>
+                """
+            table_html += "</tbody></table><br>"
+            self.write_html(table_html)
+            self.ln(5)
+
         self.line(5, self.get_y(), self.w-10, self.get_y())
         self.ln(5)
 
@@ -502,135 +590,154 @@ Place of Birth:  {mychart["user_details"]["birthdetails"]["POB"]["name"]}
         self.set_font('Times', '', 10)
         imageWidth = (self.w / 2)
         
-        # We need to print details for only those that exist
-        for yogadosha_key, yogadosha_data in yd.common.yogadoshas_dict.items():
-            if not yogadosha_data.get("exist", False):
+        for cat_name, cat_dict in categories_to_print:
+            if not cat_dict:
                 continue
             
-            self.add_page()
-            yogadosha = yogadosha_data["name"]
-            relevant_planets = yogadosha_data.get("relevant_planets", ["Su", "Mo", "Ma", "Me", "Ju", "Ve", "Sa", "Ra", "Ke"])
+            for yogadosha_key, yogadosha_data in cat_dict.items():
+                self.add_page()
+                yogadosha = yogadosha_data["name"]
+                relevant_planets = yogadosha_data.get("relevant_planets", ["Su", "Mo", "Ma", "Me", "Ju", "Ve", "Sa", "Ra", "Ke"])
 
-            # Generate partial chart on the fly
-            chart_loc = "./images/yogaImages"
-            os.makedirs(chart_loc, exist_ok=True)
-            chart_name = yogadosha_key + "_chart"
-            
-            try:
-                c_style = config.get("chartStyle", "north") if config else "north"
-                ac.plot_partial_astrochart(chart_loc, chart_name, mychart, relevant_planets, div="D1", firsthousesign="None", language="english", chart_style=c_style)
+                # Generate partial chart on the fly
+                chart_loc = "./images/yogaImages"
+                os.makedirs(chart_loc, exist_ok=True)
+                chart_name = yogadosha_key + "_chart"
                 
-                svg_path = os.path.join(chart_loc, f"{chart_name}.svg")
-                png_path = os.path.join(chart_loc, f"{chart_name}.png")
+                try:
+                    c_style = config.get("chartStyle", "north") if config else "north"
+                    ac.plot_partial_astrochart(chart_loc, chart_name, mychart, relevant_planets, div="D1", firsthousesign="None", language="english", chart_style=c_style)
+                    
+                    svg_path = os.path.join(chart_loc, f"{chart_name}.svg")
+                    png_path = os.path.join(chart_loc, f"{chart_name}.png")
+                    
+                    if os.path.exists(svg_path):
+                        svg_to_png(svg_path, png_path)
+                except Exception as e:
+                    print("Failed to generate partial chart:", e)
+
+                #Put the image specific to yogadosha to left
+                self.ln(10)
+                self.safe_image(f"./images/yogaImages/{yogadosha_key}_chart.png", x=5, w=imageWidth)
+                imageEnd_ypos = self.get_y()
+                ypos = imageEnd_ypos - imageWidth
                 
-                if os.path.exists(svg_path):
-                    svg_to_png(svg_path, png_path)
-            except Exception as e:
-                print("Failed to generate partial chart:", e)
+                #put the yogadosha details right to the image
+                #Title
+                self.start_section(yogadosha, level=1)
+                self.set_xy(3 + imageWidth, ypos)
+                self.set_font('Times', 'BU', 16)
+                self.set_text_color(220,0,0)
+                self.multi_cell(txt=yogadosha, w=self.w - imageWidth - 10, h=8, align='C')
 
-            #Put the image specific to yogadosha to left
-            self.ln(10)
-            self.safe_image(f"./images/yogaImages/{yogadosha_key}_chart.png", x=5, w=imageWidth)
-            imageEnd_ypos = self.get_y()
-            ypos= imageEnd_ypos - imageWidth
-            
-            #put the yogadosha details right to the image
-            #Title
-            self.start_section(yogadosha, level=1)
-            self.set_xy(3 + imageWidth, ypos)
-            self.set_font('Times', 'BU', 16)
-            self.set_text_color(220,0,0)
-            self.multi_cell(txt=yogadosha, w=self.w - imageWidth - 10, h=8, align='C')
-
-            #Yoga dosha name
-            self.set_font('Times', 'B', 14)
-            self.set_text_color(0,0,0)
-            ypos = self.get_y()
-            self.set_xy(5 + imageWidth, ypos)
-            xpos = self.get_x()
-            ydname = f'{yogadosha_data.get("type", "")} : '
-            self.cell(txt=ydname, w=5, h=5, align='L', ln=False)
-
-            xpos = self.get_x() + 12
-            self.set_font('Times', 'I', 14)
-            self.set_text_color(80,50,200)            
-            self.set_xy(xpos, ypos)
-            ydname = f'{yogadosha_data.get("name", "")} {yogadosha_data.get("type", "")}'
-            self.multi_cell(txt=ydname, w=0, h=5, align='L')
-            self.ln(5)
-
-            #Yoga/Dosha Rule
-            self.set_font('Times', 'B', 14)
-            self.set_text_color(0,0,0)
-            ypos = self.get_y()
-            self.set_xy(5 + imageWidth, ypos)
-            xpos = self.get_x()
-            ydrule = f'Rule : '
-            self.cell(txt=ydrule, w=0, h=5, align='L', ln=False)
-
-            self.set_font('Times', 'I', 14)
-            self.set_text_color(0,0,200)            
-            self.set_xy(xpos, ypos)
-            ydrule = f'              {yogadosha_data.get("Rule", "")}'
-            self.multi_cell(txt=ydrule, w=0, h=5, align='L')
-            self.ln(5)
-
-            #Yoga/Dosha Notes
-            self.set_font('Times', 'B', 14)
-            self.set_text_color(0,0,0)
-            ypos = self.get_y()
-            self.set_xy(5 + imageWidth, ypos)
-            xpos = self.get_x()
-            ydnote = f'Note : '
-            self.cell(txt=ydnote, w=0, h=5, align='L', ln=False)
-
-            self.set_font('Times', 'I', 14)
-            self.set_text_color(155,0,155)            
-            self.set_xy(xpos, ypos)
-            ydnote = f'              {yogadosha_data.get("Note", "")}'
-            self.multi_cell(txt=ydnote, w=0, h=5, align='L')
-            self.ln(5)
-
-            #Yoga/Dosha Results
-            #get the ypositionn whichever is lower as now results will be below image full pdf wide.
-            if(imageEnd_ypos >= self.get_y()):
-                ypos = imageEnd_ypos + 5
-            else:
-                ypos = self.get_y() + 5
-
-            self.set_font('Times', 'B', 14)
-            self.set_text_color(0,0,0)
-            self.set_xy(5, ypos)
-            xpos = self.get_x()
-            ydresults = f'Results : '
-            self.cell(txt=ydresults, w=0, h=5, align='L', ln=False)
-
-            self.set_font('Times', 'I', 14)
-            self.set_text_color(50,0,105)            
-            self.set_xy(xpos, ypos)
-            ydresults = f'                 {yogadosha_data.get("Result", "")}'
-            self.multi_cell(txt=ydresults, w=0, h=5, align='L')
-            self.ln(5)
-
-            #Dosha Remedies
-            if(yogadosha_data.get("type", "") == "Dosha"):
+                #Yoga dosha name
+                self.set_font('Times', 'B', 14)
+                self.set_text_color(0,0,0)
                 ypos = self.get_y()
+                self.set_xy(5 + imageWidth, ypos)
+                xpos = self.get_x()
+                ydname = f'{yogadosha_data.get("type", "")} : '
+                self.cell(txt=ydname, w=5, h=5, align='L', ln=False)
+
+                xpos = self.get_x() + 12
+                self.set_font('Times', 'I', 14)
+                self.set_text_color(80,50,200)            
+                self.set_xy(xpos, ypos)
+                ydname_full = f'{yogadosha_data.get("name", "")} {yogadosha_data.get("type", "")}'
+                if not yogadosha_data.get("exist", False):
+                    ydname_full += " (CANCELLED)"
+                self.multi_cell(txt=ydname_full, w=0, h=5, align='L')
+                self.ln(5)
+
+                #Yoga/Dosha Rule
+                self.set_font('Times', 'B', 14)
+                self.set_text_color(0,0,0)
+                ypos = self.get_y()
+                self.set_xy(5 + imageWidth, ypos)
+                xpos = self.get_x()
+                ydrule = f'Rule : '
+                self.cell(txt=ydrule, w=0, h=5, align='L', ln=False)
+
+                self.set_font('Times', 'I', 14)
+                self.set_text_color(0,0,200)            
+                self.set_xy(xpos, ypos)
+                ydrule = f'              {yogadosha_data.get("Rule", "")}'
+                self.multi_cell(txt=ydrule, w=0, h=5, align='L')
+                self.ln(5)
+
+                #Yoga/Dosha Notes
+                self.set_font('Times', 'B', 14)
+                self.set_text_color(0,0,0)
+                ypos = self.get_y()
+                self.set_xy(5 + imageWidth, ypos)
+                xpos = self.get_x()
+                ydnote = f'Note : '
+                self.cell(txt=ydnote, w=0, h=5, align='L', ln=False)
+
+                self.set_font('Times', 'I', 14)
+                self.set_text_color(155,0,155)            
+                self.set_xy(xpos, ypos)
+                ydnote = f'              {yogadosha_data.get("Note", "")}'
+                self.multi_cell(txt=ydnote, w=0, h=5, align='L')
+                self.ln(5)
+                
+                #Yoga/Dosha Cancellation Reason
+                if not yogadosha_data.get("exist", False):
+                    self.set_font('Times', 'B', 14)
+                    self.set_text_color(0,0,0)
+                    ypos = self.get_y()
+                    self.set_xy(5 + imageWidth, ypos)
+                    xpos = self.get_x()
+                    ydcancel = f'Cancellation: '
+                    self.cell(txt=ydcancel, w=0, h=5, align='L', ln=False)
+    
+                    self.set_font('Times', 'I', 14)
+                    self.set_text_color(255,100,0)            
+                    self.set_xy(xpos, ypos)
+                    ydcancel = f'              {yogadosha_data.get("CancellationReason", "Cancelled due to planetary afflictions.")}'
+                    self.multi_cell(txt=ydcancel, w=0, h=5, align='L')
+                    self.ln(5)
+
+                #Yoga/Dosha Results
+                #get the ypositionn whichever is lower as now results will be below image full pdf wide.
+                if(imageEnd_ypos >= self.get_y()):
+                    ypos = imageEnd_ypos + 5
+                else:
+                    ypos = self.get_y() + 5
+
                 self.set_font('Times', 'B', 14)
                 self.set_text_color(0,0,0)
                 self.set_xy(5, ypos)
                 xpos = self.get_x()
-                ydremedies = f'Remedies : '
-                self.cell(txt=ydremedies, w=0, h=5, align='L', ln=False)
+                ydresults = f'Results : '
+                self.cell(txt=ydresults, w=0, h=5, align='L', ln=False)
 
                 self.set_font('Times', 'I', 14)
-                self.set_text_color(51,102,0)            
+                self.set_text_color(50,0,105)            
                 self.set_xy(xpos, ypos)
-                ydremedies = f'                    {yogadosha_data.get("Remedies", "")}'
-                self.multi_cell(txt=ydremedies, w=0, h=5, align='L')
+                ydresults = f'                 {yogadosha_data.get("Result", "")}'
+                self.multi_cell(txt=ydresults, w=0, h=5, align='L')
                 self.ln(5)
 
-            #End of Yoga Dosha so draw a line
-            self.line(5, self.get_y(), self.w-5, self.get_y())
+                #Dosha Remedies
+                if(yogadosha_data.get("type", "") == "Dosha"):
+                    ypos = self.get_y()
+                    self.set_font('Times', 'B', 14)
+                    self.set_text_color(0,0,0)
+                    self.set_xy(5, ypos)
+                    xpos = self.get_x()
+                    ydremedies = f'Remedies : '
+                    self.cell(txt=ydremedies, w=0, h=5, align='L', ln=False)
+    
+                    self.set_font('Times', 'I', 14)
+                    self.set_text_color(51,102,0)            
+                    self.set_xy(xpos, ypos)
+                    ydremedies = f'                    {yogadosha_data.get("Remedies", "")}'
+                    self.multi_cell(txt=ydremedies, w=0, h=5, align='L')
+                    self.ln(5)
+
+                #End of Yoga Dosha so draw a line
+                self.line(5, self.get_y(), self.w-5, self.get_y())
             
     def addLordInHousesSection(self):
         #title of the page
@@ -1261,6 +1368,10 @@ def GeneratePDFReport(charts, target_path, config):
     pdf.insert_toc_placeholder(pdf.render_toc)
     
     pdf.addFirstPageBasic()
+
+    if config.get("elementalMatrix", True):
+        pdf.add_page()
+        pdf.addElementalPersonalityMatrixSection(charts)
 
     if config.get("divisionalCharts", True):
         pdf.add_page()

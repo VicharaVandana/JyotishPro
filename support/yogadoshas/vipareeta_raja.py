@@ -1,6 +1,16 @@
 import support.generic as gen
 import support.yogadoshas.common as common
 
+# ==========================================================================================
+# Function Name: HarshaYoga
+# Purpose: Calculates the presence of HarshaYoga in the provided horoscope.
+# Description: Evaluates HarshaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def HarshaYoga(charts):
     IsHarshaYogaPresent = False
     
@@ -70,6 +80,16 @@ def HarshaYoga(charts):
 
     return IsHarshaYogaPresent
 
+# ==========================================================================================
+# Function Name: SaralaYoga
+# Purpose: Calculates the presence of SaralaYoga in the provided horoscope.
+# Description: Evaluates SaralaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def SaralaYoga(charts):
     IsSaralaYogaPresent = False
     
@@ -138,6 +158,16 @@ def SaralaYoga(charts):
 
     return IsSaralaYogaPresent
 
+# ==========================================================================================
+# Function Name: VimalaYoga
+# Purpose: Calculates the presence of VimalaYoga in the provided horoscope.
+# Description: Evaluates VimalaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def VimalaYoga(charts):
     IsVimalaYogaPresent = False
     

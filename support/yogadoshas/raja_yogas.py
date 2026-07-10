@@ -1,6 +1,16 @@
 import support.generic as gen
 import support.yogadoshas.common as common
 
+# ==========================================================================================
+# Function Name: DharmaKarmadhipatiYoga
+# Purpose: Calculates the presence of DharmaKarmadhipatiYoga in the provided horoscope.
+# Description: Evaluates DharmaKarmadhipatiYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def DharmaKarmadhipatiYoga(charts):
     IsDharmaKarmadhipatiYogaPresent = False
     
@@ -59,6 +69,16 @@ def DharmaKarmadhipatiYoga(charts):
     return IsDharmaKarmadhipatiYogaPresent
 
 
+# ==========================================================================================
+# Function Name: NeechaBhangaRajaYoga
+# Purpose: Calculates the presence of NeechaBhangaRajaYoga in the provided horoscope.
+# Description: Evaluates NeechaBhangaRajaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def NeechaBhangaRajaYoga(charts):
     IsNeechaBhangaPresent = False
     
@@ -77,13 +97,24 @@ def NeechaBhangaRajaYoga(charts):
         houserel = p_data.get("house-rel", "")
         if "Debilitated" in houserel:
             cancelled = False
+            is_raja_yoga = False
             reasons = []
 
             dispositor = p_data["dispositor"]
             disp_house = charts["D1"]["planets"][dispositor]["house-num"]
+            moon_house = charts["D1"]["planets"]["Moon"]["house-num"]
+            disp_from_moon = gen.housediff(moon_house, disp_house)
+            
             if disp_house in [1, 4, 7, 10]:
                 cancelled = True
+                is_raja_yoga = True
                 reasons.append(f"its dispositor ({dispositor}) is in a Kendra from Lagna")
+                relevant_planets.add(dispositor)
+                
+            if dispositor != "Moon" and disp_from_moon in [1, 4, 7, 10]:
+                cancelled = True
+                is_raja_yoga = True
+                reasons.append(f"its dispositor ({dispositor}) is in a Kendra from Moon")
                 relevant_planets.add(dispositor)
 
             if "D9" in charts:
@@ -99,18 +130,29 @@ def NeechaBhangaRajaYoga(charts):
 
             if cancelled:
                 IsPresent = True
-                bhanga_planets.append(f"{planet} (cancelled because {', '.join(reasons)})")
+                if is_raja_yoga:
+                    bhanga_planets.append(f"{planet} (Raja Yoga formed: {', '.join(reasons)})")
+                else:
+                    bhanga_planets.append(f"{planet} (Simple Bhanga formed: {', '.join(reasons)})")
                 relevant_planets.add(planet)
                 
     if IsPresent:
         IsNeechaBhangaPresent = True
+        has_raja_yoga = any("Raja Yoga formed" in s for s in bhanga_planets)
+        
         Rule = f'''In D1, the following debilitated planets have their debilitation cancelled: {"; ".join(bhanga_planets)}.'''
-        Results = f'''According to Phaladeepika, when the debilitation of a planet is cancelled, it creates a powerful Neecha Bhanga Raja Yoga. The native will experience initial struggles, hurdles, and delays in areas governed by the debilitated planet, but will eventually experience a sudden and immense rise to power, success, and prosperity.'''
-        Note = f'''The intensity of the rise is proportional to the number of cancellation conditions met. The initial struggles are necessary stepping stones for the massive success that follows.'''
+        if has_raja_yoga:
+            Results = f'''According to Phaladeepika, when the debilitation of a planet is cancelled by a planet in Kendra, it creates a powerful Neecha Bhanga Raja Yoga. The native will experience initial struggles, hurdles, and delays, but will eventually experience a sudden and immense rise to power, success, and prosperity.'''
+            yoga_name = "Neecha Bhanga Raja Yoga (D1)"
+        else:
+            Results = f'''The debilitation of the planet is cancelled, forming a Neecha Bhanga Yoga. This removes the negative effects of the debilitation, allowing the planet to give normal results instead of malefic results. However, it does not elevate to a Raja Yoga because the cancelling planets are not in Kendras.'''
+            yoga_name = "Neecha Bhanga Yoga (D1)"
+            
+        Note = f'''The intensity is proportional to the number of cancellation conditions met. The initial struggles are necessary stepping stones.'''
 
         key = f"NEECHABHANGA_D1"
         common.yogadoshas_dict[key] = {}
-        common.yogadoshas_dict[key]["name"] = f"Neecha Bhanga Raja Yoga (D1)"
+        common.yogadoshas_dict[key]["name"] = yoga_name
         common.yogadoshas_dict[key]["type"] = "Yoga"
         common.yogadoshas_dict[key]["exist"] = True
         common.yogadoshas_dict[key]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
@@ -125,6 +167,16 @@ def NeechaBhangaRajaYoga(charts):
 
     return IsNeechaBhangaPresent
 
+# ==========================================================================================
+# Function Name: KendraTrikonaYoga
+# Purpose: Calculates the presence of KendraTrikonaYoga in the provided horoscope.
+# Description: Evaluates KendraTrikonaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def KendraTrikonaYoga(charts):
     IsKendraTrikonaPresent = False
     
@@ -192,6 +244,16 @@ def KendraTrikonaYoga(charts):
 
     return IsKendraTrikonaPresent
 
+# ==========================================================================================
+# Function Name: SreenathaYoga
+# Purpose: Calculates the presence of SreenathaYoga in the provided horoscope.
+# Description: Evaluates SreenathaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def SreenathaYoga(charts):
     IsSreenathaYogaPresent = False
     

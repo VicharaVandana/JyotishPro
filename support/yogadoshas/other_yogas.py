@@ -2,6 +2,16 @@ import support.generic as gen
 import support.yogadoshas.common as common
 import math
 
+# ==========================================================================================
+# Function Name: GajaKesariYoga
+# Purpose: Calculates the presence of GajaKesariYoga in the provided horoscope.
+# Description: Evaluates GajaKesariYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def GajaKesariYoga(charts):
     IsGajaKesariYogaPresent = False
     
@@ -116,6 +126,16 @@ def GajaKesariYoga(charts):
 
     return IsGajaKesariYogaPresent
 
+# ==========================================================================================
+# Function Name: ChandraMangalaYoga
+# Purpose: Calculates the presence of ChandraMangalaYoga in the provided horoscope.
+# Description: Evaluates ChandraMangalaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def ChandraMangalaYoga(charts):
     IsChandraMangalaYogaPresent = False
     

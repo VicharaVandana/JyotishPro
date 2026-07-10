@@ -1,6 +1,16 @@
 import support.generic as gen
 import support.yogadoshas.common as common
 
+# ==========================================================================================
+# Function Name: kaalSarpaDosha
+# Purpose: Calculates the presence of kaalSarpaDosha in the provided horoscope.
+# Description: Evaluates standard planetary configurations.
+# Expected Impact: Returns boolean indicating presence.
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def kaalSarpaDosha(charts):
     #Check if kaal sarpa dosha exists. 
     #return value can be ABSENT, ASCENDPRESENT, DESCENDPRESENT
@@ -23,6 +33,32 @@ def kaalSarpaDosha(charts):
             IsKaalSarpaDoshaPresent = False
             break   #end for loop once kaal sarpa dosha is broken
     
+    cancelled = False
+    reasons = []
+    
+    if IsKaalSarpaDoshaPresent:
+        # Check Bhanga (Cancellation) rules
+        rahu_aspected = charts["D1"]["planets"]["Rahu"].get("Aspected-by", [])
+        ketu_aspected = charts["D1"]["planets"]["Ketu"].get("Aspected-by", [])
+        if "Jupiter" in rahu_aspected or "Jupiter" in ketu_aspected:
+            cancelled = True
+            reasons.append("Jupiter aspects the Rahu-Ketu axis")
+            
+        for p in ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]:
+            if charts["D1"]["planets"][p]["house-num"] in [1, 4, 7, 10]:
+                rel = charts["D1"]["planets"][p].get("house-rel", "")
+                if "Exhalted" in rel or "Exalted" in rel:
+                    cancelled = True
+                    reasons.append(f"{p} is exalted in a Kendra")
+                    break
+                    
+        lagna_lord = gen.get_nthLord(charts["D1"], 1)
+        ll_house = charts["D1"]["planets"][lagna_lord]["house-num"]
+        ll_rel = charts["D1"]["planets"][lagna_lord].get("house-rel", "")
+        if ll_house in [1, 4, 7, 10] and ("Own" in ll_rel or "Exhalted" in ll_rel or "Exalted" in ll_rel):
+            cancelled = True
+            reasons.append("Lagna Lord is strongly placed in a Kendra")
+
     if(IsKaalSarpaDoshaPresent == True):
         if (baseplanet == "Rahu"):
             retval = "DESCENDPRESENT"
@@ -31,9 +67,19 @@ def kaalSarpaDosha(charts):
     else:
          retval = "ABSENT"
     
-    return retval
+    return retval, cancelled, reasons
 
     #Ananta Kaal sarpa dosha - Kaalsarpa dosha with Rahu in Tan bhav
+# ==========================================================================================
+# Function Name: AnantaKaalSarpaDosha
+# Purpose: Calculates the presence of AnantaKaalSarpaDosha in the provided horoscope.
+# Description: Evaluates AnantaKaalSarpaDosha
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def AnantaKaalSarpaDosha(charts):
     IsGlobalPresent = False
     IsAnantaKaalSarpaDoshaPresent = False
@@ -43,7 +89,7 @@ def AnantaKaalSarpaDosha(charts):
     Note = ""
     Remedies = ""
     
-    KaalSarpDoshaSts = kaalSarpaDosha(charts)
+    KaalSarpDoshaSts, cancelled, reasons = kaalSarpaDosha(charts)
     if (KaalSarpDoshaSts != "ABSENT") and (charts["D1"]["planets"]["Rahu"]["house-num"] == 1):
         IsAnantaKaalSarpaDoshaPresent = True
         colorlist = ["pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink"]
@@ -81,7 +127,11 @@ def AnantaKaalSarpaDosha(charts):
         common.yogadoshas_dict["ANANTAKAALSARPA"] = {}
         common.yogadoshas_dict["ANANTAKAALSARPA"]["name"] = Name
         common.yogadoshas_dict["ANANTAKAALSARPA"]["type"] = "Dosha"
-        common.yogadoshas_dict["ANANTAKAALSARPA"]["exist"] = IsAnantaKaalSarpaDoshaPresent
+        if cancelled:
+            common.yogadoshas_dict["ANANTAKAALSARPA"]["exist"] = False
+            common.yogadoshas_dict["ANANTAKAALSARPA"]["CancellationReason"] = "Kaala Sarpa Dosha is cancelled because " + " and ".join(reasons) + ". This forms Kaala Sarpa Bhanga Yoga."
+        else:
+            common.yogadoshas_dict["ANANTAKAALSARPA"]["exist"] = IsAnantaKaalSarpaDoshaPresent
         common.yogadoshas_dict["ANANTAKAALSARPA"]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict["ANANTAKAALSARPA"]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict["ANANTAKAALSARPA"]["Remedies"] = common.iterativeReplace(Remedies,"\n ", "\n").replace("\n","\n        ")
@@ -95,6 +145,16 @@ def AnantaKaalSarpaDosha(charts):
     return IsGlobalPresent
 
     #Kulika Kaal sarpa dosha - Kaalsarpa dosha with Rahu in Tan bhav
+# ==========================================================================================
+# Function Name: KulikaKaalSarpaDosha
+# Purpose: Calculates the presence of KulikaKaalSarpaDosha in the provided horoscope.
+# Description: Evaluates KulikaKaalSarpaDosha
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def KulikaKaalSarpaDosha(charts):
     IsGlobalPresent = False
     IsKulikaKaalSarpaDoshaPresent = False
@@ -104,7 +164,7 @@ def KulikaKaalSarpaDosha(charts):
     Note = ""
     Remedies = ""
     
-    KaalSarpDoshaSts = kaalSarpaDosha(charts)
+    KaalSarpDoshaSts, cancelled, reasons = kaalSarpaDosha(charts)
     if (KaalSarpDoshaSts != "ABSENT") and (charts["D1"]["planets"]["Rahu"]["house-num"] == 2):
         IsKulikaKaalSarpaDoshaPresent = True
         colorlist = ["pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink"]
@@ -143,7 +203,11 @@ def KulikaKaalSarpaDosha(charts):
         common.yogadoshas_dict["KULIKAKAALSARPA"] = {}
         common.yogadoshas_dict["KULIKAKAALSARPA"]["name"] = Name
         common.yogadoshas_dict["KULIKAKAALSARPA"]["type"] = "Dosha"
-        common.yogadoshas_dict["KULIKAKAALSARPA"]["exist"] = IsKulikaKaalSarpaDoshaPresent
+        if cancelled:
+            common.yogadoshas_dict["KULIKAKAALSARPA"]["exist"] = False
+            common.yogadoshas_dict["KULIKAKAALSARPA"]["CancellationReason"] = "Kaala Sarpa Dosha is cancelled because " + " and ".join(reasons) + ". This forms Kaala Sarpa Bhanga Yoga."
+        else:
+            common.yogadoshas_dict["KULIKAKAALSARPA"]["exist"] = IsKulikaKaalSarpaDoshaPresent
         common.yogadoshas_dict["KULIKAKAALSARPA"]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict["KULIKAKAALSARPA"]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict["KULIKAKAALSARPA"]["Remedies"] = common.iterativeReplace(Remedies,"\n ", "\n").replace("\n","\n        ")
@@ -157,6 +221,16 @@ def KulikaKaalSarpaDosha(charts):
     return IsGlobalPresent
 
     #Vasuki Kaal sarpa dosha - Kaalsarpa dosha with Rahu in Tan bhav
+# ==========================================================================================
+# Function Name: VasukiKaalSarpaDosha
+# Purpose: Calculates the presence of VasukiKaalSarpaDosha in the provided horoscope.
+# Description: Evaluates VasukiKaalSarpaDosha
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def VasukiKaalSarpaDosha(charts):
     IsGlobalPresent = False
     IsVasukiKaalSarpaDoshaPresent = False
@@ -166,7 +240,7 @@ def VasukiKaalSarpaDosha(charts):
     Note = ""
     Remedies = ""
     
-    KaalSarpDoshaSts = kaalSarpaDosha(charts)
+    KaalSarpDoshaSts, cancelled, reasons = kaalSarpaDosha(charts)
     if (KaalSarpDoshaSts != "ABSENT") and (charts["D1"]["planets"]["Rahu"]["house-num"] == 3):
         IsVasukiKaalSarpaDoshaPresent = True
         colorlist = ["pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink"]
@@ -206,7 +280,11 @@ def VasukiKaalSarpaDosha(charts):
         common.yogadoshas_dict["VASUKIKAALSARPA"] = {}
         common.yogadoshas_dict["VASUKIKAALSARPA"]["name"] = Name
         common.yogadoshas_dict["VASUKIKAALSARPA"]["type"] = "Dosha"
-        common.yogadoshas_dict["VASUKIKAALSARPA"]["exist"] = IsVasukiKaalSarpaDoshaPresent
+        if cancelled:
+            common.yogadoshas_dict["VASUKIKAALSARPA"]["exist"] = False
+            common.yogadoshas_dict["VASUKIKAALSARPA"]["CancellationReason"] = "Kaala Sarpa Dosha is cancelled because " + " and ".join(reasons) + ". This forms Kaala Sarpa Bhanga Yoga."
+        else:
+            common.yogadoshas_dict["VASUKIKAALSARPA"]["exist"] = IsVasukiKaalSarpaDoshaPresent
         common.yogadoshas_dict["VASUKIKAALSARPA"]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict["VASUKIKAALSARPA"]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict["VASUKIKAALSARPA"]["Remedies"] = common.iterativeReplace(Remedies,"\n ", "\n").replace("\n","\n        ")
@@ -220,6 +298,16 @@ def VasukiKaalSarpaDosha(charts):
     return IsGlobalPresent
 
     #Shankhapala Kaal sarpa dosha - Kaalsarpa dosha with Rahu in Tan bhav
+# ==========================================================================================
+# Function Name: ShankhapalaKaalSarpaDosha
+# Purpose: Calculates the presence of ShankhapalaKaalSarpaDosha in the provided horoscope.
+# Description: Evaluates ShankhapalaKaalSarpaDosha
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def ShankhapalaKaalSarpaDosha(charts):
     IsGlobalPresent = False
     IsShankhapalaKaalSarpaDoshaPresent = False
@@ -229,7 +317,7 @@ def ShankhapalaKaalSarpaDosha(charts):
     Note = ""
     Remedies = ""
     
-    KaalSarpDoshaSts = kaalSarpaDosha(charts)
+    KaalSarpDoshaSts, cancelled, reasons = kaalSarpaDosha(charts)
     if (KaalSarpDoshaSts != "ABSENT") and (charts["D1"]["planets"]["Rahu"]["house-num"] == 4):
         IsShankhapalaKaalSarpaDoshaPresent = True
         colorlist = ["pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink"]
@@ -268,7 +356,11 @@ def ShankhapalaKaalSarpaDosha(charts):
         common.yogadoshas_dict["SHANKHAPALAKAALSARPA"] = {}
         common.yogadoshas_dict["SHANKHAPALAKAALSARPA"]["name"] = Name
         common.yogadoshas_dict["SHANKHAPALAKAALSARPA"]["type"] = "Dosha"
-        common.yogadoshas_dict["SHANKHAPALAKAALSARPA"]["exist"] = IsShankhapalaKaalSarpaDoshaPresent
+        if cancelled:
+            common.yogadoshas_dict["SHANKHAPALAKAALSARPA"]["exist"] = False
+            common.yogadoshas_dict["SHANKHAPALAKAALSARPA"]["CancellationReason"] = "Kaala Sarpa Dosha is cancelled because " + " and ".join(reasons) + ". This forms Kaala Sarpa Bhanga Yoga."
+        else:
+            common.yogadoshas_dict["SHANKHAPALAKAALSARPA"]["exist"] = IsShankhapalaKaalSarpaDoshaPresent
         common.yogadoshas_dict["SHANKHAPALAKAALSARPA"]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict["SHANKHAPALAKAALSARPA"]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict["SHANKHAPALAKAALSARPA"]["Remedies"] = common.iterativeReplace(Remedies,"\n ", "\n").replace("\n","\n        ")
@@ -282,6 +374,16 @@ def ShankhapalaKaalSarpaDosha(charts):
     return IsGlobalPresent
 
     #Padam Kaal sarpa dosha - Kaalsarpa dosha with Rahu in Santaan bhav
+# ==========================================================================================
+# Function Name: PadamKaalSarpaDosha
+# Purpose: Calculates the presence of PadamKaalSarpaDosha in the provided horoscope.
+# Description: Evaluates PadamKaalSarpaDosha
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def PadamKaalSarpaDosha(charts):
     IsGlobalPresent = False
     IsPadamKaalSarpaDoshaPresent = False
@@ -291,7 +393,7 @@ def PadamKaalSarpaDosha(charts):
     Note = ""
     Remedies = ""
     
-    KaalSarpDoshaSts = kaalSarpaDosha(charts)
+    KaalSarpDoshaSts, cancelled, reasons = kaalSarpaDosha(charts)
     if (KaalSarpDoshaSts != "ABSENT") and (charts["D1"]["planets"]["Rahu"]["house-num"] == 5):
         IsPadamKaalSarpaDoshaPresent = True
         colorlist = ["pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink"]
@@ -331,7 +433,11 @@ def PadamKaalSarpaDosha(charts):
         common.yogadoshas_dict["PADAMKAALSARPA"] = {}
         common.yogadoshas_dict["PADAMKAALSARPA"]["name"] = Name
         common.yogadoshas_dict["PADAMKAALSARPA"]["type"] = "Dosha"
-        common.yogadoshas_dict["PADAMKAALSARPA"]["exist"] = IsPadamKaalSarpaDoshaPresent
+        if cancelled:
+            common.yogadoshas_dict["PADAMKAALSARPA"]["exist"] = False
+            common.yogadoshas_dict["PADAMKAALSARPA"]["CancellationReason"] = "Kaala Sarpa Dosha is cancelled because " + " and ".join(reasons) + ". This forms Kaala Sarpa Bhanga Yoga."
+        else:
+            common.yogadoshas_dict["PADAMKAALSARPA"]["exist"] = IsPadamKaalSarpaDoshaPresent
         common.yogadoshas_dict["PADAMKAALSARPA"]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict["PADAMKAALSARPA"]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict["PADAMKAALSARPA"]["Remedies"] = common.iterativeReplace(Remedies,"\n ", "\n").replace("\n","\n        ")
@@ -345,6 +451,16 @@ def PadamKaalSarpaDosha(charts):
     return IsGlobalPresent
 
     #Mahapadma Kaal sarpa dosha - Kaalsarpa dosha with Rahu in Rog bhav
+# ==========================================================================================
+# Function Name: MahapadmaKaalSarpaDosha
+# Purpose: Calculates the presence of MahapadmaKaalSarpaDosha in the provided horoscope.
+# Description: Evaluates MahapadmaKaalSarpaDosha
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def MahapadmaKaalSarpaDosha(charts):
     IsGlobalPresent = False
     IsMahapadmaKaalSarpaDoshaPresent = False
@@ -354,7 +470,7 @@ def MahapadmaKaalSarpaDosha(charts):
     Note = ""
     Remedies = ""
     
-    KaalSarpDoshaSts = kaalSarpaDosha(charts)
+    KaalSarpDoshaSts, cancelled, reasons = kaalSarpaDosha(charts)
     if (KaalSarpDoshaSts != "ABSENT") and (charts["D1"]["planets"]["Rahu"]["house-num"] == 6):
         IsMahapadmaKaalSarpaDoshaPresent = True
         colorlist = ["pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink"]
@@ -394,7 +510,11 @@ def MahapadmaKaalSarpaDosha(charts):
         common.yogadoshas_dict["MAHAPADMAKAALSARPA"] = {}
         common.yogadoshas_dict["MAHAPADMAKAALSARPA"]["name"] = Name
         common.yogadoshas_dict["MAHAPADMAKAALSARPA"]["type"] = "Dosha"
-        common.yogadoshas_dict["MAHAPADMAKAALSARPA"]["exist"] = IsMahapadmaKaalSarpaDoshaPresent
+        if cancelled:
+            common.yogadoshas_dict["MAHAPADMAKAALSARPA"]["exist"] = False
+            common.yogadoshas_dict["MAHAPADMAKAALSARPA"]["CancellationReason"] = "Kaala Sarpa Dosha is cancelled because " + " and ".join(reasons) + ". This forms Kaala Sarpa Bhanga Yoga."
+        else:
+            common.yogadoshas_dict["MAHAPADMAKAALSARPA"]["exist"] = IsMahapadmaKaalSarpaDoshaPresent
         common.yogadoshas_dict["MAHAPADMAKAALSARPA"]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict["MAHAPADMAKAALSARPA"]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict["MAHAPADMAKAALSARPA"]["Remedies"] = common.iterativeReplace(Remedies,"\n ", "\n").replace("\n","\n        ")
@@ -408,6 +528,16 @@ def MahapadmaKaalSarpaDosha(charts):
     return IsGlobalPresent
 
     #Takshaka Kaal sarpa dosha - Kaalsarpa dosha with Rahu in Santaan bhav
+# ==========================================================================================
+# Function Name: TakshakaKaalSarpaDosha
+# Purpose: Calculates the presence of TakshakaKaalSarpaDosha in the provided horoscope.
+# Description: Evaluates TakshakaKaalSarpaDosha
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def TakshakaKaalSarpaDosha(charts):
     IsGlobalPresent = False
     IsTakshakaKaalSarpaDoshaPresent = False
@@ -417,7 +547,7 @@ def TakshakaKaalSarpaDosha(charts):
     Note = ""
     Remedies = ""
     
-    KaalSarpDoshaSts = kaalSarpaDosha(charts)
+    KaalSarpDoshaSts, cancelled, reasons = kaalSarpaDosha(charts)
     if (KaalSarpDoshaSts != "ABSENT") and (charts["D1"]["planets"]["Rahu"]["house-num"] == 7):
         IsTakshakaKaalSarpaDoshaPresent = True
         colorlist = ["pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink"]
@@ -458,7 +588,11 @@ def TakshakaKaalSarpaDosha(charts):
         common.yogadoshas_dict["TAKSHAKAKAALSARPA"] = {}
         common.yogadoshas_dict["TAKSHAKAKAALSARPA"]["name"] = Name
         common.yogadoshas_dict["TAKSHAKAKAALSARPA"]["type"] = "Dosha"
-        common.yogadoshas_dict["TAKSHAKAKAALSARPA"]["exist"] = IsTakshakaKaalSarpaDoshaPresent
+        if cancelled:
+            common.yogadoshas_dict["TAKSHAKAKAALSARPA"]["exist"] = False
+            common.yogadoshas_dict["TAKSHAKAKAALSARPA"]["CancellationReason"] = "Kaala Sarpa Dosha is cancelled because " + " and ".join(reasons) + ". This forms Kaala Sarpa Bhanga Yoga."
+        else:
+            common.yogadoshas_dict["TAKSHAKAKAALSARPA"]["exist"] = IsTakshakaKaalSarpaDoshaPresent
         common.yogadoshas_dict["TAKSHAKAKAALSARPA"]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict["TAKSHAKAKAALSARPA"]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict["TAKSHAKAKAALSARPA"]["Remedies"] = common.iterativeReplace(Remedies,"\n ", "\n").replace("\n","\n        ")
@@ -472,6 +606,16 @@ def TakshakaKaalSarpaDosha(charts):
     return IsGlobalPresent
 
     #Karkotak Kaal sarpa dosha - Kaalsarpa dosha with Rahu in Santaan bhav
+# ==========================================================================================
+# Function Name: KarkotakKaalSarpaDosha
+# Purpose: Calculates the presence of KarkotakKaalSarpaDosha in the provided horoscope.
+# Description: Evaluates KarkotakKaalSarpaDosha
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def KarkotakKaalSarpaDosha(charts):
     IsGlobalPresent = False
     IsKarkotakKaalSarpaDoshaPresent = False
@@ -481,7 +625,7 @@ def KarkotakKaalSarpaDosha(charts):
     Note = ""
     Remedies = ""
     
-    KaalSarpDoshaSts = kaalSarpaDosha(charts)
+    KaalSarpDoshaSts, cancelled, reasons = kaalSarpaDosha(charts)
     if (KaalSarpDoshaSts != "ABSENT") and (charts["D1"]["planets"]["Rahu"]["house-num"] == 8):
         IsKarkotakKaalSarpaDoshaPresent = True
         colorlist = ["pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink"]
@@ -522,7 +666,11 @@ def KarkotakKaalSarpaDosha(charts):
         common.yogadoshas_dict["KARKOTAKKAALSARPA"] = {}
         common.yogadoshas_dict["KARKOTAKKAALSARPA"]["name"] = Name
         common.yogadoshas_dict["KARKOTAKKAALSARPA"]["type"] = "Dosha"
-        common.yogadoshas_dict["KARKOTAKKAALSARPA"]["exist"] = IsKarkotakKaalSarpaDoshaPresent
+        if cancelled:
+            common.yogadoshas_dict["KARKOTAKKAALSARPA"]["exist"] = False
+            common.yogadoshas_dict["KARKOTAKKAALSARPA"]["CancellationReason"] = "Kaala Sarpa Dosha is cancelled because " + " and ".join(reasons) + ". This forms Kaala Sarpa Bhanga Yoga."
+        else:
+            common.yogadoshas_dict["KARKOTAKKAALSARPA"]["exist"] = IsKarkotakKaalSarpaDoshaPresent
         common.yogadoshas_dict["KARKOTAKKAALSARPA"]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict["KARKOTAKKAALSARPA"]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict["KARKOTAKKAALSARPA"]["Remedies"] = common.iterativeReplace(Remedies,"\n ", "\n").replace("\n","\n        ")
@@ -536,6 +684,16 @@ def KarkotakKaalSarpaDosha(charts):
     return IsGlobalPresent
 
     #Shankhachur Kaal sarpa dosha - Kaalsarpa dosha with Rahu in Santaan bhav
+# ==========================================================================================
+# Function Name: ShankhachurKaalSarpaDosha
+# Purpose: Calculates the presence of ShankhachurKaalSarpaDosha in the provided horoscope.
+# Description: Evaluates ShankhachurKaalSarpaDosha
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def ShankhachurKaalSarpaDosha(charts):
     IsGlobalPresent = False
     IsShankhachurKaalSarpaDoshaPresent = False
@@ -545,7 +703,7 @@ def ShankhachurKaalSarpaDosha(charts):
     Note = ""
     Remedies = ""
     
-    KaalSarpDoshaSts = kaalSarpaDosha(charts)
+    KaalSarpDoshaSts, cancelled, reasons = kaalSarpaDosha(charts)
     if (KaalSarpDoshaSts != "ABSENT") and (charts["D1"]["planets"]["Rahu"]["house-num"] == 9):
         IsShankhachurKaalSarpaDoshaPresent = True
         colorlist = ["pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink"]
@@ -586,7 +744,11 @@ def ShankhachurKaalSarpaDosha(charts):
         common.yogadoshas_dict["SHANKACHURKAALSARPA"] = {}
         common.yogadoshas_dict["SHANKACHURKAALSARPA"]["name"] = Name
         common.yogadoshas_dict["SHANKACHURKAALSARPA"]["type"] = "Dosha"
-        common.yogadoshas_dict["SHANKACHURKAALSARPA"]["exist"] = IsShankhachurKaalSarpaDoshaPresent
+        if cancelled:
+            common.yogadoshas_dict["SHANKACHURKAALSARPA"]["exist"] = False
+            common.yogadoshas_dict["SHANKACHURKAALSARPA"]["CancellationReason"] = "Kaala Sarpa Dosha is cancelled because " + " and ".join(reasons) + ". This forms Kaala Sarpa Bhanga Yoga."
+        else:
+            common.yogadoshas_dict["SHANKACHURKAALSARPA"]["exist"] = IsShankhachurKaalSarpaDoshaPresent
         common.yogadoshas_dict["SHANKACHURKAALSARPA"]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict["SHANKACHURKAALSARPA"]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict["SHANKACHURKAALSARPA"]["Remedies"] = common.iterativeReplace(Remedies,"\n ", "\n").replace("\n","\n        ")
@@ -600,6 +762,16 @@ def ShankhachurKaalSarpaDosha(charts):
     return IsGlobalPresent
 
     #Ghatak Kaal sarpa dosha - Kaalsarpa dosha with Rahu in Santaan bhav
+# ==========================================================================================
+# Function Name: GhatakKaalSarpaDosha
+# Purpose: Calculates the presence of GhatakKaalSarpaDosha in the provided horoscope.
+# Description: Evaluates GhatakKaalSarpaDosha
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def GhatakKaalSarpaDosha(charts):
     IsGlobalPresent = False
     IsGhatakKaalSarpaDoshaPresent = False
@@ -609,7 +781,7 @@ def GhatakKaalSarpaDosha(charts):
     Note = ""
     Remedies = ""
     
-    KaalSarpDoshaSts = kaalSarpaDosha(charts)
+    KaalSarpDoshaSts, cancelled, reasons = kaalSarpaDosha(charts)
     if (KaalSarpDoshaSts != "ABSENT") and (charts["D1"]["planets"]["Rahu"]["house-num"] == 10):
         IsGhatakKaalSarpaDoshaPresent = True
         colorlist = ["pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink"]
@@ -650,7 +822,11 @@ def GhatakKaalSarpaDosha(charts):
         common.yogadoshas_dict["GHATAKKAALSARPA"] = {}
         common.yogadoshas_dict["GHATAKKAALSARPA"]["name"] = Name
         common.yogadoshas_dict["GHATAKKAALSARPA"]["type"] = "Dosha"
-        common.yogadoshas_dict["GHATAKKAALSARPA"]["exist"] = IsGhatakKaalSarpaDoshaPresent
+        if cancelled:
+            common.yogadoshas_dict["GHATAKKAALSARPA"]["exist"] = False
+            common.yogadoshas_dict["GHATAKKAALSARPA"]["CancellationReason"] = "Kaala Sarpa Dosha is cancelled because " + " and ".join(reasons) + ". This forms Kaala Sarpa Bhanga Yoga."
+        else:
+            common.yogadoshas_dict["GHATAKKAALSARPA"]["exist"] = IsGhatakKaalSarpaDoshaPresent
         common.yogadoshas_dict["GHATAKKAALSARPA"]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict["GHATAKKAALSARPA"]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict["GHATAKKAALSARPA"]["Remedies"] = common.iterativeReplace(Remedies,"\n ", "\n").replace("\n","\n        ")
@@ -664,6 +840,16 @@ def GhatakKaalSarpaDosha(charts):
     return IsGlobalPresent
 
     #Vishadhara Kaal sarpa dosha - Kaalsarpa dosha with Rahu in Laab bhav
+# ==========================================================================================
+# Function Name: VishadharaKaalSarpaDosha
+# Purpose: Calculates the presence of VishadharaKaalSarpaDosha in the provided horoscope.
+# Description: Evaluates VishadharaKaalSarpaDosha
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def VishadharaKaalSarpaDosha(charts):
     IsGlobalPresent = False
     IsVishadharaKaalSarpaDoshaPresent = False
@@ -673,7 +859,7 @@ def VishadharaKaalSarpaDosha(charts):
     Note = ""
     Remedies = ""
     
-    KaalSarpDoshaSts = kaalSarpaDosha(charts)
+    KaalSarpDoshaSts, cancelled, reasons = kaalSarpaDosha(charts)
     if (KaalSarpDoshaSts != "ABSENT") and (charts["D1"]["planets"]["Rahu"]["house-num"] == 11):
         IsVishadharaKaalSarpaDoshaPresent = True
         colorlist = ["pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink"]
@@ -714,7 +900,11 @@ def VishadharaKaalSarpaDosha(charts):
         common.yogadoshas_dict["VISHADHARAKAALSARPA"] = {}
         common.yogadoshas_dict["VISHADHARAKAALSARPA"]["name"] = Name
         common.yogadoshas_dict["VISHADHARAKAALSARPA"]["type"] = "Dosha"
-        common.yogadoshas_dict["VISHADHARAKAALSARPA"]["exist"] = IsVishadharaKaalSarpaDoshaPresent
+        if cancelled:
+            common.yogadoshas_dict["VISHADHARAKAALSARPA"]["exist"] = False
+            common.yogadoshas_dict["VISHADHARAKAALSARPA"]["CancellationReason"] = "Kaala Sarpa Dosha is cancelled because " + " and ".join(reasons) + ". This forms Kaala Sarpa Bhanga Yoga."
+        else:
+            common.yogadoshas_dict["VISHADHARAKAALSARPA"]["exist"] = IsVishadharaKaalSarpaDoshaPresent
         common.yogadoshas_dict["VISHADHARAKAALSARPA"]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict["VISHADHARAKAALSARPA"]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict["VISHADHARAKAALSARPA"]["Remedies"] = common.iterativeReplace(Remedies,"\n ", "\n").replace("\n","\n        ")
@@ -728,6 +918,16 @@ def VishadharaKaalSarpaDosha(charts):
     return IsGlobalPresent
 
     #Sheshanaga Kaal sarpa dosha - Kaalsarpa dosha with Rahu in Karch bhav
+# ==========================================================================================
+# Function Name: SheshanagaKaalSarpaDosha
+# Purpose: Calculates the presence of SheshanagaKaalSarpaDosha in the provided horoscope.
+# Description: Evaluates SheshanagaKaalSarpaDosha
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def SheshanagaKaalSarpaDosha(charts):
     IsGlobalPresent = False
     IsSheshanagaKaalSarpaDoshaPresent = False
@@ -737,7 +937,7 @@ def SheshanagaKaalSarpaDosha(charts):
     Note = ""
     Remedies = ""
     
-    KaalSarpDoshaSts = kaalSarpaDosha(charts)
+    KaalSarpDoshaSts, cancelled, reasons = kaalSarpaDosha(charts)
     if (KaalSarpDoshaSts != "ABSENT") and (charts["D1"]["planets"]["Rahu"]["house-num"] == 12):
         IsSheshanagaKaalSarpaDoshaPresent = True
         colorlist = ["pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink","pink"]
@@ -777,7 +977,11 @@ def SheshanagaKaalSarpaDosha(charts):
         common.yogadoshas_dict["SHESHANAGAKAALSARPA"] = {}
         common.yogadoshas_dict["SHESHANAGAKAALSARPA"]["name"] = Name
         common.yogadoshas_dict["SHESHANAGAKAALSARPA"]["type"] = "Dosha"
-        common.yogadoshas_dict["SHESHANAGAKAALSARPA"]["exist"] = IsSheshanagaKaalSarpaDoshaPresent
+        if cancelled:
+            common.yogadoshas_dict["SHESHANAGAKAALSARPA"]["exist"] = False
+            common.yogadoshas_dict["SHESHANAGAKAALSARPA"]["CancellationReason"] = "Kaala Sarpa Dosha is cancelled because " + " and ".join(reasons) + ". This forms Kaala Sarpa Bhanga Yoga."
+        else:
+            common.yogadoshas_dict["SHESHANAGAKAALSARPA"]["exist"] = IsSheshanagaKaalSarpaDoshaPresent
         common.yogadoshas_dict["SHESHANAGAKAALSARPA"]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict["SHESHANAGAKAALSARPA"]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict["SHESHANAGAKAALSARPA"]["Remedies"] = common.iterativeReplace(Remedies,"\n ", "\n").replace("\n","\n        ")

@@ -2,6 +2,16 @@ import support.generic as gen
 import support.yogadoshas.common as common
 
 #function to check for Sasa Panchamahapurusha yoga - Saturn
+# ==========================================================================================
+# Function Name: SasaYoga
+# Purpose: Calculates the presence of SasaYoga in the provided horoscope.
+# Description: Evaluates SasaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def SasaYoga(charts):
     IsGlobalPresent = False
     IsSasaYogaPresent = False   #initially assume the yoga is not present
@@ -116,6 +126,16 @@ def SasaYoga(charts):
     return IsSasaYogaPresent
 
     #function to check for Bhadra Panchamahapurusha yoga - Mercury
+# ==========================================================================================
+# Function Name: BhadraYoga
+# Purpose: Calculates the presence of BhadraYoga in the provided horoscope.
+# Description: Evaluates BhadraYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def BhadraYoga(charts):
     IsGlobalPresent = False
     IsBhadraYogaPresent = False   #initially assume the yoga is not present
@@ -224,6 +244,16 @@ def BhadraYoga(charts):
     return IsBhadraYogaPresent
 
     #function to check for Ruchaka Panchamahapurusha yoga - Mars
+# ==========================================================================================
+# Function Name: RuchakaYoga
+# Purpose: Calculates the presence of RuchakaYoga in the provided horoscope.
+# Description: Evaluates RuchakaYoga
+# Expected Impact: It should not reach here. Something wrong in computation. Dont trust this analysis.
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def RuchakaYoga(charts):
     IsGlobalPresent = False
     IsRuchakaYogaPresent = False   #initially assume the yoga is not present
@@ -420,6 +450,16 @@ def RuchakaYoga(charts):
     return IsRuchakaYogaPresent
 
     #function to check for Hamsa Panchamahapurusha yoga - Jupiter
+# ==========================================================================================
+# Function Name: HamsaYoga
+# Purpose: Calculates the presence of HamsaYoga in the provided horoscope.
+# Description: Evaluates HamsaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def HamsaYoga(charts):
     IsGlobalPresent = False
     IsHamsaYogaPresent = False   #initially assume the yoga is not present
@@ -531,6 +571,16 @@ def HamsaYoga(charts):
     return IsHamsaYogaPresent
 
     #function to check for Malavya Panchamahapurusha yoga - Venus
+# ==========================================================================================
+# Function Name: MalavyaYoga
+# Purpose: Calculates the presence of MalavyaYoga in the provided horoscope.
+# Description: Evaluates MalavyaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def MalavyaYoga(charts):
     IsGlobalPresent = False
     IsMalavyaYogaPresent = False   #initially assume the yoga is not present

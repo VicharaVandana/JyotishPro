@@ -1,6 +1,16 @@
 import support.generic as gen
 import support.yogadoshas.common as common
 
+# ==========================================================================================
+# Function Name: ParivarthanaYoga
+# Purpose: Calculates the presence of ParivarthanaYoga in the provided horoscope.
+# Description: Evaluates ParivarthanaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def ParivarthanaYoga(charts):
     global IsParivarthanaYogaPresent
     IsParivarthanaYogaPresent = False
@@ -67,6 +77,16 @@ def ParivarthanaYoga(charts):
 
 #Nabhasa Yogas - All planetary positions
 #Aashraya Yogas -  Depending on if all planets are in Movable(1,4,7,10), Fixed(2,5,8,11) or Dual(3,6,9,12) signs
+# ==========================================================================================
+# Function Name: AashrayaYoga
+# Purpose: Calculates the presence of AashrayaYoga in the provided horoscope.
+# Description: Evaluates AashrayaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def AashrayaYoga(charts):
     
     global IsAshrayaYogaPresent
@@ -139,6 +159,16 @@ def AashrayaYoga(charts):
     return IsAshrayaYogaPresent
 
 #Dala Yogas -  Depending on if all only benefic planets or only malefic planets are in kendra.
+# ==========================================================================================
+# Function Name: DalaYoga
+# Purpose: Calculates the presence of DalaYoga in the provided horoscope.
+# Description: Evaluates DalaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def DalaYoga(charts):
     
     global IsDalaYogaPresent
@@ -229,6 +259,16 @@ def DalaYoga(charts):
     return IsDalaYogaPresent
     
 #Sankhya Yogas -  Depending on if all planets are in Movable(1,4,7,10), Fixed(2,5,8,11) or Dual(3,6,9,12) signs
+# ==========================================================================================
+# Function Name: SankhyaYoga
+# Purpose: Calculates the presence of SankhyaYoga in the provided horoscope.
+# Description: Evaluates SankhyaYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def SankhyaYoga(charts):
     
     global IsSankhyaYogaPresent
@@ -323,6 +363,16 @@ def SankhyaYoga(charts):
     return(IsSankhyaYogaPresent)
 
 #Aakriti Yogas -  Depending on if all only benefic planets or only malefic planets are in kendra.
+# ==========================================================================================
+# Function Name: AakritiYoga
+# Purpose: Calculates the presence of AakritiYoga in the provided horoscope.
+# Description: Evaluates AakritiYoga
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
 def AakritiYoga(charts):
     
     global IsAakritiYogaPresent

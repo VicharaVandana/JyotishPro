@@ -648,7 +648,7 @@ class MainWindow_cls(Ui_MainWindow):
             self.chk_yogasDoshas.isChecked(), self.chk_cancelledYogas.isChecked(),
             self.chk_vimshopakaBala.isChecked(), self.chk_shadbala.isChecked(),
             self.chk_bhavaBala.isChecked(), self.chk_ashtakaVarga.isChecked(),
-            self.chk_lordInHouses.isChecked()
+            self.chk_lordInHouses.isChecked(), self.chk_elementalMatrix.isChecked()
         ])
         
         lang_keys = ["English", "Kannada", "Hindi"]
@@ -670,8 +670,10 @@ class MainWindow_cls(Ui_MainWindow):
                 "shadbala": self.chk_shadbala.isChecked(),
                 "bhavaBala": self.chk_bhavaBala.isChecked(),
                 "ashtakaVarga": self.chk_ashtakaVarga.isChecked(),
-                "lordInHouses": self.chk_lordInHouses.isChecked()
-            }
+                "lordInHouses": self.chk_lordInHouses.isChecked(),
+                "elementalMatrix": self.chk_elementalMatrix.isChecked()
+            },
+            "elementalMatrix": self.chk_elementalMatrix.isChecked()
         }
         
         # User Feedback
