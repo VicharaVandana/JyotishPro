@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
@@ -138,8 +138,8 @@ color: rgb(0, 0, 118);</string>
               <property name="toolTip">
                <string>Enter place name where Native was born</string>
               </property>
-              <property name="text">
-               <string>Honavar</string>
+              <property name="placeholderText">
+               <string>e.g. London</string>
               </property>
              </widget>
             </item>
@@ -159,7 +159,7 @@ color: rgb(0, 0, 118);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color: rgb(170, 170, 127);
-font: 10pt &quot;Cascadia Code&quot;;</string>
+font: 10pt "Cascadia Code";</string>
               </property>
               <property name="text">
                <string>Load</string>
@@ -193,8 +193,8 @@ font: 10pt &quot;Cascadia Code&quot;;</string>
              <string>Enter birth place longitude in decimal format. 
 +ve for East and -ve for West. </string>
             </property>
-            <property name="text">
-             <string>+74.4439</string>
+            <property name="placeholderText">
+             <string>e.g. -0.1276</string>
             </property>
            </widget>
           </item>
@@ -223,8 +223,8 @@ font: 10pt &quot;Cascadia Code&quot;;</string>
              <string>Enter birth place lattitude in decimal format. 
 +ve for North and -ve for south</string>
             </property>
-            <property name="text">
-             <string>+14.2798</string>
+            <property name="placeholderText">
+             <string>e.g. 51.5072</string>
             </property>
            </widget>
           </item>
@@ -253,8 +253,8 @@ font: 10pt &quot;Cascadia Code&quot;;</string>
              <string>In hours with respect to GMT. 
 for example if its GMT + 5hr 30 min then enter +5.5</string>
             </property>
-            <property name="text">
-             <string>+5.5</string>
+            <property name="placeholderText">
+             <string>e.g. +00:00</string>
             </property>
            </widget>
           </item>
@@ -498,7 +498,7 @@ and updates it to the app for user</string>
          </widget>
         </item>
         <item row="1" column="5" rowspan="4" colspan="2">
-         <widget class="QCalendarWidget" name="cal_dob"/>
+         <widget class="QCalendarWidget" name="cal_dob" />
         </item>
         <item row="5" column="0">
          <widget class="QLabel" name="label_language">
@@ -2430,7 +2430,7 @@ color: rgb(0, 0, 255);</string>
                  <string>background-color: black; color: white; border: 1px solid #333;</string>
                 </property>
                 <property name="text">
-                 <string>&lt;div style=&quot;background-color: #000000; color: #ffffff; padding: 2px; border: 1px solid #333333; font-family: Arial; font-size: 11px;&quot;&gt;&lt;div style=&quot;text-align:center; font-weight:bold; margin-bottom:4px;&quot;&gt;Planet Dignity&lt;/div&gt;&lt;table style=&quot;width:100%; border-collapse: collapse;&quot;&gt;&lt;tr&gt;&lt;td style=&quot;color: gold; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Exalted / Uchha&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: lime; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Own / Swa&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: skyblue; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Friend / Mitra&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: white; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Neutral / Sama&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: magenta; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Enemy / Shatru&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: red; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Debilitated&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: yellow; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Other&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</string>
+                 <string>&lt;div style="background-color: #000000; color: #ffffff; padding: 2px; border: 1px solid #333333; font-family: Arial; font-size: 11px;"&gt;&lt;div style="text-align:center; font-weight:bold; margin-bottom:4px;"&gt;Planet Dignity&lt;/div&gt;&lt;table style="width:100%; border-collapse: collapse;"&gt;&lt;tr&gt;&lt;td style="color: gold; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Exalted / Uchha&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="color: lime; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Own / Swa&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="color: skyblue; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Friend / Mitra&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="color: white; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Neutral / Sama&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="color: magenta; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Enemy / Shatru&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="color: red; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Debilitated&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="color: yellow; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Other&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</string>
                 </property>
                 <property name="textFormat">
                  <enum>Qt::RichText</enum>
@@ -2928,22 +2928,22 @@ color: rgb(0, 0, 255);</string>
      <property name="title">
       <string>Astrological Charts</string>
      </property>
-     <addaction name="actionDisplay_Settings"/>
+     <addaction name="actionDisplay_Settings" />
     </widget>
     <widget class="QMenu" name="menuBirthData_Database">
      <property name="title">
       <string>BirthData Database</string>
      </property>
-     <addaction name="actionPersonal"/>
-     <addaction name="actionCelebrity"/>
+     <addaction name="actionPersonal" />
+     <addaction name="actionCelebrity" />
     </widget>
-    <addaction name="menuAstrological_Charts"/>
-    <addaction name="menuBirthData_Database"/>
+    <addaction name="menuAstrological_Charts" />
+    <addaction name="menuBirthData_Database" />
    </widget>
-   <addaction name="menuUser_Input"/>
-   <addaction name="menuSettings"/>
+   <addaction name="menuUser_Input" />
+   <addaction name="menuSettings" />
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar" />
   <action name="actionDisplay_Settings">
    <property name="text">
     <string>Display Settings</string>
@@ -2960,7 +2960,7 @@ color: rgb(0, 0, 255);</string>
    </property>
   </action>
  </widget>
- <resources/>
+ <resources />
  <connections>
   <connection>
    <sender>cal_dob</sender>

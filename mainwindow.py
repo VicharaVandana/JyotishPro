@@ -183,6 +183,19 @@ class MainWindow_cls(Ui_MainWindow):
         places_manager.load_places_async()
         self.check_places_loaded()
 
+        # Clear default personal details and set placeholders
+        self.cmb_name.setCurrentText("")
+        self.place.setText("")
+        self.place.setPlaceholderText("e.g. Honavar")
+        self.lat.setText("")
+        self.lat.setPlaceholderText("e.g. 14.2723")
+        self.lon.setText("")
+        self.lon.setPlaceholderText("e.g. 74.2847")
+        self.tz.setText("")
+        self.tz.setPlaceholderText("e.g. +05:30")
+        self.dob.setDate(QDate.currentDate())
+        self.tob.setTime(QTime.currentTime())
+
         QtWidgets.QApplication.processEvents()
         return
     
@@ -550,8 +563,13 @@ class MainWindow_cls(Ui_MainWindow):
     def submitdetails(self):
         self.status.setText("Computing astrological data... Please wait.")
         QtWidgets.QApplication.processEvents()
-        astrocalc.initialAstroCalculations(self)    #Compute Astrodata from the birthdata
-
+        
+        try:
+            astrocalc.initialAstroCalculations(self)    #Compute Astrodata from the birthdata
+        except Exception as e:
+            QtWidgets.QMessageBox.critical(self.centralwidget, "Validation Error", str(e))
+            self.status.setText(f"Error: {e}")
+            return
         ########## For MainChart Page ################
         self.status.setText("Generating D1 birth chart...")
         QtWidgets.QApplication.processEvents()
@@ -745,7 +763,20 @@ class MainWindow_cls(Ui_MainWindow):
         if details:
             self.lat.setText(details.get("lat", ""))
             self.lon.setText(details.get("lon", ""))
-            self.tz.setText(details.get("timezone", ""))
+            tz_str = details.get("timezone", "")
+            if ':' in tz_str:
+                try:
+                    sign = -1 if tz_str.startswith('-') else 1
+                    parts = tz_str.replace('+', '').replace('-', '').split(':')
+                    hours = float(parts[0])
+                    minutes = float(parts[1]) if len(parts) > 1 else 0.0
+                    tz_val = hours + (minutes / 60.0)
+                    tz_str = str(sign * tz_val)
+                    if sign == 1 and not tz_str.startswith('+'):
+                        tz_str = '+' + tz_str
+                except Exception:
+                    pass
+            self.tz.setText(tz_str)
         else:
             dialog = missing_place_dialog.MissingPlaceDialog(initial_name=place_text, parent=self._mainWindow)
             if dialog.exec_() == QtWidgets.QDialog.Accepted:

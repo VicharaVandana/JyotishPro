@@ -42,7 +42,7 @@ def generate_astrodata(bd):
     if(jsm.IsBirthdataValid()):
         birthdata = jsm.get_birthdata()
     else:
-        print("Error:birthdata is invalid!!!")
+        raise ValueError("Birthdata is invalid!!! Please verify that all inputs (Place, Latitude, Longitude, Timezone) are formatted correctly.")
 
 
     #Step 5: Invoke the API generate_astrologicalData with retrunval desired to be dictionary and get astrological data in dictionary format.
