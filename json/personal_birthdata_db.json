@@ -1027,5 +1027,26 @@
             "timezone": "+5.5"
         },
         "comments": "anita tiwari chatovods daughter"
+    },
+    "Reshma chatovod": {
+        "name": "Reshma chatovod",
+        "gender": "male",
+        "DOB": {
+            "year": "1990",
+            "month": "1",
+            "day": "20"
+        },
+        "TOB": {
+            "hour": "14",
+            "min": "30",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "malegaon",
+            "lon": "+74.5251",
+            "lat": "+20.5608",
+            "timezone": "+5.5"
+        },
+        "comments": "Ankita Marathi in chatovod"
     }
 }

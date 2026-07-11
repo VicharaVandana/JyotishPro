@@ -1,0 +1,10 @@
+{
+    "natal_colour_strategy": "planet_colourstrategy_dispositorRelation",
+    "transit_colour_strategy": "planet_colourstrategy_dispositorRelation",
+    "chart_background_colour": "black",
+    "chart_outer_background_colour": "black",
+    "chart_outerbox_colour": "red",
+    "chart_innerbox_colour": "red",
+    "chart_line_colour": "yellow",
+    "chart_sign_colour": "pink"
+}

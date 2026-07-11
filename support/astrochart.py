@@ -1,5 +1,6 @@
 import jyotichart as chart
 import support.generic as gen
+import support.display_settings_manager as ds_manager
 import os
 import support.globalvariables as gvar
 import calendar
@@ -140,6 +141,38 @@ def planet_colourstrategy_dispositorRelation(planetdata):
 # ---------------------------------------------------------------------------
 # Draw a single-divisional birth chart
 # ---------------------------------------------------------------------------
+
+def _apply_display_settings(chart_obj, chart_style, aspect_val=False, is_outer_chart=False):
+    settings = ds_manager.get_settings()
+    
+    if is_outer_chart:
+        bg_col = settings.get("chart_outer_background_colour", "black")
+    else:
+        bg_col = settings.get("chart_background_colour", "black")
+        
+    houses_list = [bg_col] * 12
+
+    if chart_style == "south":
+        chart_obj.updatechartcfg(
+            aspect=aspect_val,
+            clr_background=bg_col,
+            clr_houses=houses_list,
+            clr_outbox=settings.get("chart_outerbox_colour", "red"),
+            clr_inbox=settings.get("chart_innerbox_colour", "red"),
+            clr_line=settings.get("chart_line_colour", "yellow"),
+            clr_Asc=settings.get("chart_sign_colour", "pink")
+        )
+    else:
+        chart_obj.updatechartcfg(
+            aspect=aspect_val,
+            clr_background=bg_col,
+            clr_houses=houses_list,
+            clr_outbox=settings.get("chart_outerbox_colour", "red"),
+            clr_line=settings.get("chart_line_colour", "yellow"),
+            clr_sign=settings.get("chart_sign_colour", "pink")
+        )
+
+# ---------------------------------------------------------------------------
 def plot_astrochart(chart_loc, chart_name, astrodata, div,
                     firsthousesign="None", IsAspectNeeded=False,
                     language="english", chart_style="north"):
@@ -179,7 +212,7 @@ def plot_astrochart(chart_loc, chart_name, astrodata, div,
                 print(f"Error setting birth details: {e}")
 
     _populate_planets(mychart, astrodata, div, firsthouse)
-    mychart.updatechartcfg(aspect=IsAspectNeeded)
+    _apply_display_settings(mychart, chart_style, aspect_val=IsAspectNeeded)
     mychart.draw(chart_loc, chart_name)
 
     svg_file = os.path.join(chart_loc, f"{chart_name}.svg")
@@ -237,7 +270,7 @@ def plot_astroMixedChart(chart_loc, chart_name,
             except Exception as e:
                 print(f"Error setting inner birth details: {e}")
     _populate_planets(innerchart, inner_astrodata, inner_div, firsthouse)
-    innerchart.updatechartcfg(aspect=IsInnerAspectNeeded)
+    _apply_display_settings(innerchart, chart_style, aspect_val=IsInnerAspectNeeded)
 
     # --- Prepare the outer chart ---
     outerchart = OuterChartClass(outer_div, "Transit", innerchart)
@@ -287,7 +320,7 @@ def plot_astroMixedChart(chart_loc, chart_name,
             retrograde=outer_astrodata[outer_div]["planets"][planet_name]["retro"]
         )
 
-    outerchart.updatechartcfg(aspect=IsOuterAspectNeeded)
+    _apply_display_settings(outerchart, chart_style, aspect_val=IsOuterAspectNeeded, is_outer_chart=True)
     outerchart.draw(chart_loc, chart_name)
 
     svg_file = os.path.join(chart_loc, f"{chart_name}.svg")
@@ -325,7 +358,7 @@ def plot_numerical_astrochart(chart_loc, chart_name, astrodata, values_dict, div
         val = str(values_dict.get(i, ""))
         mychart.set_house_value(i, val, colour=default_color)
 
-    mychart.updatechartcfg(aspect=False)
+    _apply_display_settings(mychart, chart_style, aspect_val=False)
     mychart.draw(chart_loc, chart_name)
 
     svg_file = os.path.join(chart_loc, f"{chart_name}.svg")
@@ -372,7 +405,7 @@ def plot_partial_astrochart(chart_loc, chart_name, astrodata, relevant_planets,
                 retrograde=astrodata[div]["planets"][p_fullname]["retro"]
             )
 
-    mychart.updatechartcfg(aspect=False)
+    _apply_display_settings(mychart, chart_style, aspect_val=False)
     mychart.draw(chart_loc, chart_name)
 
     svg_file = os.path.join(chart_loc, f"{chart_name}.svg")

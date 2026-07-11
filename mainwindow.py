@@ -153,6 +153,7 @@ class MainWindow_cls(Ui_MainWindow):
         #Action Menu Items Linking
         self.actionPersonal.triggered.connect(lambda: self.update_settings_json("personal_birthdata_db.json"))
         self.actionCelebrity.triggered.connect(lambda: self.update_settings_json("celebrity_birthdata_db.json"))
+        self.actionDisplay_Settings.triggered.connect(self.open_display_settings)
 
         # PDF Report Tab Connections
         self.btn_browseLocation.clicked.connect(self.browse_save_location)
@@ -604,6 +605,15 @@ class MainWindow_cls(Ui_MainWindow):
         safe_name = name.replace(" ", "_") if name else "Unknown"
         filename = f"JyotishReport_{safe_name}_{timestamp}"
         self.lineEdit_reportName.setText(filename)
+
+    def open_display_settings(self):
+        import userforms.display_settings_dialog as dsd
+        dialog = dsd.DisplaySettingsDialog(self._mainWindow)
+        if dialog.exec_() == QtWidgets.QDialog.Accepted:
+            if hasattr(gvar, 'astrodata') and gvar.astrodata:
+                self.on_chart_parameters_changed(None)
+            if hasattr(gvar, 'transit_astrodata') and gvar.transit_astrodata:
+                self.on_mixedchart_parameters_changed(None)
 
     def set_all_pdf_checkboxes(self, state):
         checkboxes = [
