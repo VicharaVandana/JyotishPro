@@ -126,20 +126,47 @@ color: rgb(0, 0, 118);</string>
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="place">
-            <property name="font">
-             <font>
-              <family>Consolas</family>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="toolTip">
-             <string>Enter place name where Native was born</string>
-            </property>
-            <property name="text">
-             <string>Honavar</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_place">
+            <item>
+             <widget class="QLineEdit" name="place">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="toolTip">
+               <string>Enter place name where Native was born</string>
+              </property>
+              <property name="text">
+               <string>Honavar</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_loadPlace">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="baseSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(170, 170, 127);
+font: 10pt &quot;Cascadia Code&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Load</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label1_7">
@@ -2399,13 +2426,13 @@ color: rgb(0, 0, 255);</string>
                   <height>211</height>
                  </size>
                 </property>
-                <property name="text">
-                 <string><![CDATA[<div style="background-color: #000000; color: #ffffff; padding: 2px; border: 1px solid #333333; font-family: Arial; font-size: 11px;"><div style="text-align:center; font-weight:bold; margin-bottom:4px;">Planet Dignity</div><table style="width:100%; border-collapse: collapse;"><tr><td style="color: gold; font-size: 16px;">&#9632;</td><td style="padding-left:4px;">Exalted / Uchha</td></tr><tr><td style="color: lime; font-size: 16px;">&#9632;</td><td style="padding-left:4px;">Own / Swa</td></tr><tr><td style="color: skyblue; font-size: 16px;">&#9632;</td><td style="padding-left:4px;">Friend / Mitra</td></tr><tr><td style="color: white; font-size: 16px;">&#9632;</td><td style="padding-left:4px;">Neutral / Sama</td></tr><tr><td style="color: magenta; font-size: 16px;">&#9632;</td><td style="padding-left:4px;">Enemy / Shatru</td></tr><tr><td style="color: red; font-size: 16px;">&#9632;</td><td style="padding-left:4px;">Debilitated</td></tr><tr><td style="color: yellow; font-size: 16px;">&#9632;</td><td style="padding-left:4px;">Other</td></tr></table></div>]]></string>
-                </property>
-                                <property name="styleSheet">
+                <property name="styleSheet">
                  <string>background-color: black; color: white; border: 1px solid #333;</string>
                 </property>
-<property name="textFormat">
+                <property name="text">
+                 <string>&lt;div style=&quot;background-color: #000000; color: #ffffff; padding: 2px; border: 1px solid #333333; font-family: Arial; font-size: 11px;&quot;&gt;&lt;div style=&quot;text-align:center; font-weight:bold; margin-bottom:4px;&quot;&gt;Planet Dignity&lt;/div&gt;&lt;table style=&quot;width:100%; border-collapse: collapse;&quot;&gt;&lt;tr&gt;&lt;td style=&quot;color: gold; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Exalted / Uchha&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: lime; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Own / Swa&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: skyblue; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Friend / Mitra&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: white; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Neutral / Sama&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: magenta; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Enemy / Shatru&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: red; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Debilitated&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: yellow; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Other&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</string>
+                </property>
+                <property name="textFormat">
                  <enum>Qt::RichText</enum>
                 </property>
                 <property name="alignment">

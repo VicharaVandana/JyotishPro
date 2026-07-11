@@ -98,7 +98,7 @@ def get_division_signification(division):
 # ---------------------------------------------------------------------------
 # Internal helper: populate all 9 planets onto a chart object
 # ---------------------------------------------------------------------------
-def _populate_planets(mychart, astrodata, div, firsthouse):
+def _populate_planets(mychart, astrodata, div, firsthouse, strategy_name="planet_colourstrategy_dispositorRelation"):
     mychart.set_ascendantsign(firsthouse)
     for planet_key in [
         chart.SUN, chart.MOON, chart.MARS, chart.MERCURY,
@@ -115,9 +115,14 @@ def _populate_planets(mychart, astrodata, div, firsthouse):
         mychart.add_planet(
             planet_key, symbol,
             gen.get_house_number(firsthouse, astrodata[div]["planets"][planet_name]["sign"]),
-            colour=planet_colourstrategy_dispositorRelation(astrodata[div]["planets"][planet_name]),
+            colour=get_planet_colour(astrodata[div]["planets"][planet_name], strategy_name),
             retrograde=astrodata[div]["planets"][planet_name]["retro"]
         )
+
+def get_planet_colour(planetdata, strategy_name):
+    if strategy_name == "planet_colourstrategy_dispositorRelation":
+        return planet_colourstrategy_dispositorRelation(planetdata)
+    return "yellow"
 
 # ---------------------------------------------------------------------------
 # Planet colour strategy
@@ -211,7 +216,9 @@ def plot_astrochart(chart_loc, chart_name, astrodata, div,
             except Exception as e:
                 print(f"Error setting birth details: {e}")
 
-    _populate_planets(mychart, astrodata, div, firsthouse)
+    settings = ds_manager.get_settings()
+    natal_strategy = settings.get("natal_colour_strategy", "planet_colourstrategy_dispositorRelation")
+    _populate_planets(mychart, astrodata, div, firsthouse, strategy_name=natal_strategy)
     _apply_display_settings(mychart, chart_style, aspect_val=IsAspectNeeded)
     mychart.draw(chart_loc, chart_name)
 
@@ -269,7 +276,9 @@ def plot_astroMixedChart(chart_loc, chart_name,
                 innerchart.set_birth_details(dob_str, tob_str, pob_str)
             except Exception as e:
                 print(f"Error setting inner birth details: {e}")
-    _populate_planets(innerchart, inner_astrodata, inner_div, firsthouse)
+    settings = ds_manager.get_settings()
+    natal_strategy = settings.get("natal_colour_strategy", "planet_colourstrategy_dispositorRelation")
+    _populate_planets(innerchart, inner_astrodata, inner_div, firsthouse, strategy_name=natal_strategy)
     _apply_display_settings(innerchart, chart_style, aspect_val=IsInnerAspectNeeded)
 
     # --- Prepare the outer chart ---
@@ -301,6 +310,7 @@ def plot_astroMixedChart(chart_loc, chart_name,
                 print(f"Error setting transit details: {e}")
 
     # Populate outer planets
+    transit_strategy = settings.get("transit_colour_strategy", "planet_colourstrategy_dispositorRelation")
     for planet_key in [
         chart.SUN, chart.MOON, chart.MARS, chart.MERCURY,
         chart.JUPITER, chart.VENUS, chart.SATURN, chart.RAHU, chart.KETU
@@ -316,7 +326,7 @@ def plot_astroMixedChart(chart_loc, chart_name,
         outerchart.add_planet(
             planet_key, symbol,
             gen.get_house_number(firsthouse, outer_astrodata[outer_div]["planets"][planet_name]["sign"]),
-            colour=planet_colourstrategy_dispositorRelation(outer_astrodata[outer_div]["planets"][planet_name]),
+            colour=get_planet_colour(outer_astrodata[outer_div]["planets"][planet_name], transit_strategy),
             retrograde=outer_astrodata[outer_div]["planets"][planet_name]["retro"]
         )
 

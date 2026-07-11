@@ -18,6 +18,8 @@ from datetime import datetime
 
 import support.dashascalculation as dashavim
 import support.balascalculation as shadbal
+import support.places_manager as places_manager
+import userforms.missing_place_dialog as missing_place_dialog
 
 import support.prediction_experiments as trial
 import support.transit_table as trans_tab
@@ -175,6 +177,11 @@ class MainWindow_cls(Ui_MainWindow):
         # loaded while their tab was hidden, so fitInView used a stale size)
         self.user.currentChanged.connect(self._on_tab_changed)
 
+
+        # Place of Birth auto-suggest and loading setup
+        self.btn_loadPlace.clicked.connect(self.on_load_place_clicked)
+        places_manager.load_places_async()
+        self.check_places_loaded()
 
         QtWidgets.QApplication.processEvents()
         return
@@ -717,6 +724,52 @@ class MainWindow_cls(Ui_MainWindow):
 
         import support.pdf_report as pdfrep
         pdfrep.GeneratePDFReport(gvar.astrodata, target_path, config)
+
+    def check_places_loaded(self):
+        if places_manager.is_loaded():
+            names = places_manager.get_all_place_names()
+            completer = QtWidgets.QCompleter(names, self._mainWindow)
+            completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
+            completer.setFilterMode(QtCore.Qt.MatchContains)
+            completer.activated.connect(lambda text: self.on_load_place_clicked())
+            self.place.setCompleter(completer)
+        else:
+            QtCore.QTimer.singleShot(200, self.check_places_loaded)
+
+    def on_load_place_clicked(self):
+        place_text = self.place.text().strip()
+        if not place_text:
+            return
+            
+        details = places_manager.get_place_details(place_text)
+        if details:
+            self.lat.setText(details.get("lat", ""))
+            self.lon.setText(details.get("lon", ""))
+            self.tz.setText(details.get("timezone", ""))
+        else:
+            dialog = missing_place_dialog.MissingPlaceDialog(initial_name=place_text, parent=self._mainWindow)
+            if dialog.exec_() == QtWidgets.QDialog.Accepted:
+                new_details = dialog.get_details()
+                success, display_name = places_manager.add_new_place(
+                    name=new_details['name'],
+                    lat=new_details['lat'],
+                    lon=new_details['lon'],
+                    timezone=new_details['timezone'],
+                    timezone_name=new_details['timezone_name']
+                )
+                if success:
+                    # Update completer model
+                    names = places_manager.get_all_place_names()
+                    model = QtCore.QStringListModel(names)
+                    self.place.completer().setModel(model)
+                    
+                    self.place.setText(display_name)
+                    self.lat.setText(new_details['lat'])
+                    self.lon.setText(new_details['lon'])
+                    self.tz.setText(new_details['timezone'])
+                    QtWidgets.QMessageBox.information(self.centralwidget, "Success", f"Added {display_name} to database.")
+                else:
+                    QtWidgets.QMessageBox.critical(self.centralwidget, "Error", "Failed to save place to database.")
 
 if __name__ == "__main__":
     import sys
