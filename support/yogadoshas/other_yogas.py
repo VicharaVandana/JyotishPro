@@ -186,7 +186,7 @@ def GajaKesariYoga(charts):
         IsGajaKesariYogaPresent = True
         key = f"GAJAKESARI_D1"
         common.yogadoshas_dict[key] = {}
-        common.yogadoshas_dict[key]["name"] = f"{Name} (D1)"
+        common.yogadoshas_dict[key]["name"] = f"{Name}"
         common.yogadoshas_dict[key]["type"] = "Yoga"
         
         if is_cancelled:
@@ -325,7 +325,7 @@ def ChandraMangalaYoga(charts):
         IsChandraMangalaYogaPresent = True
         key = f"CHANDRAMANGALA_D1"
         common.yogadoshas_dict[key] = {}
-        common.yogadoshas_dict[key]["name"] = f"{Name} Yoga (D1)"
+        common.yogadoshas_dict[key]["name"] = f"{Name} Yoga"
         common.yogadoshas_dict[key]["type"] = "Yoga"
         
         if is_cancelled:

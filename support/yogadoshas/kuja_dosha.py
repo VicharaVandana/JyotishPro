@@ -78,6 +78,6 @@ def KujaDosha(charts):
             common.yogadoshas_dict[key]["CancellationReason"] = "Kuja Dosha is cancelled because " + " and ".join(reasons) + "."
         else:
             common.yogadoshas_dict[key]["exist"] = True
-            common.yogadoshas_dict[key]["Remedies"] = "Worship Lord Hanuman, recite the Hanuman Chalisa daily. Donating red items or sweet bread (Roti) to dogs on Tuesdays is beneficial."
+            common.yogadoshas_dict[key]["Remedies"] = "Worship Lord Hanuman and recite the Hanuman Chalisa daily. Perform Kumbha Vivaha before marriage to neutralize severe dosha. Donating red items or sweet bread to dogs on Tuesdays is also beneficial."
             
     return IsKujaDoshaPresent

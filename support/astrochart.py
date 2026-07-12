@@ -147,6 +147,20 @@ def planet_colourstrategy_dispositorRelation(planetdata):
 # Draw a single-divisional birth chart
 # ---------------------------------------------------------------------------
 
+import inspect
+
+def _safe_updatechartcfg(chart_obj, **kwargs):
+    try:
+        sig = inspect.signature(chart_obj.updatechartcfg)
+        valid_kwargs = {k: v for k, v in kwargs.items() if k in sig.parameters}
+        chart_obj.updatechartcfg(**valid_kwargs)
+    except ValueError:
+        # Fallback if signature cannot be inspected
+        try:
+            chart_obj.updatechartcfg(**kwargs)
+        except TypeError:
+            pass
+
 def _apply_display_settings(chart_obj, chart_style, aspect_val=False, is_outer_chart=False):
     settings = ds_manager.get_settings()
     
@@ -158,24 +172,26 @@ def _apply_display_settings(chart_obj, chart_style, aspect_val=False, is_outer_c
     houses_list = [bg_col] * 12
 
     if chart_style == "south":
-        chart_obj.updatechartcfg(
-            aspect=aspect_val,
-            clr_background=bg_col,
-            clr_houses=houses_list,
-            clr_outbox=settings.get("chart_outerbox_colour", "red"),
-            clr_inbox=settings.get("chart_innerbox_colour", "red"),
-            clr_line=settings.get("chart_line_colour", "yellow"),
-            clr_Asc=settings.get("chart_sign_colour", "pink")
-        )
+        kwargs = {
+            "aspect": aspect_val,
+            "clr_background": bg_col,
+            "clr_houses": houses_list,
+            "clr_outbox": settings.get("chart_outerbox_colour", "red"),
+            "clr_inbox": settings.get("chart_innerbox_colour", "red"),
+            "clr_line": settings.get("chart_line_colour", "yellow"),
+            "clr_Asc": settings.get("chart_sign_colour", "pink")
+        }
+        _safe_updatechartcfg(chart_obj, **kwargs)
     else:
-        chart_obj.updatechartcfg(
-            aspect=aspect_val,
-            clr_background=bg_col,
-            clr_houses=houses_list,
-            clr_outbox=settings.get("chart_outerbox_colour", "red"),
-            clr_line=settings.get("chart_line_colour", "yellow"),
-            clr_sign=settings.get("chart_sign_colour", "pink")
-        )
+        kwargs = {
+            "aspect": aspect_val,
+            "clr_background": bg_col,
+            "clr_houses": houses_list,
+            "clr_outbox": settings.get("chart_outerbox_colour", "red"),
+            "clr_line": settings.get("chart_line_colour", "yellow"),
+            "clr_sign": settings.get("chart_sign_colour", "pink")
+        }
+        _safe_updatechartcfg(chart_obj, **kwargs)
 
 # ---------------------------------------------------------------------------
 def plot_astrochart(chart_loc, chart_name, astrodata, div,

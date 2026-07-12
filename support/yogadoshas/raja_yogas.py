@@ -53,7 +53,7 @@ def DharmaKarmadhipatiYoga(charts):
         
         key = f"DHARMAKARMADHIPATI_D1"
         common.yogadoshas_dict[key] = {}
-        common.yogadoshas_dict[key]["name"] = f"Dharma-Karmadhipati Raja Yoga (D1)"
+        common.yogadoshas_dict[key]["name"] = f"Dharma-Karmadhipati Raja Yoga"
         common.yogadoshas_dict[key]["type"] = "Yoga"
         common.yogadoshas_dict[key]["exist"] = True
         common.yogadoshas_dict[key]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
@@ -116,6 +116,7 @@ def NeechaBhangaRajaYoga(charts):
                 is_raja_yoga = True
                 reasons.append(f"its dispositor ({dispositor}) is in a Kendra from Moon")
                 relevant_planets.add(dispositor)
+                relevant_planets.add("Moon")
 
             if "D9" in charts:
                 d9_rel = charts["D9"]["planets"][planet].get("house-rel", "")
@@ -143,12 +144,14 @@ def NeechaBhangaRajaYoga(charts):
         Rule = f'''In D1, the following debilitated planets have their debilitation cancelled: {"; ".join(bhanga_planets)}.'''
         if has_raja_yoga:
             Results = f'''According to Phaladeepika, when the debilitation of a planet is cancelled by a planet in Kendra, it creates a powerful Neecha Bhanga Raja Yoga. The native will experience initial struggles, hurdles, and delays, but will eventually experience a sudden and immense rise to power, success, and prosperity.'''
-            yoga_name = "Neecha Bhanga Raja Yoga (D1)"
+            yoga_name = "Neecha Bhanga Raja"
+            differentiate = "Note: A simple 'Neecha Bhanga' only cancels the negative effects of debilitation. However, because your cancellation conditions involve a Kendra (Angle) placement, this elevates into a powerful 'Neecha Bhanga Raja Yoga', bestowing significant success after initial struggles."
         else:
-            Results = f'''The debilitation of the planet is cancelled, forming a Neecha Bhanga Yoga. This removes the negative effects of the debilitation, allowing the planet to give normal results instead of malefic results. However, it does not elevate to a Raja Yoga because the cancelling planets are not in Kendras.'''
-            yoga_name = "Neecha Bhanga Yoga (D1)"
+            Results = f'''The debilitation of the planet is cancelled, forming a Neecha Bhanga. This removes the negative effects of the debilitation, allowing the planet to give normal results instead of malefic results. However, it does not elevate to a Raja Yoga because the cancelling planets are not in Kendras.'''
+            yoga_name = "Neecha Bhanga"
+            differentiate = "Note: Your debilitated planet achieves a 'Neecha Bhanga' (cancellation of debilitation), which neutralizes its negative effects. However, it does NOT form a 'Neecha Bhanga Raja Yoga' because the cancelling planets are not situated in Kendra (Angular) houses. Thus, it gives normal rather than extraordinary results."
             
-        Note = f'''The intensity is proportional to the number of cancellation conditions met. The initial struggles are necessary stepping stones.'''
+        Note = f'''{differentiate}\n\nThe intensity is proportional to the number of cancellation conditions met. The initial struggles are necessary stepping stones.'''
 
         key = f"NEECHABHANGA_D1"
         common.yogadoshas_dict[key] = {}
@@ -230,7 +233,7 @@ def KendraTrikonaYoga(charts):
 
         key = f"KENDRATRIKONA_D1"
         common.yogadoshas_dict[key] = {}
-        common.yogadoshas_dict[key]["name"] = f"Kendra-Trikona Raja Yoga (D1)"
+        common.yogadoshas_dict[key]["name"] = f"Kendra-Trikona Raja Yoga"
         common.yogadoshas_dict[key]["type"] = "Yoga"
         common.yogadoshas_dict[key]["exist"] = True
         common.yogadoshas_dict[key]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
@@ -277,7 +280,7 @@ def SreenathaYoga(charts):
 
             key = f"SREENATHA_D1"
             common.yogadoshas_dict[key] = {}
-            common.yogadoshas_dict[key]["name"] = f"Sreenatha Yoga (D1)"
+            common.yogadoshas_dict[key]["name"] = f"Sreenatha Yoga"
             common.yogadoshas_dict[key]["type"] = "Yoga"
             common.yogadoshas_dict[key]["exist"] = True
             common.yogadoshas_dict[key]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")

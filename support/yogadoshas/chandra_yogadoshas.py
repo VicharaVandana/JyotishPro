@@ -98,7 +98,7 @@ def _register_sunapha(charts, forming_planets):
     flavor  = _describe_planet_flavors(forming_planets)
 
     common.yogadoshas_dict[key] = {
-        "name":             "Sunapha Yoga (D1)",
+        "name":             "Sunapha Yoga",
         "type":             "Yoga",
         "exist":            True,
         "relevant_planets": ["Mo"] + abbrevs,
@@ -129,7 +129,7 @@ def _register_anapha(charts, forming_planets):
     flavor  = _describe_planet_flavors(forming_planets)
 
     common.yogadoshas_dict[key] = {
-        "name":             "Anapha Yoga (D1)",
+        "name":             "Anapha Yoga",
         "type":             "Yoga",
         "exist":            True,
         "relevant_planets": ["Mo"] + abbrevs,
@@ -183,7 +183,7 @@ def _register_durdhara(charts, planets_in_2nd, planets_in_12th):
         )
 
     common.yogadoshas_dict[key] = {
-        "name":             "Durdhara Yoga (D1)",
+        "name":             "Durdhara Yoga",
         "type":             "Yoga",
         "exist":            True,
         "relevant_planets": ["Mo"] + abbrevs,
@@ -250,7 +250,7 @@ def _register_kemadruma(charts, moon_house):
 
     # ── Build entry ────────────────────────────────────────────────────────────
     entry = {
-        "name":             "Kemadruma Dosha (D1)",
+        "name":             "Kemadruma Dosha",
         "type":             "Dosha",
         "relevant_planets": ["Mo"] + cancellation_planets,
         "Rule": (
@@ -387,7 +387,7 @@ def SakataDosha(charts):
 
     # ── Build entry ────────────────────────────────────────────────────────────
     entry = {
-        "name":             "Sakata Dosha (D1)",
+        "name":             "Sakata Dosha",
         "type":             "Dosha",
         "relevant_planets": ["Mo", "Ju"],
         "Rule": (

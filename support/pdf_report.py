@@ -320,6 +320,34 @@ Karana : {mychart["user_details"].get("karana", "")}
         self.set_font('Times', '', 12)
         self.multi_cell(0, 8, matrix_data['Summary'])
         self.ln(5)
+        self.ln(5)
+        
+        # Detailed Elemental Descriptions
+        self.set_font('Times', 'BU', 14)
+        self.cell(0, 10, 'Elemental Analysis Guide', 0, 1, 'L')
+        self.set_font('Times', '', 11)
+        
+        guide_text = (
+            "How to Analyze Your Elements:\n"
+            "Your personality is a blend of four classical elements. The element with the highest weight "
+            "represents your dominant nature, shaping your core behavior and responses. The element with the "
+            "lowest weight (or one that is completely absent) indicates a lacking quality in your chart; you may "
+            "struggle with or naturally lack the traits associated with that element.\n\n"
+            "- FIRE (Agni - Aries, Leo, Sagittarius): Represents passion, energy, initiative, and leadership. "
+            "High fire makes you driven, assertive, and enthusiastic. Low or absent fire indicates a lack of "
+            "motivation, low energy, or difficulty asserting yourself.\n\n"
+            "- EARTH (Prithvi - Taurus, Virgo, Capricorn): Represents stability, practicality, material success, "
+            "and groundedness. High earth makes you reliable, hardworking, and pragmatic. Low or absent earth "
+            "indicates impracticality, instability, or difficulty managing finances and daily routines.\n\n"
+            "- AIR (Vayu - Gemini, Libra, Aquarius): Represents intellect, communication, social interaction, "
+            "and mental agility. High air makes you highly intellectual, sociable, and analytical. Low or absent "
+            "air indicates difficulty in communication, socializing, or grasping abstract concepts.\n\n"
+            "- WATER (Jala - Cancer, Scorpio, Pisces): Represents emotions, intuition, empathy, and adaptability. "
+            "High water makes you sensitive, compassionate, and intuitive. Low or absent water indicates a lack of "
+            "empathy, emotional rigidity, or difficulty connecting deeply with others."
+        )
+        self.multi_cell(0, 6, guide_text)
+        self.ln(5)
         
         # Detailed Table
         self.set_font('Times', 'BU', 14)
@@ -555,27 +583,124 @@ Place of Birth:  {mychart["user_details"]["birthdetails"]["POB"]["name"]}
             self.cell(txt=cat_name, w=0, h=8, align='L')
             self.ln(8)
             
-            table_html = f"""
-            <table border="1" align="center" width="100%">
-            <thead>
-            <tr bgcolor="#e0e0e0">
-                <th width="75%" align="center"><b>Name of {cat_name.split()[0]}</b></th>
-                <th width="25%" align="center"><b>Status</b></th>
-            </tr>
-            </thead>
-            <tbody>
-            """
+            usable_width = self.w - 20
+            w_name = usable_width * 0.75
+            w_status = usable_width * 0.25
+            
+            # Draw Header
+            self.set_fill_color(224, 224, 224)
+            self.set_font('helvetica', 'B', 12)
+            self.cell(w_name, 8, f"Name of {cat_name.split()[0]}", border=1, align='C', fill=True)
+            self.cell(w_status, 8, "Status", border=1, align='C', fill=True, ln=1)
+            
+            self.set_font('helvetica', '', 12)
+            
+            papa_kartari_items = []
+            shubha_kartari_items = []
+            
+            rows = []
+            
+            # First pass: collect Kartari impacts
             for yg_key, yg_data in cat_dict.items():
-                yg_name = yg_data.get("name", yg_key)
-                yg_status = "Existing" if yg_data.get("exist", False) else "Cancelled"
-                table_html += f"""
-                <tr>
-                    <td align="left">{yg_name}</td>
-                    <td align="center">{yg_status}</td>
-                </tr>
-                """
-            table_html += "</tbody></table><br>"
-            self.write_html(table_html)
+                if yg_data.get("is_kartari"):
+                    if "link_id" not in yg_data:
+                        yg_data["link_id"] = self.add_link()
+                    item = {"text": yg_data.get("impacted_target", ""), "link": yg_data["link_id"]}
+                    if yg_data.get("kartari_type") == "Papa":
+                        papa_kartari_items.append(item)
+                    elif yg_data.get("kartari_type") == "Shubha":
+                        shubha_kartari_items.append(item)
+            
+            papa_done = False
+            shubha_done = False
+
+            for yg_key, yg_data in cat_dict.items():
+                status_str = "Existing" if yg_data.get("exist", False) else "Cancelled"
+                if yg_data.get("is_kartari"):
+                    if yg_data.get("kartari_type") == "Papa" and not papa_done:
+                        segments = [{"text": "Papa Kartari Dosha (Impacts: ", "link": ""}]
+                        for i, item in enumerate(papa_kartari_items):
+                            segments.append(item)
+                            if i < len(papa_kartari_items) - 1:
+                                segments.append({"text": ", ", "link": ""})
+                        segments.append({"text": ")", "link": ""})
+                        
+                        rows.append({
+                            "segments": segments,
+                            "status": status_str
+                        })
+                        papa_done = True
+                    elif yg_data.get("kartari_type") == "Shubha" and not shubha_done:
+                        segments = [{"text": "Shubha Kartari Yoga (Impacts: ", "link": ""}]
+                        for i, item in enumerate(shubha_kartari_items):
+                            segments.append(item)
+                            if i < len(shubha_kartari_items) - 1:
+                                segments.append({"text": ", ", "link": ""})
+                        segments.append({"text": ")", "link": ""})
+                        
+                        rows.append({
+                            "segments": segments,
+                            "status": status_str
+                        })
+                        shubha_done = True
+                else:
+                    if "link_id" not in yg_data:
+                        yg_data["link_id"] = self.add_link()
+                    rows.append({
+                        "segments": [{"text": yg_data.get("name", yg_key), "link": yg_data["link_id"]}],
+                        "status": status_str
+                    })
+            
+            for row in rows:
+                full_text = "".join([seg["text"] for seg in row["segments"]])
+                # Predict lines based on string width compared to cell width (with padding)
+                approx_lines = int(self.get_string_width(full_text) / (w_name - 4)) + 1
+                estimated_height = (approx_lines * 5) + 3
+                
+                # Check for page break
+                if self.get_y() + estimated_height > self.page_break_trigger:
+                    self.add_page()
+                    # Redraw header
+                    self.set_fill_color(224, 224, 224)
+                    self.set_font('helvetica', 'B', 12)
+                    self.cell(w_name, 8, f"Name of {cat_name.split()[0]}", border=1, align='C', fill=True)
+                    self.cell(w_status, 8, "Status", border=1, align='C', fill=True, ln=1)
+                    
+                    self.set_font('helvetica', '', 12)
+                
+                x_start = self.get_x()
+                y_start = self.get_y()
+                
+                # Constrain right margin so write() wraps inside our cell
+                orig_r_margin = self.r_margin
+                self.set_right_margin(self.w - (x_start + w_name) + 2)
+                
+                # Move into cell padding position
+                self.set_xy(x_start + 2, y_start + 1.5)
+                
+                for segment in row["segments"]:
+                    if segment["link"]:
+                        self.set_text_color(0, 0, 255)
+                        self.write(5, segment["text"], link=segment["link"])
+                    else:
+                        self.set_text_color(0, 0, 0)
+                        self.write(5, segment["text"])
+                
+                # Measure final height of the text block
+                final_y = self.get_y()
+                row_h = (final_y + 5 + 1.5) - y_start
+                
+                # Restore margin
+                self.set_right_margin(orig_r_margin)
+                
+                # Draw the border for the left column
+                self.rect(x_start, y_start, w_name, row_h)
+                
+                # Move to status column
+                self.set_xy(x_start + w_name, y_start)
+                self.set_text_color(0, 0, 0)
+                self.cell(w_status, row_h, row["status"], border=1, align='C', ln=1)
+            
             self.ln(5)
 
         self.line(5, self.get_y(), self.w-10, self.get_y())
@@ -596,6 +721,9 @@ Place of Birth:  {mychart["user_details"]["birthdetails"]["POB"]["name"]}
             
             for yogadosha_key, yogadosha_data in cat_dict.items():
                 self.add_page()
+                if "link_id" in yogadosha_data:
+                    self.set_link(yogadosha_data["link_id"])
+                    
                 yogadosha = yogadosha_data["name"]
                 relevant_planets = yogadosha_data.get("relevant_planets", ["Su", "Mo", "Ma", "Me", "Ju", "Ve", "Sa", "Ra", "Ke"])
 
@@ -624,7 +752,6 @@ Place of Birth:  {mychart["user_details"]["birthdetails"]["POB"]["name"]}
                 
                 #put the yogadosha details right to the image
                 #Title
-                self.start_section(yogadosha, level=1)
                 self.set_xy(3 + imageWidth, ypos)
                 self.set_font('Times', 'BU', 16)
                 self.set_text_color(220,0,0)

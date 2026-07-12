@@ -10,6 +10,7 @@ from .other_yogas import GajaKesariYoga, ChandraMangalaYoga
 from .amala_yoga import AmalaYoga
 from .nabhasa_yogas import ParivarthanaYoga, AashrayaYoga, DalaYoga, AakritiYoga, SankhyaYoga
 from .raja_yogas import DharmaKarmadhipatiYoga, NeechaBhangaRajaYoga, KendraTrikonaYoga, SreenathaYoga
+from .karthari_yogadoshas import KarthariYogaDoshas
 
 # Note: Placeholder for dhana_yogas will be imported here when functions are added.
 
@@ -82,12 +83,28 @@ def ComputeYogaDoshas(charts):
     VishadharaKaalSarpaDosha(charts)
     SheshanagaKaalSarpaDosha(charts)
 
+    # Kartari Yogas
+    KarthariYogaDoshas(charts)
 
     # Reconstruct the string array for backward compatibility and list display
+    papa_kartari_impacts = []
+    shubha_kartari_impacts = []
+    
     for key, data in common.yogadoshas_dict.items():
         if data.get("exist", False):
-            # For list of strings just display the name (append division info if you want)
-            # if it was SasaYoga_D9, its name is already updated to "Sasa Panchamahapurusha Yoga (D9)" by the function
-            charts["yogadoshas"].append(data["name"])
+            if data.get("is_kartari"):
+                if data.get("kartari_type") == "Papa":
+                    papa_kartari_impacts.append(data.get("impacted_target", ""))
+                elif data.get("kartari_type") == "Shubha":
+                    shubha_kartari_impacts.append(data.get("impacted_target", ""))
+            else:
+                # For list of strings just display the name (append division info if you want)
+                charts["yogadoshas"].append(data["name"])
+
+    # Aggregate Kartari items for the summary list
+    if papa_kartari_impacts:
+        charts["yogadoshas"].append(f"Papa Kartari Dosha (Impacts: {', '.join(papa_kartari_impacts)})")
+    if shubha_kartari_impacts:
+        charts["yogadoshas"].append(f"Shubha Kartari Yoga (Impacts: {', '.join(shubha_kartari_impacts)})")
 
     return charts["yogadoshas"]

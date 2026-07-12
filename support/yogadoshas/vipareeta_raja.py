@@ -66,7 +66,7 @@ def HarshaYoga(charts):
 
         key = f"HARSHA_D1"
         common.yogadoshas_dict[key] = {}
-        common.yogadoshas_dict[key]["name"] = f"Harsha Vipareeta Raja (D1)"
+        common.yogadoshas_dict[key]["name"] = f"Harsha Vipareeta Raja"
         common.yogadoshas_dict[key]["type"] = "Yoga"
         common.yogadoshas_dict[key]["exist"] = True
         common.yogadoshas_dict[key]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
@@ -144,7 +144,7 @@ def SaralaYoga(charts):
 
         key = f"SARALA_D1"
         common.yogadoshas_dict[key] = {}
-        common.yogadoshas_dict[key]["name"] = f"Sarala Vipareeta Raja (D1)"
+        common.yogadoshas_dict[key]["name"] = f"Sarala Vipareeta Raja"
         common.yogadoshas_dict[key]["type"] = "Yoga"
         common.yogadoshas_dict[key]["exist"] = True
         common.yogadoshas_dict[key]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
@@ -222,7 +222,7 @@ def VimalaYoga(charts):
 
         key = f"VIMALA_D1"
         common.yogadoshas_dict[key] = {}
-        common.yogadoshas_dict[key]["name"] = f"Vimala Vipareeta Raja (D1)"
+        common.yogadoshas_dict[key]["name"] = f"Vimala Vipareeta Raja"
         common.yogadoshas_dict[key]["type"] = "Yoga"
         common.yogadoshas_dict[key]["exist"] = True
         common.yogadoshas_dict[key]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
