@@ -4,19 +4,23 @@ import support.yogadoshas.common as common
 """
 chandra_yogadoshas.py
 =====================
-Implements the four primary Chandra (Lunar) yoga/dosha configurations as per
+Implements the primary Chandra (Lunar) yoga/dosha configurations as per
 classical Vedic frameworks (BPHS, Phaladeepika, Varahamihira).
 
 By design exactly ONE of the four below will always be present in any kundali:
-  1. Durdhara Yoga  — planets in BOTH 2nd and 12th from Moon
-  2. Sunapha Yoga   — planet(s) ONLY in 2nd from Moon
-  3. Anapha Yoga    — planet(s) ONLY in 12th from Moon
-  4. Kemadruma Dosha — NO valid planets in 2nd OR 12th from Moon
+  1. Durdhara Yoga   -- planets in BOTH 2nd and 12th from Moon
+  2. Sunapha Yoga    -- planet(s) ONLY in 2nd from Moon
+  3. Anapha Yoga     -- planet(s) ONLY in 12th from Moon
+  4. Kemadruma Dosha -- NO valid planets in 2nd OR 12th from Moon
 
-Rule for valid planets: Only Mars, Mercury, Jupiter, Venus, Saturn count.
-Sun, Rahu, Ketu are EXCLUDED from all four configurations.
+Additionally, independently checked:
+  5. Sakata Dosha    -- Jupiter in 6th, 8th or 12th from Moon
 
-Detection priority: Durdhara → Sunapha/Anapha → Kemadruma
+Rule for valid planets in Sunapha/Anapha/Durdhara/Kemadruma:
+  Only Mars, Mercury, Jupiter, Venus, Saturn count.
+  Sun, Rahu, Ketu are EXCLUDED.
+
+Detection priority: Durdhara -> Sunapha/Anapha -> Kemadruma
 """
 
 # Planets that can form Chandra yogas (Sun, Rahu, Ketu excluded)
@@ -289,3 +293,140 @@ def _register_kemadruma(charts, moon_house):
         entry["exist"] = True
 
     common.yogadoshas_dict[key] = entry
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Sakata Dosha (independent Chandra-Guru check)
+# ──────────────────────────────────────────────────────────────────────────────
+
+def SakataDosha(charts):
+    """
+    Checks for Sakata Dosha: Jupiter placed in the 6th, 8th, or 12th house
+    (a Dusthana) from the natal Moon.
+
+    Source: BPHS, Phaladeepika (Chandra-Guru Yoga chapter)
+
+    Cancellation (Bhanga) rules:
+      1. Lagna Kendra Bhanga: Moon is in a Kendra (1, 4, 7, 10) from the Lagna.
+      2. Jupiter in own sign (Sagittarius or Pisces) significantly mitigates results.
+
+    Modifying factors:
+      - Jupiter combust (conjunct Sun) => strengthens the dosha (more severe).
+      - Jupiter retrograde            => partially neutralises the negative effects.
+
+    Returns:
+        True if Sakata Dosha is detected (active or cancelled), False otherwise.
+    """
+    key        = "SAKATA_D1"
+    moon_house = charts["D1"]["planets"]["Moon"]["house-num"]
+    ju_house   = charts["D1"]["planets"]["Jupiter"]["house-num"]
+
+    # Formation check: Jupiter in 6th, 8th, or 12th from Moon
+    diff_ju_from_moon = gen.housediff(moon_house, ju_house)
+    if diff_ju_from_moon not in [6, 8, 12]:
+        return False   # Sakata Dosha is not formed
+
+    ju_sign   = charts["D1"]["planets"]["Jupiter"].get("sign", "")
+    ju_retro  = charts["D1"]["planets"]["Jupiter"].get("retro", 0)
+    ju_conjuncts = charts["D1"]["planets"]["Jupiter"].get("conjuncts", [])
+
+    # ── Cancellation checks ────────────────────────────────────────────────────
+    cancelled  = False
+    mitigated  = False   # partial mitigation (not full cancellation)
+    cancel_reasons  = []
+    mitig_notes     = []
+
+    # Rule 1: Lagna Kendra Bhanga -- Moon in house 1, 4, 7 or 10
+    if moon_house in [1, 4, 7, 10]:
+        cancelled = True
+        cancel_reasons.append(
+            f"Moon is in house {moon_house} (a Kendra from the Lagna), "
+            "which nullifies Sakata Dosha per BPHS and Phaladeepika"
+        )
+
+    # Rule 2: Jupiter in own sign (Sagittarius or Pisces) -- significant mitigation
+    if ju_sign in ["Sagittarius", "Pisces"]:
+        mitigated = True
+        mitig_notes.append(
+            f"Jupiter is in its own sign ({ju_sign}), which significantly "
+            "reduces the negative results of Sakata Dosha"
+        )
+
+    # ── Modifying factors ──────────────────────────────────────────────────────
+    dosha_severity_notes = []
+
+    # Jupiter combust (Sun conjunct Jupiter) => dosha is more severe
+    if "Sun" in ju_conjuncts:
+        dosha_severity_notes.append(
+            "Jupiter is combust by the Sun, intensifying the fluctuations and "
+            "instability described by Sakata Dosha"
+        )
+
+    # Jupiter retrograde => partial neutralisation / some recovery
+    if ju_retro == 1:
+        mitig_notes.append(
+            "Jupiter is retrograde (Vakri), which in some classical traditions "
+            "partially neutralises the negative effects, turning the 'wheel of fortune' "
+            "toward a more stable upward trajectory over time"
+        )
+
+    # ── Compose Note text ─────────────────────────────────────────────────────
+    note_parts = []
+    note_parts.append(
+        "Sakata Dosha is a Chandra-Guru Yoga where the planet of wisdom (Jupiter) "
+        f"is in the {diff_ju_from_moon}th house from the Moon (house {moon_house}), "
+        "a Dusthana placement. This creates a 'wheel-like' alternation between "
+        "peaks of prosperity and troughs of difficulty throughout life."
+    )
+    if mitig_notes:
+        note_parts.append("Mitigating factors: " + "; ".join(mitig_notes) + ".")
+    if dosha_severity_notes:
+        note_parts.append("Severity notes: " + "; ".join(dosha_severity_notes) + ".")
+
+    note_text = " ".join(note_parts)
+
+    # ── Build entry ────────────────────────────────────────────────────────────
+    entry = {
+        "name":             "Sakata Dosha (D1)",
+        "type":             "Dosha",
+        "relevant_planets": ["Mo", "Ju"],
+        "Rule": (
+            f"Jupiter (house {ju_house}) is placed in the {diff_ju_from_moon}th house "
+            f"from the natal Moon (house {moon_house}), which is a Dusthana (6th, 8th "
+            "or 12th). This specific Jupiter-Moon configuration forms Sakata Dosha as "
+            "per BPHS and Phaladeepika."
+        ),
+        "Note": note_text,
+        "Result": (
+            "As per BPHS and Phaladeepika: 'Sakata' means 'cart' or 'wheel'. The native's "
+            "fortunes oscillate like the turning of a wheel -- alternating between phases "
+            "of prosperity and hardship. The native may suffer loss of wealth, social "
+            "status, or family support, only to regain them later. There is often an "
+            "internal psychological conflict regarding faith, wisdom, and belief systems, "
+            "as Jupiter (Guru, the planet of wisdom) is estranged from the Moon (mind)."
+        ),
+        "Source": "Brihat Parashara Hora Shastra (BPHS), Phaladeepika",
+        "Remedies": (
+            "1. Offer prayers daily to Lord Dakshinamurthy or perform Guru Puja on Thursdays. "
+            "2. Donate yellow items (turmeric, yellow lentils/daal, yellow cloth) to a "
+            "Brahmin or temple on Thursdays. "
+            "3. Chant the Guru (Jupiter) Beeja Mantra: 'Om Brim Brihaspataye Namah' "
+            "108 times daily, especially on Thursdays. "
+            "4. Wear a natural Yellow Sapphire (Pukhraj) or Yellow Topaz set in gold "
+            "on the index finger of the right hand, only after consulting an astrologer "
+            "to confirm Jupiter is a functional benefic for the Lagna."
+        ),
+    }
+
+    if cancelled:
+        entry["exist"]              = False
+        entry["CancellationReason"] = (
+            "Sakata Dosha is cancelled (Sakata Bhanga) because: "
+            + "; ".join(cancel_reasons)
+            + ". The native will not experience the characteristic fluctuations of Sakata Dosha."
+        )
+    else:
+        entry["exist"] = True
+
+    common.yogadoshas_dict[key] = entry
+    return True
