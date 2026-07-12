@@ -2,8 +2,51 @@ import support.generic as gen
 import support.yogadoshas.common as common
 import math
 
+def _check_neechabhanga(planet, charts):
+    """
+    Evaluates if the specified debilitated planet gets Neechabhanga.
+    Returns (True/False, reason_string).
+    """
+    p_data = charts["D1"]["planets"].get(planet)
+    if not p_data: return False, ""
+    
+    houserel = p_data.get("house-rel", "")
+    if "Debilitated" not in houserel:
+        return False, ""
+        
+    cancelled = False
+    reasons = []
+
+    dispositor = p_data["dispositor"]
+    disp_house = charts["D1"]["planets"][dispositor]["house-num"]
+    moon_house = charts["D1"]["planets"]["Moon"]["house-num"]
+    disp_from_moon = gen.housediff(moon_house, disp_house)
+    
+    if disp_house in [1, 4, 7, 10]:
+        cancelled = True
+        reasons.append(f"its dispositor ({dispositor}) is in a Kendra from Lagna")
+        
+    if dispositor != "Moon" and disp_from_moon in [1, 4, 7, 10]:
+        cancelled = True
+        reasons.append(f"its dispositor ({dispositor}) is in a Kendra from Moon")
+
+    if "D9" in charts:
+        d9_rel = charts["D9"]["planets"][planet].get("house-rel", "")
+        if "Exhalted" in d9_rel or "Exalted" in d9_rel:
+            cancelled = True
+            reasons.append(f"it is Exalted in Navamsa (D9)")
+
+    if dispositor in p_data.get("Aspected-by", []):
+        cancelled = True
+        reasons.append(f"it is aspected by its dispositor ({dispositor})")
+        
+    if cancelled:
+        return True, ", ".join(reasons)
+    return False, ""
+
 # ==========================================================================================
 # Function Name: GajaKesariYoga
+
 # Purpose: Calculates the presence of GajaKesariYoga in the provided horoscope.
 # Description: Evaluates GajaKesariYoga
 # Expected Impact: 
@@ -69,13 +112,43 @@ def GajaKesariYoga(charts):
                 if "Su" not in relevant_planets:
                     relevant_planets.append("Su")
 
+        is_cancelled = False
+        cancellation_reasons = []
+
+        # Rule 1: Debilitation (without Neechabhanga)
         if lagnaMoon["sign"] == "Scorpio":
-            Note += "Moon is debilitated, which weakens this yoga. "
-            cnt += 1
+            has_nb, nb_reason = _check_neechabhanga("Moon", charts)
+            if not has_nb:
+                is_cancelled = True
+                cancellation_reasons.append("Moon is debilitated without Neechabhanga")
+            else:
+                Note += f"Moon is debilitated but receives Neechabhanga ({nb_reason}). "
+                cnt += 1
 
         if lagnaJupiter["sign"] == "Capricorn":
-            Note += "Jupiter is debilitated, which weakens this yoga. "
-            cnt += 1
+            has_nb, nb_reason = _check_neechabhanga("Jupiter", charts)
+            if not has_nb:
+                is_cancelled = True
+                cancellation_reasons.append("Jupiter is debilitated without Neechabhanga")
+            else:
+                Note += f"Jupiter is debilitated but receives Neechabhanga ({nb_reason}). "
+                cnt += 1
+
+        # Rule 2: Combustion or Eclipse (Guru Chandal / Affliction)
+        if "Sun" in conjuncts:
+            # Simple check for combustion (could be refined with degrees if needed)
+            is_cancelled = True
+            cancellation_reasons.append("Jupiter is combust by the Sun")
+            
+        if "Rahu" in conjuncts or "Ketu" in conjuncts:
+            is_cancelled = True
+            cancellation_reasons.append("Jupiter is severely afflicted by nodes (forming Guru Chandal/Grahan)")
+
+        # Rule 3: Dusthana Placement + Heavy Affliction
+        if lagnaMoon["house-num"] in [6, 8, 12]:
+            if len(malefics_aspectingJupiter) > 0 or len(malefics_conjunctJupiter) > 0:
+                is_cancelled = True
+                cancellation_reasons.append(f"Moon is in Dusthana (house {lagnaMoon['house-num']}) and Jupiter is afflicted")
         
         if True:
             if gen.isPushkaraNavamsha(lagnaJupiter.get("nakshatra",""), lagnaJupiter.get("pada",0)):
@@ -115,7 +188,13 @@ def GajaKesariYoga(charts):
         common.yogadoshas_dict[key] = {}
         common.yogadoshas_dict[key]["name"] = f"{Name} (D1)"
         common.yogadoshas_dict[key]["type"] = "Yoga"
-        common.yogadoshas_dict[key]["exist"] = True
+        
+        if is_cancelled:
+            common.yogadoshas_dict[key]["exist"] = False
+            common.yogadoshas_dict[key]["CancellationReason"] = "Gajakesari Yoga is cancelled because: " + "; ".join(cancellation_reasons) + "."
+        else:
+            common.yogadoshas_dict[key]["exist"] = True
+            
         common.yogadoshas_dict[key]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict[key]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict[key]["Note"] = common.iterativeReplace(Note,"\n ", "\n")
@@ -157,15 +236,32 @@ def ChandraMangalaYoga(charts):
         Name = "Chandra Mangala"
         Rule = f"In D1, Moon is conjunct with Mars. So Chandra Mangala Yoga is formed."
 
+        is_cancelled = False
+        cancellation_reasons = []
+
+        # Rule 1: Debilitation (without Neechabhanga)
         if lagnamoon["sign"] == "Scorpio":
-            Note += "Moon is debilitated, which weakens this yoga. "
-            bad_cnt += 1
+            has_nb, nb_reason = _check_neechabhanga("Moon", charts)
+            if not has_nb:
+                is_cancelled = True
+                cancellation_reasons.append("Moon is debilitated without Neechabhanga")
+            else:
+                Note += f"Moon is debilitated but receives Neechabhanga ({nb_reason}). "
+                bad_cnt += 1
+                
+        if lagnamars["sign"] == "Cancer":
+            has_nb, nb_reason = _check_neechabhanga("Mars", charts)
+            if not has_nb:
+                is_cancelled = True
+                cancellation_reasons.append("Mars is debilitated without Neechabhanga")
+            else:
+                Note += f"Mars is debilitated but receives Neechabhanga ({nb_reason}). "
+                bad_cnt += 1
+
         if lagnamoon["sign"] == "Taurus":
             Note += "Moon is exhalted, which strengthens this yoga. "
             good_cnt += 1
-        if lagnamars["sign"] == "Cancer":
-            Note += "Mars is debilitated, which weakens this yoga. "
-            bad_cnt += 1
+            
         if lagnamars["sign"] == "Capricorn":
             Note += "Mars is exhalted, which strengthens this yoga. "
             good_cnt += 1
@@ -189,6 +285,12 @@ def ChandraMangalaYoga(charts):
         if (len(malefics_aspectingMars)>0) or (len(malefics_conjunctMars)>0):
             Note += "Moon and Mars is afflicted by Malefics. "
             bad_cnt += 1
+
+        # Rule 2: Severe Affliction in Dusthana
+        if lagnamars["house-num"] in [6, 8, 12]:
+            if "Saturn" in malefics_aspectingMars or "Saturn" in malefics_conjunctMars or "Rahu" in malefics_aspectingMars or "Rahu" in malefics_conjunctMars:
+                is_cancelled = True
+                cancellation_reasons.append(f"The conjunction happens in a Dusthana (house {lagnamars['house-num']}) and is severely afflicted by harsh malefics (Saturn/Rahu)")
 
         if "Mars" in benefics:
             Note += "In this chart Mars is a benefic planet and "
@@ -223,9 +325,15 @@ def ChandraMangalaYoga(charts):
         IsChandraMangalaYogaPresent = True
         key = f"CHANDRAMANGALA_D1"
         common.yogadoshas_dict[key] = {}
-        common.yogadoshas_dict[key]["name"] = f"{Name} (D1)"
+        common.yogadoshas_dict[key]["name"] = f"{Name} Yoga (D1)"
         common.yogadoshas_dict[key]["type"] = "Yoga"
-        common.yogadoshas_dict[key]["exist"] = True
+        
+        if is_cancelled:
+            common.yogadoshas_dict[key]["exist"] = False
+            common.yogadoshas_dict[key]["CancellationReason"] = "Chandra Mangala Yoga is cancelled because: " + "; ".join(cancellation_reasons) + "."
+        else:
+            common.yogadoshas_dict[key]["exist"] = True
+            
         common.yogadoshas_dict[key]["Rule"] = common.iterativeReplace(Rule,"\n ", "\n")
         common.yogadoshas_dict[key]["Result"] = common.iterativeReplace(Results,"\n ", "\n").replace("\n","\n        ") 
         common.yogadoshas_dict[key]["Note"] = common.iterativeReplace(Note,"\n ", "\n")

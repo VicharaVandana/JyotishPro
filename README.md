@@ -11,6 +11,7 @@ JyotishyamPro is a comprehensive, advanced Astrological Desktop Application buil
 - **Multiple Regional Styles**: Easily toggle between **North Indian** and **South Indian** chart styles.
 - **Multi-language Support**: View planetary placements and astrological data in English, Kannada, and Hindi.
 - **Comprehensive Analytics**: Computes and visually plots planetary strengths (Shadbala, Vimshopaka Bala, Bhava Bala) using beautiful Matplotlib integration.
+- **Elemental Personality Matrix**: Analyzes the distribution of planets across the four elemental signs (Fire, Earth, Air, Water) to determine the native's core personality traits and dominant temperament.
 - **In-Depth PDF Reports**: Generate extensive, multi-page astrological PDF reports dynamically rendered with charts. The report features:
   - **Basic Details & Panchang**: Tithi, Nakshatra, Yoga, Karana, etc.
   - **Charts**: Natal (Lagna) chart and up to 16 Divisional charts (Navamsa, Dasamsa, etc.) side-by-side.
@@ -19,12 +20,15 @@ JyotishyamPro is a comprehensive, advanced Astrological Desktop Application buil
   - **Vimshottari Dasha**: Comprehensive tables for Mahadasha, Antardasha, and Pratyantardasha (Bhukti).
   - **Yoga & Dosha Analysis**: Generates dynamic partial charts isolating the planets participating in each combination. Analyzes dozens of conditions including:
     - *Panchamahapurusha Yogas* (Ruchaka, Bhadra, Hamsa, Malavya, Sasa)
+    - *Lunar Combinations (Chandra Yogas/Doshas)* (Sunapha, Anapha, Durdhara, Kemadruma Dosha)
     - *Vipareeta Raja Yogas* (Harsha, Sarala, Vimala)
     - *Raja Yogas* (Neecha Bhanga, Dharma-Karmadhipati, Kendra-Trikona, Sreenatha)
     - *Kaala Sarpa Doshas* (All 12 types including Ananta, Kulika, Vasuki, etc.)
+    - *Martian Afflictions* (Kuja Dosha / Mangal Dosha)
     - *Nabhasa Yogas* (Aashraya, Dala, Aakriti, Sankhya, Parivarthana)
     - *Miscellaneous Yogas* (Gaja Kesari, Chandra Mangala, Amala)
   - **House Lord Predictions**: Detailed interpretations of where the Lord of each House is positioned.
+  - **Elemental Analysis**: Deep dive into the elemental composition of the chart with descriptive personality synthesis.
 - **Vimshottari Dasha**: Track the timeline of Mahadasha, Antardasha, and Pratyantardasha directly within the app.
 
 ## Prerequisites
