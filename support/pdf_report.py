@@ -694,7 +694,8 @@ Place of Birth:  {mychart["user_details"]["birthdetails"]["POB"]["name"]}
                     self.set_font('Times', 'I', 14)
                     self.set_text_color(255,100,0)            
                     self.set_xy(xpos, ypos)
-                    ydcancel = f'              {yogadosha_data.get("CancellationReason", "Cancelled due to planetary afflictions.")}'
+                    # 28 spaces padding to push the first line past the wide "Cancellation: " text
+                    ydcancel = f'                            {yogadosha_data.get("CancellationReason", "Cancelled due to planetary afflictions.")}'
                     self.multi_cell(txt=ydcancel, w=0, h=5, align='L')
                     self.ln(5)
 
@@ -1342,6 +1343,18 @@ def generate_chart_pngs(charts, config):
 
 
 def GeneratePDFReport(charts, target_path, config):
+    # ── Normalise config ───────────────────────────────────────────────────────
+    # mainwindow.py puts section toggles inside config["sections"].  The PDF
+    # renderer reads them with config.get(key), so we flatten that sub-dict into
+    # the top-level config so all config.get() calls find their values correctly.
+    if "sections" in config and isinstance(config["sections"], dict):
+        for k, v in config["sections"].items():
+            config.setdefault(k, v)   # don't overwrite top-level keys if already set
+
+    # ── Set translation language for this PDF session ─────────────────────────
+    language = config.get("language", "English").lower()
+    # (Translation feature was removed)
+
     generate_chart_pngs(charts, config)
     
     import support.yogadoshas as yd
@@ -1360,7 +1373,7 @@ def GeneratePDFReport(charts, target_path, config):
     pdf.alias_nb_pages()
     pdf.loadAllCustomFonts()
     pdf.add_page()
-    pdf.set_font('Times', '', 12)    
+    pdf.set_font('Times', '', 12)
     #Set Title page
     pdf.createTitlePage()
 

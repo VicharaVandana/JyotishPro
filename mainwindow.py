@@ -646,7 +646,7 @@ class MainWindow_cls(Ui_MainWindow):
             self.chk_yogasDoshas, self.chk_cancelledYogas,
             self.chk_vimshopakaBala, self.chk_shadbala,
             self.chk_bhavaBala, self.chk_ashtakaVarga,
-            self.chk_lordInHouses
+            self.chk_lordInHouses, self.chk_elementalMatrix
         ]
         for cb in checkboxes:
             cb.setChecked(state)

@@ -4,7 +4,7 @@ import support.lordinhouses as lh
 from .panchamahapurusha import SasaYoga, BhadraYoga, HamsaYoga, MalavyaYoga, RuchakaYoga
 from .vipareeta_raja import HarshaYoga, SaralaYoga, VimalaYoga
 from .kaala_sarpa import kaalSarpaDosha, AnantaKaalSarpaDosha, KulikaKaalSarpaDosha, VasukiKaalSarpaDosha, ShankhapalaKaalSarpaDosha, PadamKaalSarpaDosha, MahapadmaKaalSarpaDosha, TakshakaKaalSarpaDosha, KarkotakKaalSarpaDosha, ShankhachurKaalSarpaDosha, GhatakKaalSarpaDosha, VishadharaKaalSarpaDosha, SheshanagaKaalSarpaDosha
-from .kemadruma_yoga import KemadrumaYoga
+from .chandra_yogadoshas import ChandraYogaDoshas
 from .kuja_dosha import KujaDosha
 from .other_yogas import GajaKesariYoga, ChandraMangalaYoga
 from .amala_yoga import AmalaYoga
@@ -56,7 +56,7 @@ def ComputeYogaDoshas(charts):
     
     ChandraMangalaYoga(charts)
     AmalaYoga(charts)
-    KemadrumaYoga(charts)
+    ChandraYogaDoshas(charts)   # Sunapha / Anapha / Durdhara / Kemadruma
     KujaDosha(charts)
     
     # Nabhasa Yogas
