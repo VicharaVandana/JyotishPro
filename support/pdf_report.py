@@ -733,8 +733,12 @@ Place of Birth:  {mychart["user_details"]["birthdetails"]["POB"]["name"]}
                 chart_name = yogadosha_key + "_chart"
                 
                 try:
-                    c_style = config.get("chartStyle", "north") if config else "north"
-                    ac.plot_partial_astrochart(chart_loc, chart_name, mychart, relevant_planets, div="D1", firsthousesign="None", language="english", chart_style=c_style)
+                    language = config.get("language", "English") if config else "English"
+                    lang_val = {"English": "english", "Kannada": "kannada", "Hindi": "hindi"}.get(language, "english")
+                    chartStyle = config.get("chartStyle", "North Indian") if config else "North Indian"
+                    style_val = "south" if chartStyle == "South Indian" else "north"
+                    
+                    ac.plot_partial_astrochart(chart_loc, chart_name, mychart, relevant_planets, div="D1", firsthousesign="None", language=lang_val, chart_style=style_val)
                     
                     svg_path = os.path.join(chart_loc, f"{chart_name}.svg")
                     png_path = os.path.join(chart_loc, f"{chart_name}.png")
@@ -868,6 +872,7 @@ Place of Birth:  {mychart["user_details"]["birthdetails"]["POB"]["name"]}
                 self.line(5, self.get_y(), self.w-5, self.get_y())
             
     def addLordInHousesSection(self):
+        self.start_section("Lord in Houses Predictions", level=0)
         #title of the page
         imgcrossed = False
         self.set_font('helvetica', 'BU', 14)
@@ -1428,17 +1433,16 @@ def generate_chart_pngs(charts, config):
 
         chart_loc = "./images/balaImages"
         os.makedirs(chart_loc, exist_ok=True)
-        c_style = config.get("chartStyle", "north")
 
         # Generate Values Chart
         ac.plot_numerical_astrochart(chart_loc, "Bhavabala_values_chart", charts, values_dict, 
-                                     div="D1", language="english", chart_style=c_style, default_color="lime")
+                                     div="D1", language=lang_val, chart_style=style_val, default_color="lime")
         if os.path.exists(os.path.join(chart_loc, "Bhavabala_values_chart.svg")):
             svg_to_png(os.path.join(chart_loc, "Bhavabala_values_chart.svg"), os.path.join(chart_loc, "Bhavabala_values_chart.png"))
 
         # Generate Ranks Chart
         ac.plot_numerical_astrochart(chart_loc, "Bhavabala_ranks_chart", charts, ranks_dict, 
-                                     div="D1", language="english", chart_style=c_style, default_color="sky blue")
+                                     div="D1", language=lang_val, chart_style=style_val, default_color="sky blue")
         if os.path.exists(os.path.join(chart_loc, "Bhavabala_ranks_chart.svg")):
             svg_to_png(os.path.join(chart_loc, "Bhavabala_ranks_chart.svg"), os.path.join(chart_loc, "Bhavabala_ranks_chart.png"))
     # 4. Ashtakavarga Charts
@@ -1446,14 +1450,13 @@ def generate_chart_pngs(charts, config):
     if av_data:
         av_loc = "./images/ashtakavargaImages"
         os.makedirs(av_loc, exist_ok=True)
-        c_style = config.get("chartStyle", "north")
 
         # Generate SAV chart
         sav_vals = av_data.get("Total", [])
         if sav_vals:
             sav_dict = {i+1: str(val) for i, val in enumerate(sav_vals)}
             ac.plot_numerical_astrochart(av_loc, "SAV_chart", charts, sav_dict,
-                                         div="D1", language="english", chart_style=c_style, default_color="lime")
+                                         div="D1", language=lang_val, chart_style=style_val, default_color="lime")
             if os.path.exists(os.path.join(av_loc, "SAV_chart.svg")):
                 svg_to_png(os.path.join(av_loc, "SAV_chart.svg"), os.path.join(av_loc, "SAV_chart.png"))
 
@@ -1463,7 +1466,7 @@ def generate_chart_pngs(charts, config):
             if p_vals:
                 p_dict = {i+1: str(val) for i, val in enumerate(p_vals)}
                 ac.plot_numerical_astrochart(av_loc, f"BAV_{p}_chart", charts, p_dict,
-                                             div="D1", language="english", chart_style=c_style, default_color="lime")
+                                             div="D1", language=lang_val, chart_style=style_val, default_color="lime")
                 if os.path.exists(os.path.join(av_loc, f"BAV_{p}_chart.svg")):
                     svg_to_png(os.path.join(av_loc, f"BAV_{p}_chart.svg"), os.path.join(av_loc, f"BAV_{p}_chart.png"))
 

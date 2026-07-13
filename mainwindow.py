@@ -160,6 +160,8 @@ class MainWindow_cls(Ui_MainWindow):
         # PDF Report Tab Connections
         self.btn_browseLocation.clicked.connect(self.browse_save_location)
         self.cmb_name.currentTextChanged.connect(self.update_report_name)
+        self.cmb_reportLanguage.currentIndexChanged.connect(self.update_report_name)
+        self.cmb_reportChartStyle.currentIndexChanged.connect(self.update_report_name)
         
         self.btn_selectAll.clicked.connect(lambda: self.set_all_pdf_checkboxes(True))
         self.btn_deselectAll.clicked.connect(lambda: self.set_all_pdf_checkboxes(False))
@@ -170,8 +172,11 @@ class MainWindow_cls(Ui_MainWindow):
         self.btn_generateReport.clicked.connect(self.generate_report_workflow)
         
         # Initialize report name on startup
+        if hasattr(self, 'chkGenerateJsonReport'):
+            self.chkGenerateJsonReport.setChecked(False)
+            
         if self.cmb_name.count() > 0:
-            self.update_report_name(self.cmb_name.currentText())
+            self.update_report_name()
 
         # Refit charts whenever the user switches tabs (charts may have been
         # loaded while their tab was hidden, so fitInView used a stale size)
@@ -290,11 +295,13 @@ class MainWindow_cls(Ui_MainWindow):
                 self.translator.load(qm_path)
                 app.installTranslator(self.translator)
                 self.retranslateUi(self._mainWindow)
+                self.update_report_name()
             else:
                 print(f"Translation file not found: {qm_path}")
         else:
             app.removeTranslator(self.translator)
             self.retranslateUi(self._mainWindow)
+            self.update_report_name()
 
         # Redraw charts only if data has already been computed
         if gvar.astrodata:
@@ -625,10 +632,19 @@ class MainWindow_cls(Ui_MainWindow):
         else:
             self.status.setText("Browse cancelled. No folder selected.")
 
-    def update_report_name(self, name):
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    def update_report_name(self, *args):
+        name = self.cmb_name.currentText().strip()
         safe_name = name.replace(" ", "_") if name else "Unknown"
-        filename = f"JyotishReport_{safe_name}_{timestamp}"
+        
+        lang_keys = ["English", "Kannada", "Hindi"]
+        idx_report_lang = self.cmb_reportLanguage.currentIndex()
+        language = lang_keys[idx_report_lang] if idx_report_lang >= 0 else "English"
+        
+        style_keys = ["NorthIndian", "SouthIndian"]
+        idx_report_style = self.cmb_reportChartStyle.currentIndex()
+        chart_style = style_keys[idx_report_style] if idx_report_style >= 0 else "NorthIndian"
+        
+        filename = f"{safe_name}_{chart_style}_{language}_JyotishyamitraReport"
         self.lineEdit_reportName.setText(filename)
 
     def open_display_settings(self):
