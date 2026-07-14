@@ -194,8 +194,72 @@ class PDF(FPDF):
                 self.set_xy(x, y)
                 self.cell(txt="Image Missing", w=w, h=h if h else w, border=1, align='C')
 
-
-
+    def draw_wrapped_section(self, title, text, title_color, text_color, image_end_y, narrow_x, narrow_w, full_x, full_w):
+        self.set_font('Times', 'B', 14)
+        self.set_text_color(*title_color)
+        
+        y = self.get_y()
+        # Add a visible gap above the section
+        if y > 10:
+            y += 4
+            
+        x, max_w = (full_x, full_w) if y > image_end_y else (narrow_x, narrow_w)
+        
+        self.set_xy(x, y)
+        self.cell(txt=title, w=0, h=5, align='L', ln=False)
+        
+        self.set_font('Times', 'I', 14)
+        self.set_text_color(*text_color)
+        title_w = self.get_string_width(title)
+        
+        curr_x = x + title_w
+        curr_y = y
+        
+        paragraphs = text.split('\n')
+        line_str = ""
+        
+        for p_idx, paragraph in enumerate(paragraphs):
+            words = paragraph.split(' ')
+            for word in words:
+                if not word:
+                    continue
+                # Re-evaluate constraints for current Y
+                x_base, max_w = (full_x, full_w) if curr_y > image_end_y else (narrow_x, narrow_w)
+                
+                test_line = (line_str + " " + word) if line_str else word
+                
+                if (curr_x - x_base) + self.get_string_width(test_line) > max_w:
+                    if line_str:
+                        self.set_xy(curr_x, curr_y)
+                        self.cell(txt=line_str, w=0, h=5, align='L')
+                    
+                    curr_y += 5
+                    if curr_y > self.page_break_trigger:
+                        self.add_page()
+                        curr_y = self.get_y()
+                    
+                    curr_x = full_x if curr_y > image_end_y else narrow_x
+                    line_str = word
+                else:
+                    line_str = test_line
+                    
+            if p_idx < len(paragraphs) - 1:
+                if line_str:
+                    self.set_xy(curr_x, curr_y)
+                    self.cell(txt=line_str, w=0, h=5, align='L')
+                    line_str = ""
+                
+                curr_y += 5
+                if curr_y > self.page_break_trigger:
+                    self.add_page()
+                    curr_y = self.get_y()
+                curr_x = full_x if curr_y > image_end_y else narrow_x
+                
+        if line_str:
+            self.set_xy(curr_x, curr_y)
+            self.cell(txt=line_str, w=0, h=5, align='L')
+            
+        self.set_y(curr_y + 7)
     def header(self):
         # Logo
         self.safe_image('./images/jyotishyamitra_logo.png', 185, 2, h=20, w=20)
@@ -713,7 +777,7 @@ Place of Birth:  {mychart["user_details"]["birthdetails"]["POB"]["name"]}
 
         #Adding Each Yoga/Dosha details
         self.set_font('Times', '', 10)
-        imageWidth = (self.w / 2)
+        imageWidth = (self.w / 2.5)  # Slightly smaller chart to save vertical space
         
         for cat_name, cat_dict in categories_to_print:
             if not cat_dict:
@@ -749,23 +813,23 @@ Place of Birth:  {mychart["user_details"]["birthdetails"]["POB"]["name"]}
                     print("Failed to generate partial chart:", e)
 
                 #Put the image specific to yogadosha to left
-                self.ln(10)
+                self.ln(5)
                 self.safe_image(f"./images/yogaImages/{yogadosha_key}_chart.png", x=5, w=imageWidth)
                 imageEnd_ypos = self.get_y()
                 ypos = imageEnd_ypos - imageWidth
                 
                 #put the yogadosha details right to the image
                 #Title
-                self.set_xy(3 + imageWidth, ypos)
+                self.set_xy(10 + imageWidth, ypos)
                 self.set_font('Times', 'BU', 16)
                 self.set_text_color(220,0,0)
-                self.multi_cell(txt=yogadosha, w=self.w - imageWidth - 10, h=8, align='C')
+                self.multi_cell(txt=yogadosha, w=self.w - imageWidth - 15, h=8, align='C')
 
                 #Yoga dosha name
                 self.set_font('Times', 'B', 14)
                 self.set_text_color(0,0,0)
                 ypos = self.get_y()
-                self.set_xy(5 + imageWidth, ypos)
+                self.set_xy(10 + imageWidth, ypos)
                 xpos = self.get_x()
                 ydname = f'{yogadosha_data.get("type", "")} : '
                 self.cell(txt=ydname, w=5, h=5, align='L', ln=False)
@@ -781,95 +845,61 @@ Place of Birth:  {mychart["user_details"]["birthdetails"]["POB"]["name"]}
                 self.ln(5)
 
                 #Yoga/Dosha Rule
-                self.set_font('Times', 'B', 14)
-                self.set_text_color(0,0,0)
-                ypos = self.get_y()
-                self.set_xy(5 + imageWidth, ypos)
-                xpos = self.get_x()
-                ydrule = f'Rule : '
-                self.cell(txt=ydrule, w=0, h=5, align='L', ln=False)
-
-                self.set_font('Times', 'I', 14)
-                self.set_text_color(0,0,200)            
-                self.set_xy(xpos, ypos)
-                ydrule = f'              {yogadosha_data.get("Rule", "")}'
-                self.multi_cell(txt=ydrule, w=0, h=5, align='L')
-                self.ln(5)
+                self.draw_wrapped_section(
+                    title='Rule : ', 
+                    text=yogadosha_data.get("Rule", ""),
+                    title_color=(0,0,0), text_color=(0,0,200),
+                    image_end_y=imageEnd_ypos,
+                    narrow_x=10 + imageWidth, narrow_w=self.w - imageWidth - 15,
+                    full_x=10, full_w=self.w - 20
+                )
 
                 #Yoga/Dosha Notes
-                self.set_font('Times', 'B', 14)
-                self.set_text_color(0,0,0)
-                ypos = self.get_y()
-                self.set_xy(5 + imageWidth, ypos)
-                xpos = self.get_x()
-                ydnote = f'Note : '
-                self.cell(txt=ydnote, w=0, h=5, align='L', ln=False)
-
-                self.set_font('Times', 'I', 14)
-                self.set_text_color(155,0,155)            
-                self.set_xy(xpos, ypos)
-                ydnote = f'              {yogadosha_data.get("Note", "")}'
-                self.multi_cell(txt=ydnote, w=0, h=5, align='L')
-                self.ln(5)
+                self.draw_wrapped_section(
+                    title='Note : ', 
+                    text=yogadosha_data.get("Note", ""),
+                    title_color=(0,0,0), text_color=(155,0,155),
+                    image_end_y=imageEnd_ypos,
+                    narrow_x=10 + imageWidth, narrow_w=self.w - imageWidth - 15,
+                    full_x=10, full_w=self.w - 20
+                )
                 
                 #Yoga/Dosha Cancellation Reason
                 if not yogadosha_data.get("exist", False):
-                    self.set_font('Times', 'B', 14)
-                    self.set_text_color(0,0,0)
-                    ypos = self.get_y()
-                    self.set_xy(5 + imageWidth, ypos)
-                    xpos = self.get_x()
-                    ydcancel = f'Cancellation: '
-                    self.cell(txt=ydcancel, w=0, h=5, align='L', ln=False)
-    
-                    self.set_font('Times', 'I', 14)
-                    self.set_text_color(255,100,0)            
-                    self.set_xy(xpos, ypos)
-                    # 28 spaces padding to push the first line past the wide "Cancellation: " text
-                    ydcancel = f'                            {yogadosha_data.get("CancellationReason", "Cancelled due to planetary afflictions.")}'
-                    self.multi_cell(txt=ydcancel, w=0, h=5, align='L')
-                    self.ln(5)
+                    self.draw_wrapped_section(
+                        title='Cancellation: ', 
+                        text=yogadosha_data.get("CancellationReason", "Cancelled due to planetary afflictions."),
+                        title_color=(0,0,0), text_color=(255,100,0),
+                        image_end_y=imageEnd_ypos,
+                        narrow_x=10 + imageWidth, narrow_w=self.w - imageWidth - 15,
+                        full_x=10, full_w=self.w - 20
+                    )
 
                 #Yoga/Dosha Results
-                #get the ypositionn whichever is lower as now results will be below image full pdf wide.
-                if(imageEnd_ypos >= self.get_y()):
-                    ypos = imageEnd_ypos + 5
-                else:
-                    ypos = self.get_y() + 5
-
-                self.set_font('Times', 'B', 14)
-                self.set_text_color(0,0,0)
-                self.set_xy(5, ypos)
-                xpos = self.get_x()
-                ydresults = f'Results : '
-                self.cell(txt=ydresults, w=0, h=5, align='L', ln=False)
-
-                self.set_font('Times', 'I', 14)
-                self.set_text_color(50,0,105)            
-                self.set_xy(xpos, ypos)
-                ydresults = f'                 {yogadosha_data.get("Result", "")}'
-                self.multi_cell(txt=ydresults, w=0, h=5, align='L')
-                self.ln(5)
+                self.draw_wrapped_section(
+                    title='Results : ', 
+                    text=yogadosha_data.get("Result", ""),
+                    title_color=(0,0,0), text_color=(50,0,105),
+                    image_end_y=imageEnd_ypos,
+                    narrow_x=10 + imageWidth, narrow_w=self.w - imageWidth - 15,
+                    full_x=10, full_w=self.w - 20
+                )
 
                 #Dosha Remedies
-                if(yogadosha_data.get("type", "") == "Dosha"):
-                    ypos = self.get_y()
-                    self.set_font('Times', 'B', 14)
-                    self.set_text_color(0,0,0)
-                    self.set_xy(5, ypos)
-                    xpos = self.get_x()
-                    ydremedies = f'Remedies : '
-                    self.cell(txt=ydremedies, w=0, h=5, align='L', ln=False)
-    
-                    self.set_font('Times', 'I', 14)
-                    self.set_text_color(51,102,0)            
-                    self.set_xy(xpos, ypos)
-                    ydremedies = f'                    {yogadosha_data.get("Remedies", "")}'
-                    self.multi_cell(txt=ydremedies, w=0, h=5, align='L')
-                    self.ln(5)
+                if yogadosha_data.get("type", "") == "Dosha":
+                    self.draw_wrapped_section(
+                        title='Remedies : ', 
+                        text=yogadosha_data.get("Remedies", ""),
+                        title_color=(0,0,0), text_color=(51,102,0),
+                        image_end_y=imageEnd_ypos,
+                        narrow_x=10 + imageWidth, narrow_w=self.w - imageWidth - 15,
+                        full_x=10, full_w=self.w - 20
+                    )
 
                 #End of Yoga Dosha so draw a line
-                self.line(5, self.get_y(), self.w-5, self.get_y())
+                y_final = max(self.get_y(), imageEnd_ypos + 5)
+                self.line(5, y_final, self.w-5, y_final)
+                self.set_y(y_final)
             
     def addLordInHousesSection(self):
         self.start_section("Lord in Houses Predictions", level=0)

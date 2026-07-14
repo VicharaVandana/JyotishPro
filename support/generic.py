@@ -146,3 +146,78 @@ def isPushkaraBhaga(SignTatva, Degree):
     return False
 
 
+
+def is_planet_combust(charts, planet_name, division="D1"):
+    """
+    Checks if a planet is combust (Asta) by the Sun based on classical degree thresholds.
+    """
+    if planet_name in ["Sun", "Rahu", "Ketu"]:
+        return False
+        
+    # get_distancebetweenplanets is designed to take the division dictionary directly.
+    div_data = charts[division] if division in charts else charts
+    if "planets" not in div_data or planet_name not in div_data["planets"] or "Sun" not in div_data["planets"]:
+        return False
+
+    dist_sec = get_distancebetweenplanets(div_data, planet_name, "Sun")
+    dist_deg = min(dist_sec, (360 * 3600) - dist_sec) / 3600.0
+    
+    is_retro = div_data["planets"][planet_name].get("retro", 0) == 1
+    
+    thresholds = {
+        "Moon": 12.0,
+        "Mars": 17.0,
+        "Jupiter": 11.0,
+        "Saturn": 15.0
+    }
+    
+    threshold = thresholds.get(planet_name)
+    if planet_name == "Mercury":
+        threshold = 12.0 if is_retro else 14.0
+    elif planet_name == "Venus":
+        threshold = 8.0 if is_retro else 10.0
+        
+    if threshold and dist_deg <= threshold:
+        return True
+        
+    return False
+
+
+def is_planet_benefic(charts, planet_name, division="D1"):
+    """
+    Determines if a planet is acting as a benefic in the chart.
+    Jupiter and Venus are natural benefics.
+    Sun, Mars, Saturn, Rahu, Ketu are natural malefics.
+    Mercury is benefic unless conjunct with a natural malefic.
+    Moon is benefic unless it is very close to the Sun (dark Moon/Amavasya).
+    """
+    natural_benefics = ["Jupiter", "Venus"]
+    natural_malefics = ["Sun", "Mars", "Saturn", "Rahu", "Ketu"]
+    
+    if planet_name in natural_benefics:
+        return True
+    if planet_name in natural_malefics:
+        return False
+        
+    div_data = charts[division] if division in charts else charts
+    
+    if planet_name == "Mercury":
+        # Benefic unless conjunct with a natural malefic
+        conjuncts = div_data["planets"].get("Mercury", {}).get("conjuncts", [])
+        for m in natural_malefics:
+            if m in conjuncts:
+                return False
+        return True
+        
+    if planet_name == "Moon":
+        # Moon is malefic if close to the Sun (waning dark moon phase).
+        # We'll use 72 degrees as a standard threshold for Ksheena Chandra (weak moon).
+        if "Sun" not in div_data["planets"] or "Moon" not in div_data["planets"]:
+            return True
+        dist_sec = get_distancebetweenplanets(div_data, "Moon", "Sun")
+        dist_deg = min(dist_sec, (360 * 3600) - dist_sec) / 3600.0
+        if dist_deg < 72.0:
+            return False
+        return True
+
+    return False

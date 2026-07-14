@@ -4,7 +4,10 @@ import support.lordinhouses as lh
 from .panchamahapurusha import SasaYoga, BhadraYoga, HamsaYoga, MalavyaYoga, RuchakaYoga
 from .vipareeta_raja import HarshaYoga, SaralaYoga, VimalaYoga
 from .kaala_sarpa import kaalSarpaDosha, AnantaKaalSarpaDosha, KulikaKaalSarpaDosha, VasukiKaalSarpaDosha, ShankhapalaKaalSarpaDosha, PadamKaalSarpaDosha, MahapadmaKaalSarpaDosha, TakshakaKaalSarpaDosha, KarkotakKaalSarpaDosha, ShankhachurKaalSarpaDosha, GhatakKaalSarpaDosha, VishadharaKaalSarpaDosha, SheshanagaKaalSarpaDosha
-from .chandra_yogadoshas import ChandraYogaDoshas, SakataDosha
+from .chandra_yogadoshas import ChandraYogaDoshas, SakataDosha, LagnaAdhiYoga, ChandraAdhiYoga, LagnaPapaAdhiDosha, ChandraPapaAdhiDosha
+from .surya_yogadoshas import (ShubhaVesiYoga, PapaVesiDosha, MixedVesiYoga,
+                               ShubhaVoshiYoga, PapaVoshiDosha, MixedVoshiYoga,
+                               ShubhaUbhayachariYoga, PapaUbhayachariDosha, MixedUbhayachariYoga)
 from .kuja_dosha import KujaDosha
 from .other_yogas import GajaKesariYoga, ChandraMangalaYoga
 from .amala_yoga import AmalaYoga
@@ -59,7 +62,24 @@ def ComputeYogaDoshas(charts):
     AmalaYoga(charts)
     ChandraYogaDoshas(charts)   # Sunapha / Anapha / Durdhara / Kemadruma
     SakataDosha(charts)          # Sakata Dosha (independent Chandra-Guru check)
+    
+    # Adhi Yogas and Papa Adhi Doshas (Lagna & Chandra based)
+    LagnaAdhiYoga(charts)
+    ChandraAdhiYoga(charts)
+    LagnaPapaAdhiDosha(charts)
+    ChandraPapaAdhiDosha(charts)
     KujaDosha(charts)
+    
+    # Surya Yogas and Doshas
+    ShubhaVesiYoga(charts)
+    PapaVesiDosha(charts)
+    MixedVesiYoga(charts)
+    ShubhaVoshiYoga(charts)
+    PapaVoshiDosha(charts)
+    MixedVoshiYoga(charts)
+    ShubhaUbhayachariYoga(charts)
+    PapaUbhayachariDosha(charts)
+    MixedUbhayachariYoga(charts)
     
     # Nabhasa Yogas
     ParivarthanaYoga(charts)
