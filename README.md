@@ -26,6 +26,7 @@ JyotishyamPro is a comprehensive, advanced Astrological Desktop Application buil
     - *Vipareeta Raja Yogas* (Harsha, Sarala, Vimala)
     - *Raja Yogas* (Neecha Bhanga, Dharma-Karmadhipati, Kendra-Trikona, Sreenatha)
     - *Kaala Sarpa Doshas* (All 12 types including Ananta, Kulika, Vasuki, etc.)
+    - *Guru Yogas/Doshas* (Guru Chandala Dosha, Ganesha Yoga)
     - *Martian Afflictions* (Kuja Dosha / Mangal Dosha)
     - *Nabhasa Yogas* (Aashraya, Dala, Aakriti, Sankhya, Parivarthana)
     - *Miscellaneous Yogas* (Gaja Kesari, Chandra Mangala, Amala, Parvata, Kahala)

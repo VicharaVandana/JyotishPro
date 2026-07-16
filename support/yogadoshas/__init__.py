@@ -13,6 +13,7 @@ from .other_yogas import GajaKesariYoga, ChandraMangalaYoga
 from .amala_yoga import AmalaYoga
 from .parvata_yoga import ParvataYoga
 from .kahala_yoga import KahalaYoga
+from .guru_yogadoshas import GuruYogaDoshas
 from .nabhasa_yogas import ParivarthanaYoga, AashrayaYoga, DalaYoga, AakritiYoga, SankhyaYoga
 from .raja_yogas import DharmaKarmadhipatiYoga, NeechaBhangaRajaYoga, KendraTrikonaYoga, SreenathaYoga
 from .karthari_yogadoshas import KarthariYogaDoshas
@@ -64,6 +65,7 @@ def ComputeYogaDoshas(charts):
     AmalaYoga(charts)
     ParvataYoga(charts)
     KahalaYoga(charts)
+    GuruYogaDoshas(charts)
     ChandraYogaDoshas(charts)   # Sunapha / Anapha / Durdhara / Kemadruma
     SakataDosha(charts)          # Sakata Dosha (independent Chandra-Guru check)
     
