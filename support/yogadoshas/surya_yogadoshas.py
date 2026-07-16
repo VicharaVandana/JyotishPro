@@ -391,3 +391,104 @@ def MixedUbhayachariYoga(charts):
     }
     common.yogadoshas_dict[key] = entry
     return True
+
+# ==============================================================================
+# 10. Budhaditya / Nipuna Yoga (Sun conjunct Mercury)
+# ==============================================================================
+
+def BudhadityaYoga(charts):
+    key = "BUDHADITYA_YOGA_D1"
+    
+    # Needs both Sun and Mercury to be present
+    if "Sun" not in charts["D1"]["planets"] or "Mercury" not in charts["D1"]["planets"]:
+        return False
+        
+    sun_house = charts["D1"]["planets"]["Sun"]["house-num"]
+    mercury_house = charts["D1"]["planets"]["Mercury"]["house-num"]
+    
+    if sun_house != mercury_house:
+        return False # Not conjunct in the same house
+        
+    sun_sign = charts["D1"]["planets"]["Sun"]["sign"]
+    mercury_sign = charts["D1"]["planets"]["Mercury"]["sign"]
+    
+    # Calculate distance for Cazimi check
+    dist_sec = gen.get_distancebetweenplanets(charts["D1"], "Mercury", "Sun")
+    dist_deg = min(dist_sec, (360 * 3600) - dist_sec) / 3600.0
+    
+    is_cazimi = dist_deg <= 1.0
+    
+    # Default state is that the yoga exists, but we will check for Bhangas
+    bhanga = False
+    cancellation_reasons = []
+    
+    # 1. House Placement Bhanga (6, 8, 12) per B.V. Raman
+    if sun_house in [6, 8, 12]:
+        bhanga = True
+        cancellation_reasons.append(f"Formed in a Dusthana (House {sun_house}). Classical texts dictate it must form in Kendras or Trikonas to be effective.")
+        
+    # 2. Debilitation Bhanga
+    if sun_sign == "Libra":
+        bhanga = True
+        cancellation_reasons.append("Sun is debilitated in Libra, depriving the intellect of core vitality.")
+    if mercury_sign == "Pisces":
+        bhanga = True
+        cancellation_reasons.append("Mercury is debilitated in Pisces, scattering the logical intellect.")
+        
+    # 3. Combustion Bhanga (Asta)
+    is_combust = gen.is_planet_combust(charts, "Mercury", "D1")
+    if is_combust and not is_cazimi:
+        bhanga = True
+        cancellation_reasons.append("Mercury is Combust (Asta). As per strict scriptural adherence, the intellect is overpowered and burnt by the Sun's rays, cancelling the true 'Nipuna' effects.")
+        
+    # Check for Eclipse (Rahu/Ketu)
+    conjunct_nodes = []
+    for p, data in charts["D1"]["planets"].items():
+        if p in ["Rahu", "Ketu"] and data["house-num"] == sun_house:
+            conjunct_nodes.append(p)
+            
+    if conjunct_nodes:
+        bhanga = True
+        cancellation_reasons.append(f"Affliction by Node(s): {', '.join(conjunct_nodes)}. This creates an Eclipse Dosha, severely damaging the yoga.")
+        
+    # Strengthening Factors Note
+    strength_notes = []
+    if is_cazimi:
+        strength_notes.append("Mercury is CAZIMI (within 1 degree of the Sun). Far from being combust, it is 'in the heart of the Sun', granting absolute intellectual brilliance and genius-level analytical skills.")
+    if sun_house in [1, 4, 7, 10]:
+        strength_notes.append("Formed in a Kendra (angular house), maximizing its public and career impact.")
+    elif sun_house in [1, 5, 9]:
+        strength_notes.append("Formed in a Trikona (trine house), maximizing its intellectual and spiritual purity.")
+        
+    if sun_sign in ["Aries", "Gemini", "Leo", "Virgo"]:
+        strength_notes.append(f"Occurs in {sun_sign}, a highly auspicious sign where Sun/Mercury possess great dignity.")
+        
+    note = [f"Sun and Mercury are conjunct in House {sun_house} ({sun_sign})."]
+    if strength_notes:
+        note.append("Strengthening Factors:")
+        for s in strength_notes:
+            note.append(f"- {s}")
+            
+    exist_status = not bhanga
+            
+    entry = {
+        "name": "Budhaditya (Nipuna) Yoga",
+        "type": "Yoga",
+        "exist": exist_status,
+        "Rule": (
+            "Formed when the Sun and Mercury are conjunct in the same house. "
+            "To be effective (Nipuna Yoga), it must NOT be in the 6th, 8th, or 12th houses, "
+            "neither planet should be debilitated, and Mercury must not be Combust (Asta) unless it is Cazimi (< 1 degree)."
+        ),
+        "Note": "\n".join(note),
+        "Result": (
+            "The native is highly intelligent, skillful (Nipuna), and possesses excellent communication and analytical abilities. "
+            "In modern times, this translates to success in IT, data analytics, writing, business strategy, diplomacy, and executive leadership. "
+            "The individual is respected for their intellect and clear articulation."
+        ),
+        "Source": "Classical Surya Yogas",
+        "CancellationReason": " ".join(cancellation_reasons) if bhanga else "",
+        "Remedies": "Not applicable." if exist_status else ("Worship Lord Vishnu or chant the Vishnu Sahasranama to strengthen Mercury." if "Combust" in " ".join(cancellation_reasons) or "Debilitated" in " ".join(cancellation_reasons) else "Aditya Hrudayam for the Sun.")
+    }
+    common.yogadoshas_dict[key] = entry
+    return True
