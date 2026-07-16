@@ -1,23 +1,31 @@
-# Amala Yoga Masterclass
+# Masterclass: Amala Yoga
 
-## 1. Introduction
-**Amala Yoga** translates to "pure" or "spotless" yoga. It is a highly spiritual and ethical combination that elevates the character and legacy of the native.
+## 1. Scriptural Reference & Formation Rules
+**Phaladeepika - Chapter 6 (Yogas), Shloka 12:**
+> *“Lagnadindwathavaapi karmabhavagate shubhe... Amalayogo bhavati...”*
+> **Meaning:** Amala Yoga is formed when a purely natural benefic (Jupiter, Venus, or an unafflicted Mercury) occupies the 10th house from either the Lagna (Ascendant) or the natal Moon.
 
-## 2. Formation Rules
-According to *Phaladeepika*, Amala Yoga is formed when the **10th house from the Ascendant (Lagna) or the Moon is occupied exclusively by benefic planets** (Jupiter, Venus, or well-associated Mercury), without the presence or aspect of any natural malefics.
+**B.V. Raman's "Three Hundred Important Combinations" (Combination No. 20):**
+Dr. Raman highlights that the 10th house is the zenith of the chart, representing Karma (action) and reputation. When a pure benefic sits at the absolute top of the chart, the native's actions are guided by high moral principles, guaranteeing a spotless reputation.
 
-## 3. Results & Effects
-The 10th house rules karma, public image, and career. When occupied solely by pure benefics:
-- The native's actions and professional life are guided by high moral standards.
-- They achieve lasting, spotless fame and an unblemished reputation.
-- They are philanthropic, kind-hearted, and respected by the state or authorities.
-- Wealth and success come naturally as a byproduct of their righteous actions.
+## 2. Results & Effects
+**Phaladeepika - Chapter 6, Shloka 12:**
+> *“The person born with Amala Yoga will possess lands, wealth, and will rule over a kingdom. He will have a spotless reputation, be highly virtuous, and will enjoy prosperity lasting as long as the Moon and stars endure.”*
 
-## 4. Variations
-- **From Lagna:** Focuses on the physical manifestation of career and societal status.
-- **From Moon:** Focuses on the mental purity and the emotional intent behind one's karma.
+**Brihat Parashara Hora Shastra (BPHS) - Chapter 36:**
+BPHS confirms that the native will be revered by the ruler, be blessed with physical comforts, and be universally known for their philanthropy and good deeds.
 
-## 5. Maximizing the Yoga
-- Engaging in charitable activities.
-- Maintaining strict ethics in business or professional life.
-- Avoiding shortcuts or manipulative tactics in career progression.
+## 3. Cancellation/Mitigation (Bhanga)
+- **Malefic Conjunction:** The word "Amala" literally means spotless or pure. If a malefic (Saturn, Mars, Rahu, Ketu) is conjunct the benefic in the 10th house, the reputation is stained. The yoga is cancelled, and the native may face public scandals or resort to unethical actions in their career.
+- **Combustion:** If the benefic in the 10th house is combust by the Sun, the native's good deeds are overshadowed by their ego, or they fail to receive the public recognition they deserve.
+
+## 4. Factors Modifying Strength
+- **Strengthening Factors:** Amala Yoga formed by Jupiter in the 10th (especially in Cancer, Sagittarius, or Pisces) is the most powerful, creating revered judges, spiritual leaders, or ethical CEOs. Venus creates beloved artists or diplomats, while Mercury creates renowned intellectuals.
+- **Weakening Factors:** If the benefic in the 10th house is debilitated (e.g., Jupiter in Capricorn), the native has the desire to act ethically, but may lack the resources or competence to achieve lasting fame.
+
+## 5. Prescribed Remedies
+*Not applicable.* To maintain the "spotless" nature of Amala Yoga, the native must consciously avoid all forms of professional corruption or bribery.
+
+## 6. Notes & Further Details
+- **B.V. Raman's Observation:** Dr. Raman emphasizes the *lasting* nature of this yoga. Unlike political power which fades, an Amala Yoga native leaves behind a legacy of goodwill. They are remembered long after they are gone for their humanitarian or ethical contributions.
+- **Scriptural Nuance:** The text says "lasting as long as the Moon and stars." This poetic exaggeration underlines that Amala Yoga grants *Kirti* (immortal fame based on virtue), rather than just temporary celebrity status.

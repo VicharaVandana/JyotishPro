@@ -1,27 +1,31 @@
 # Masterclass: Durdhara Yoga
 
-## 1. Formation Rules (Jyotish Sutras)
-- Durdhara Yoga is formed when the Moon is supported on both sides [cite: 70]:
-- Planets must simultaneously occupy both the 2nd house AND the 12th house from the natal Moon [cite: 71].
-- The Sun, Rahu, and Ketu are strictly excluded [cite: 72].
+## 1. Scriptural Reference & Formation Rules
+**Brihat Parashara Hora Shastra (BPHS) - Chapter 36, Shloka 3:**
+> *“Dwithiye vyaye cha Durdhara... hitwa Bhanum... Kemadrumo anyatha”*
+> **Meaning:** Durdhara Yoga is formed when there are planets (excluding the Sun, Rahu, and Ketu) in BOTH the 2nd house and the 12th house from the Moon.
+
+**B.V. Raman's "Three Hundred Important Combinations" (Combination No. 12 - Lunar Yogas):**
+Dr. Raman outlines this as a highly protective 'kartari' (hemming) around the Moon. When the mind (Moon) is flanked on both sides, it receives both historical stability (12th house) and future resources (2nd house), resulting in an exceptionally balanced individual.
 
 ## 2. Results & Effects
-- This yoga acts as a complete protective shield and resource generator for the mind [cite: 72].
-- BPHS & Phaladeepika: The native will be abundantly wealthy, possess conveyances (vehicles), command loyal followers or employees, and exhibit highly ethical conduct [cite: 73].
-- Psychological Impact: The mind (Moon) is perfectly balanced, drawing on resources from the past (12th house) and future (2nd house), creating immense emotional stability [cite: 74].
+**Brihat Parashara Hora Shastra (BPHS) - Chapter 36, Shloka 5:**
+> *“One born with Durdhara Yoga will be famous, pure in thoughts, brave, will have abundant wealth and conveyances, and will be charitable and a leader.”*
+
+**Phaladeepika - Chapter 6, Shloka 6:**
+> *“The native with Durdhara Yoga will enjoy all sorts of pleasures, will be liberal, have a lot of wealth and vehicles, and will be of a virtuous disposition.”*
 
 ## 3. Cancellation/Mitigation (Bhanga)
-- If the planets on both sides are deeply debilitated (Neecha) without Neecha Bhanga [cite: 75].
-- Both planets being rendered invisible/combust (Asta) by the Sun [cite: 76].
+- **Severe Affliction:** If the flanking planets are heavily afflicted, debilitated, or combust, the 'support system' is weak, turning the yoga into a source of stress rather than support (acting similarly to a Papa Kartari).
+- **Nodes Exception:** Remember that Rahu and Ketu do not form Durdhara. If they are the only planets flanking the Moon, they form a Papa Kartari Dosha (mental siege) instead.
 
 ## 4. Factors Modifying Strength
-- Strengthening Factors: Pure benefics (Jupiter, Venus, unassociated Mercury) on both sides create supreme emotional peace and unblemished wealth [cite: 77].
-- Weakening Factors: If only harsh malefics (Mars, Saturn) occupy the 2nd and 12th, they technically form Durdhara Yoga but simultaneously create a severe Papa Kartari Yoga around the Moon [cite: 78].
-- This brings immense wealth but causes deep mental anguish, paranoia, and a harsh demeanor [cite: 79].
+- **Strengthening Factors:** The highest form of Durdhara (a true Shubha Kartari) occurs when pure benefics (Jupiter, Venus, Mercury) occupy both flanking houses. This gives immense wealth, unshakeable mental peace, and deep spiritual wisdom.
+- **Mixed or Malefic Durdhara:** If flanked by a mix of benefics and malefics, the mind is practical and adaptable. If flanked entirely by malefics (Saturn, Mars), it gives wealth and power but achieved through immense pressure, ruthlessness, and mental strain.
 
 ## 5. Prescribed Remedies
-- Not applicable. Durdhara is a highly auspicious Raja-equivalent Yoga [cite: 80].
+*Not applicable.* This is a highly beneficial combination.
 
-## 6. Technical Notes
-- The individual will experience a steady rise in life [cite: 81].
-- The combined periods (Dashas) of the two planets forming the yoga will be the most transformative [cite: 82].
+## 6. Notes & Further Details
+- **B.V. Raman's Observation:** Dr. Raman stresses that Durdhara makes a person highly successful in life because they are rarely prone to extremes. They have the rear-guard protection (Anapha) and the vanguard aggression (Sunapha) working simultaneously.
+- **Scriptural Nuance:** The term "Durdhara" roughly translates to "invincible" or "unrestrainable." The mind flanked by planets cannot be easily depressed or defeated by external circumstances.

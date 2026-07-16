@@ -1,27 +1,34 @@
-# Masterclass: Sakata Yoga
+# Masterclass: Sakata Yoga / Dosha
 
-## 1. Formation Rules (Jyotish Sutras)
-- The Rule: Sakata Yoga is formed when Jupiter occupies the 6th, 8th, or 12th house from the Moon [cite: 179].
-- Exclusions: The yoga is traditionally cancelled (Bhanga) if the Moon is in an angle (Kendra) from the Ascendant (Lagna) [cite: 180].
+## 1. Scriptural Reference & Formation Rules
+**Brihat Parashara Hora Shastra (BPHS) - Chapter 36, Shloka 15:**
+> *“Shashtaashtamagate jeeve chandraat sakatayoga itirithaha...”*
+> **Meaning:** Sakata Yoga is formed when Jupiter occupies the 6th or 8th house from the Moon.
+> *(Note: Some classical texts also include the 12th house from the Moon, but BPHS heavily emphasizes the 6th/8th axis).*
+
+**B.V. Raman's "Three Hundred Important Combinations" (Combination No. 65):**
+Dr. Raman defines Sakata Yoga as Jupiter placed in the 6th or 8th from the Moon, with the crucial exception that if either Jupiter or the Moon is in a Kendra (angle) from the Lagna (Ascendant), the yoga is cancelled.
 
 ## 2. Results & Effects
-- Sakata literally means "cart" or "wheel," implying that the native's fortunes will fluctuate like the turning of a wheel—moving between peaks of prosperity and troughs of difficulty [cite: 181].
-- BPHS & Phaladeepika: The native may experience loss of fortune, struggle, and periods of separation from family or status, only to regain them later [cite: 182].
-- Psychological Impact: It often creates an internal struggle regarding belief systems or wisdom, as the planet of wisdom (Jupiter) is placed in a Dusthana (challenging house) relative to the mind (Moon) [cite: 183].
+**Brihat Parashara Hora Shastra (BPHS):**
+The native will lose their wealth and regain it multiple times. They will suffer from grief, be troubled by enemies, and have a generally unsteady life, resembling a wheel (Sakata).
 
-## 3. Cancellation/Mitigation (Bhanga)
-- Lagna Kendra Bhanga: The most prominent cancellation rule is that if the Moon is situated in a Kendra (1st, 4th, 7th, or 10th house) from the Lagna, Sakata Yoga is nullified and does not produce its negative effects [cite: 184].
-- Jupiter in Own Sign: If Jupiter is in its own sign (Sagittarius or Pisces) while forming the configuration, the negative results are significantly mitigated [cite: 185].
+**Phaladeepika - Chapter 6, Shloka 14:**
+> *“The person born with Sakata Yoga will often lose his fortune and may regain it. He will be an ordinary person, will suffer poverty, grief, and will be hated by the public.”*
+
+## 3. Cancellation/Mitigation (Sakata Bhanga)
+- **Kendra Exception (B.V. Raman & Phaladeepika):** The most absolute cancellation occurs if the Moon or Jupiter is situated in a Kendra (1st, 4th, 7th, or 10th house) from the Lagna. In this case, the Dosha is entirely nullified, and the configuration may even act as a strong Dhana Yoga (wealth-producing).
+- **Exaltation/Own Sign:** If Jupiter is exalted (Cancer) or in its own sign (Sagittarius/Pisces) while forming this yoga, the negative effects are heavily mitigated.
 
 ## 4. Factors Modifying Strength
-- Strengthening Factors (Negative): If Jupiter is heavily afflicted or combust, the fluctuations in life become more severe and unstable [cite: 186].
-- Weakening Factors (Positive): If Jupiter is retrograde (Vakri), it is said in some classical traditions to regain some strength, potentially transforming the "wheel" of fortune into a more stable upward trajectory [cite: 187].
+- **Strengthening Factors (Worsening the Dosha):** The Dosha is most severe if both the Moon and Jupiter are debilitated, or placed in Dusthanas from the Lagna (e.g., Moon in the 6th house from Lagna and Jupiter in the 8th from Moon/Lagna).
+- **Weakening Factors (Easing the Dosha):** A strong, bright Moon (Shukla Paksha) mitigates the mental distress, giving the native the psychological resilience to handle the fluctuations.
 
 ## 5. Prescribed Remedies
-- Jupiter-focused Upayas: Since it is often treated as a Dosha, remedies focus on strengthening the Karaka (significator) of wisdom [cite: 188].
-- Daily Practice: Offering prayers to Lord Dakshinamurthy or performing Guru Puja [cite: 189].
-- Donations: Donating yellow items (turmeric, yellow pulses) on Thursdays to balance the energy of Jupiter [cite: 190].
+- **Worship:** Devotion to Lord Shiva (for the Moon) and Lord Vishnu or Dattatreya (for Jupiter).
+- **Charity:** Donating yellow items (turmeric, chana dal) on Thursdays and milk/rice on Mondays.
+- **Mantra:** Regular recitation of the *Dakshinamurthy Stotram* to bring stability to one's wisdom and fortune.
 
-## 6. Technical Notes
-- Classifying Sakata: It is traditionally categorized under Chandra-Guru Yogas [cite: 191].
-- Unlike the Sunapha/Anapha/Durdhara series which rely on general planet placement, Sakata is a specific Jupiter-Moon interaction [cite: 192].
+## 6. Notes & Further Details
+- **B.V. Raman's Observation:** "Sakata" translates to a cart or a wheel. Dr. Raman notes that the lives of natives with this dosha are characterized by cyclic fluctuations. Just as a wheel goes up and down, their fortunes rise and fall unpredictably. However, they almost always regain their lost wealth.
+- **Scriptural Nuance:** The underlying dynamic is a misalignment between the mind (Moon) and wisdom/grace (Jupiter). Because they are in a 6/8 (Shadashtaka) relationship, the native's instincts often clash with their higher wisdom, leading to erratic life decisions.
