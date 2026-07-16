@@ -20,7 +20,9 @@ JyotishyamPro is a comprehensive, advanced Astrological Desktop Application buil
   - **Vimshottari Dasha**: Comprehensive tables for Mahadasha, Antardasha, and Pratyantardasha (Bhukti).
   - **Yoga & Dosha Analysis**: Generates dynamic partial charts isolating the planets participating in each combination. Analyzes dozens of conditions including:
     - *Panchamahapurusha Yogas* (Ruchaka, Bhadra, Hamsa, Malavya, Sasa)
-    - *Lunar Combinations (Chandra Yogas/Doshas)* (Sunapha, Anapha, Durdhara, Kemadruma Dosha)
+    - *Solar Combinations (Surya Yogas/Doshas)* (Vesi, Voshi, and Ubhayachari in Shubha/Papa/Mixed variations, Budhaditya/Nipuna Yoga)
+    - *Lunar Combinations (Chandra Yogas/Doshas)* (Sunapha, Anapha, Durdhara, Kemadruma, Sakata, Adhi Yoga, Papa Adhi Dosha)
+    - *Kartari Yogas/Doshas* (Shubha Kartari Yoga, Papa Kartari Dosha for all houses)
     - *Vipareeta Raja Yogas* (Harsha, Sarala, Vimala)
     - *Raja Yogas* (Neecha Bhanga, Dharma-Karmadhipati, Kendra-Trikona, Sreenatha)
     - *Kaala Sarpa Doshas* (All 12 types including Ananta, Kulika, Vasuki, etc.)
