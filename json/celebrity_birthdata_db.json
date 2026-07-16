@@ -40,5 +40,110 @@
             "timezone": "+5.5"
         },
         "comments": "Formal Prime minisher of India. Source: Kundli Sangraha (Bhat) and its accurate details\nMarriage: 26 March 1942 with Feroz Gandhi\nFirst Child Birth - Rajiv Gandhi: 20th August 1944\nSecond  Child Birth -Sanjiv Gandhi: 14th Dec 1946\nDeath : New Delhi: 31st October 1984"
+    },
+    "Swami Vivekananda": {
+        "name": "Swami Vivekananda",
+        "gender": "male",
+        "DOB": {
+            "year": "1863",
+            "month": "1",
+            "day": "12"
+        },
+        "TOB": {
+            "hour": "6",
+            "min": "33",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Kolkata",
+            "lon": "+88.363892",
+            "lat": "+22.572646",
+            "timezone": "+5.5"
+        },
+        "comments": "Widely used horoscope in Vedic astrology. Birth time should be verified with the chosen source."
+    },
+    "Mahatma Gandhi": {
+        "name": "Mahatma Gandhi",
+        "gender": "male",
+        "DOB": {
+            "year": "1869",
+            "month": "10",
+            "day": "2"
+        },
+        "TOB": {
+            "hour": "7",
+            "min": "11",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Porbandar",
+            "lon": "+69.629265",
+            "lat": "+21.641706",
+            "timezone": "+5.5"
+        },
+        "comments": "Commonly used Vedic horoscope. Verify birth time with AstroDatabank or published source."
+    },
+    "Jawaharlal Nehru": {
+        "name": "Jawaharlal Nehru",
+        "gender": "male",
+        "DOB": {
+            "year": "1889",
+            "month": "11",
+            "day": "14"
+        },
+        "TOB": {
+            "hour": "23",
+            "min": "30",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Allahabad",
+            "lon": "+81.846311",
+            "lat": "+25.435801",
+            "timezone": "+5.5"
+        },
+        "comments": "Birth time varies between sources; verify before using."
+    },
+    "A. P. J. Abdul Kalam": {
+        "name": "A. P. J. Abdul Kalam",
+        "gender": "male",
+        "DOB": {
+            "year": "1931",
+            "month": "10",
+            "day": "15"
+        },
+        "TOB": {
+            "hour": "0",
+            "min": "15",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Rameswaram",
+            "lon": "+79.312929",
+            "lat": "+9.287625",
+            "timezone": "+5.5"
+        },
+        "comments": "Birth time differs among astrological sources."
+    },
+    "Sachin Tendulkar": {
+        "name": "Sachin Tendulkar",
+        "gender": "male",
+        "DOB": {
+            "year": "1973",
+            "month": "4",
+            "day": "24"
+        },
+        "TOB": {
+            "hour": "16",
+            "min": "25",
+            "sec": "0"
+        },
+        "POB": {
+            "name": "Mumbai",
+            "lon": "+72.877655",
+            "lat": "+19.075983",
+            "timezone": "+5.5"
+        },
+        "comments": "Popular Vedic astrology chart. Verify with Kundli Sangraha or AstroDatabank."
     }
 }

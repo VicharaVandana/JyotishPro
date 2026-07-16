@@ -28,7 +28,7 @@ JyotishyamPro is a comprehensive, advanced Astrological Desktop Application buil
     - *Kaala Sarpa Doshas* (All 12 types including Ananta, Kulika, Vasuki, etc.)
     - *Martian Afflictions* (Kuja Dosha / Mangal Dosha)
     - *Nabhasa Yogas* (Aashraya, Dala, Aakriti, Sankhya, Parivarthana)
-    - *Miscellaneous Yogas* (Gaja Kesari, Chandra Mangala, Amala)
+    - *Miscellaneous Yogas* (Gaja Kesari, Chandra Mangala, Amala, Parvata, Kahala)
   - **House Lord Predictions**: Detailed interpretations of where the Lord of each House is positioned.
   - **Elemental Analysis**: Deep dive into the elemental composition of the chart with descriptive personality synthesis.
 - **Vimshottari Dasha**: Track the timeline of Mahadasha, Antardasha, and Pratyantardasha directly within the app.
