@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
@@ -159,7 +159,7 @@ color: rgb(0, 0, 118);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color: rgb(170, 170, 127);
-font: 10pt "Cascadia Code";</string>
+font: 10pt &quot;Cascadia Code&quot;;</string>
               </property>
               <property name="text">
                <string>Load</string>
@@ -498,7 +498,7 @@ and updates it to the app for user</string>
          </widget>
         </item>
         <item row="1" column="5" rowspan="4" colspan="2">
-         <widget class="QCalendarWidget" name="cal_dob" />
+         <widget class="QCalendarWidget" name="cal_dob"/>
         </item>
         <item row="5" column="0">
          <widget class="QLabel" name="label_language">
@@ -2430,7 +2430,7 @@ color: rgb(0, 0, 255);</string>
                  <string>background-color: black; color: white; border: 1px solid #333;</string>
                 </property>
                 <property name="text">
-                 <string>&lt;div style="background-color: #000000; color: #ffffff; padding: 2px; border: 1px solid #333333; font-family: Arial; font-size: 11px;"&gt;&lt;div style="text-align:center; font-weight:bold; margin-bottom:4px;"&gt;Planet Dignity&lt;/div&gt;&lt;table style="width:100%; border-collapse: collapse;"&gt;&lt;tr&gt;&lt;td style="color: gold; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Exalted / Uchha&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="color: lime; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Own / Swa&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="color: skyblue; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Friend / Mitra&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="color: white; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Neutral / Sama&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="color: magenta; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Enemy / Shatru&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="color: red; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Debilitated&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="color: yellow; font-size: 16px;"&gt;&amp;#9632;&lt;/td&gt;&lt;td style="padding-left:4px;"&gt;Other&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</string>
+                 <string>&lt;div style=&quot;background-color: #000000; color: #ffffff; padding: 2px; border: 1px solid #333333; font-family: Arial; font-size: 11px;&quot;&gt;&lt;div style=&quot;text-align:center; font-weight:bold; margin-bottom:4px;&quot;&gt;Planet Dignity&lt;/div&gt;&lt;table style=&quot;width:100%; border-collapse: collapse;&quot;&gt;&lt;tr&gt;&lt;td style=&quot;color: gold; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Exalted / Uchha&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: lime; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Own / Swa&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: skyblue; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Friend / Mitra&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: white; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Neutral / Sama&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: magenta; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Enemy / Shatru&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: red; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Debilitated&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;color: yellow; font-size: 16px;&quot;&gt;&amp;#9632;&lt;/td&gt;&lt;td style=&quot;padding-left:4px;&quot;&gt;Other&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</string>
                 </property>
                 <property name="textFormat">
                  <enum>Qt::RichText</enum>
@@ -2458,6 +2458,219 @@ color: rgb(0, 0, 255);</string>
            </layout>
           </item>
          </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="yoga_doshas_tab">
+       <attribute name="title">
+        <string>Yoga/Doshas</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_yogaDoshas">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_yogaContent">
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_yogaChart">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>4</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>450</width>
+              <height>450</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>North Indian or South Indian Chart display</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QListWidget" name="listWidget_yogas">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>3</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="toolTip">
+             <string>List of identified Yogas and Doshas</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_yogaDetails">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>3</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>350</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(240, 248, 255); border: 1px solid #ccc; border-radius: 5px;</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_yogaInfo">
+             <item>
+              <widget class="QLabel" name="label_yogaDetailsTitle">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>14</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none; color: rgb(0, 0, 127);</string>
+               </property>
+               <property name="text">
+                <string>Yoga / Dosha Details</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="Line" name="line_yoga">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_yogaName">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;</string>
+               </property>
+               <property name="text">
+                <string>Name: -</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_yogaType">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;</string>
+               </property>
+               <property name="text">
+                <string>Type: -</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_yogaStatus">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;</string>
+               </property>
+               <property name="text">
+                <string>Status: -</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_learnYogaDosha">
+               <property name="font">
+                <font>
+                 <family>Comic Sans MS</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(170, 255, 255); border: 1px solid gray; padding: 5px; margin-top: 10px;</string>
+               </property>
+               <property name="text">
+                <string>Learn</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_yoga">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_yogaDisclaimer">
+          <property name="font">
+           <font>
+            <family>Arial</family>
+            <pointsize>10</pointsize>
+            <italic>true</italic>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">margin-top: 10px; color: rgb(80, 80, 80);</string>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Yogas and Doshas here are according the vedic astrological scriptures like &lt;b&gt;BPHS&lt;/b&gt;, &lt;b&gt;Phaladeepika&lt;/b&gt; etc and also &lt;b&gt;BV Raman book of Three Hundred Important combinations&lt;/b&gt; have been referred.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -2928,22 +3141,22 @@ color: rgb(0, 0, 255);</string>
      <property name="title">
       <string>Astrological Charts</string>
      </property>
-     <addaction name="actionDisplay_Settings" />
+     <addaction name="actionDisplay_Settings"/>
     </widget>
     <widget class="QMenu" name="menuBirthData_Database">
      <property name="title">
       <string>BirthData Database</string>
      </property>
-     <addaction name="actionPersonal" />
-     <addaction name="actionCelebrity" />
+     <addaction name="actionPersonal"/>
+     <addaction name="actionCelebrity"/>
     </widget>
-    <addaction name="menuAstrological_Charts" />
-    <addaction name="menuBirthData_Database" />
+    <addaction name="menuAstrological_Charts"/>
+    <addaction name="menuBirthData_Database"/>
    </widget>
-   <addaction name="menuUser_Input" />
-   <addaction name="menuSettings" />
+   <addaction name="menuUser_Input"/>
+   <addaction name="menuSettings"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar" />
+  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionDisplay_Settings">
    <property name="text">
     <string>Display Settings</string>
@@ -2960,7 +3173,7 @@ color: rgb(0, 0, 255);</string>
    </property>
   </action>
  </widget>
- <resources />
+ <resources/>
  <connections>
   <connection>
    <sender>cal_dob</sender>

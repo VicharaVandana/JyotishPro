@@ -51,6 +51,7 @@ def ShubhaVesiYoga(charts):
     ]
     
     entry = {
+        "relevant_planets": ["Su"] + [p[:2] for p in occupants],
         "name": "Shubha Vesi Yoga",
         "type": "Yoga",
         "exist": not bhanga,
@@ -89,6 +90,7 @@ def PapaVesiDosha(charts):
     ]
     
     entry = {
+        "relevant_planets": ["Su"] + [p[:2] for p in occupants],
         "name": "Papa Vesi Dosha",
         "type": "Dosha",
         "exist": True,
@@ -128,6 +130,7 @@ def MixedVesiYoga(charts):
     ]
     
     entry = {
+        "relevant_planets": ["Su"] + [p[:2] for p in occupants],
         "name": "Mixed Vesi Yoga",
         "type": "Yoga",
         "exist": not bhanga,
@@ -169,6 +172,7 @@ def ShubhaVoshiYoga(charts):
     ]
     
     entry = {
+        "relevant_planets": ["Su"] + [p[:2] for p in occupants],
         "name": "Shubha Voshi Yoga",
         "type": "Yoga",
         "exist": not bhanga,
@@ -205,6 +209,7 @@ def PapaVoshiDosha(charts):
     ]
     
     entry = {
+        "relevant_planets": ["Su"] + [p[:2] for p in occupants],
         "name": "Papa Voshi Dosha",
         "type": "Dosha",
         "exist": True,
@@ -242,6 +247,7 @@ def MixedVoshiYoga(charts):
     ]
     
     entry = {
+        "relevant_planets": ["Su"] + [p[:2] for p in occupants],
         "name": "Mixed Voshi Yoga",
         "type": "Yoga",
         "exist": not bhanga,
@@ -287,6 +293,7 @@ def ShubhaUbhayachariYoga(charts):
     ]
     
     entry = {
+        "relevant_planets": ["Su"] + [p[:2] for p in occ_2 + occ_12],
         "name": "Shubha Ubhayachari Yoga",
         "type": "Yoga",
         "exist": not bhanga,
@@ -327,6 +334,7 @@ def PapaUbhayachariDosha(charts):
     ]
     
     entry = {
+        "relevant_planets": ["Su"] + [p[:2] for p in occ_2 + occ_12],
         "name": "Papa Ubhayachari Dosha",
         "type": "Dosha",
         "exist": True,
@@ -373,6 +381,7 @@ def MixedUbhayachariYoga(charts):
     ]
     
     entry = {
+        "relevant_planets": ["Su"] + [p[:2] for p in occ_2 + occ_12],
         "name": "Mixed Ubhayachari Yoga",
         "type": "Yoga",
         "exist": not bhanga,
@@ -472,6 +481,7 @@ def BudhadityaYoga(charts):
     exist_status = not bhanga
             
     entry = {
+        "relevant_planets": ["Su", "Me"],
         "name": "Budhaditya (Nipuna) Yoga",
         "type": "Yoga",
         "exist": exist_status,

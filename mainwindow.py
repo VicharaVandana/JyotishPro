@@ -18,6 +18,8 @@ from datetime import datetime
 
 import support.dashascalculation as dashavim
 import support.balascalculation as shadbal
+import support.yogadoshas as yogadoshas
+import support.yogadoshas.common as yogadoshas_common
 import support.places_manager as places_manager
 import userforms.missing_place_dialog as missing_place_dialog
 
@@ -78,6 +80,9 @@ class MainWindow_cls(Ui_MainWindow):
 
         self.mixedchartScene = QGraphicsScene()
         self.graphicsView_MixedChart.setScene(self.mixedchartScene)
+
+        self.yogaScene = QGraphicsScene()
+        self.graphicsView_yogaChart.setScene(self.yogaScene)
 
         # Make both chart views maintain a square aspect by using a size policy
         sp = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -170,6 +175,11 @@ class MainWindow_cls(Ui_MainWindow):
         self.on_yogas_doshas_toggled(self.chk_yogasDoshas.isChecked()) # initial state
         
         self.btn_generateReport.clicked.connect(self.generate_report_workflow)
+        
+        # Yoga/Doshas Tab Connections
+        self.listWidget_yogas.itemDoubleClicked.connect(self.on_yoga_item_double_clicked)
+        self.btn_learnYogaDosha.clicked.connect(self.open_yoga_masterclass)
+        self.current_selected_yoga = None
         
         # Initialize report name on startup
         if hasattr(self, 'chkGenerateJsonReport'):
@@ -296,18 +306,39 @@ class MainWindow_cls(Ui_MainWindow):
                 app.installTranslator(self.translator)
                 self.retranslateUi(self._mainWindow)
                 self.update_report_name()
+                
+                # Manual translation for Yoga/Doshas tab
+                tab_idx = self.user.indexOf(self.yoga_doshas_tab)
+                if tab_idx != -1:
+                    if gvar.chart_language == "kannada":
+                        self.user.setTabText(tab_idx, "ಯೋಗ/ದೋಷಗಳು")
+                    elif gvar.chart_language == "hindi":
+                        self.user.setTabText(tab_idx, "योग/दोष")
             else:
                 print(f"Translation file not found: {qm_path}")
         else:
             app.removeTranslator(self.translator)
             self.retranslateUi(self._mainWindow)
             self.update_report_name()
+            
+            # Revert to English for Yoga/Doshas tab
+            tab_idx = self.user.indexOf(self.yoga_doshas_tab)
+            if tab_idx != -1:
+                self.user.setTabText(tab_idx, "Yoga/Doshas")
 
         # Redraw charts only if data has already been computed
         if gvar.astrodata:
             self.on_chart_parameters_changed(0)
             if self.mixedcharttab.isEnabled():
                 self.on_mixedchart_parameters_changed(0)
+                
+            # Also update the yoga chart if one is currently selected
+            if hasattr(self, 'current_selected_yoga') and self.current_selected_yoga:
+                for i in range(self.listWidget_yogas.count()):
+                    item = self.listWidget_yogas.item(i)
+                    if item.data(Qt.UserRole) == self.current_selected_yoga:
+                        self.on_yoga_item_double_clicked(item)
+                        break
 
         self.status.setText(
             f"Display settings updated: Language={gvar.chart_language.capitalize()}, "
@@ -558,10 +589,23 @@ class MainWindow_cls(Ui_MainWindow):
 
     def _fit_charts_in_view(self):
         """ Fit SVG items into their respective views, keeping aspect ratio """
-        if hasattr(self, 'svg_item') and self.svg_item.scene():
-            self.MainChart.fitInView(self.svg_item, Qt.KeepAspectRatio)
-        if hasattr(self, 'svg_item_mixed') and self.svg_item_mixed.scene():
-            self.graphicsView_MixedChart.fitInView(self.svg_item_mixed, Qt.KeepAspectRatio)
+        try:
+            if hasattr(self, 'svg_item') and self.svg_item is not None and self.svg_item.scene():
+                self.MainChart.fitInView(self.svg_item, Qt.KeepAspectRatio)
+        except RuntimeError:
+            pass
+
+        try:
+            if hasattr(self, 'svg_item_mixed') and self.svg_item_mixed is not None and self.svg_item_mixed.scene():
+                self.graphicsView_MixedChart.fitInView(self.svg_item_mixed, Qt.KeepAspectRatio)
+        except RuntimeError:
+            pass
+
+        try:
+            if hasattr(self, 'svg_item_yoga') and self.svg_item_yoga is not None and self.svg_item_yoga.scene():
+                self.graphicsView_yogaChart.fitInView(self.svg_item_yoga, Qt.KeepAspectRatio)
+        except RuntimeError:
+            pass
 
     def _on_tab_changed(self, index):
         """ When user switches to a chart tab, refit after layout settles """
@@ -570,6 +614,16 @@ class MainWindow_cls(Ui_MainWindow):
     def submitdetails(self):
         self.status.setText("Computing astrological data... Please wait.")
         QtWidgets.QApplication.processEvents()
+        
+        # Clear previous Yoga/Doshas residues
+        self.listWidget_yogas.clear()
+        self.label_yogaName.setText("Name: -")
+        self.label_yogaType.setText("Type: -")
+        self.label_yogaStatus.setText("Status: -")
+        if hasattr(self, 'yogaScene'):
+            self.yogaScene.clear()
+            self.svg_item_yoga = None
+        self.current_selected_yoga = None
         
         try:
             astrocalc.initialAstroCalculations(self)    #Compute Astrodata from the birthdata
@@ -619,10 +673,165 @@ class MainWindow_cls(Ui_MainWindow):
         selected_name = self.cmb_name.currentText()
         self.status.setText(f"All charts computed successfully for '{selected_name}'. BirthChart and MixedChart tabs are now enabled.")
 
+        # Compute Yogas and Doshas for the new person
+        self.status.setText("Computing Yogas and Doshas...")
+        QtWidgets.QApplication.processEvents()
+        yogadoshas.ComputeYogaDoshas(gvar.astrodata)
+        self.populate_yogas_list()
+        
+        self.status.setText(f"All charts and Yogas/Doshas computed successfully for '{selected_name}'.")
+
         # Delayed refit so charts display at full size once the layout settles
         QtCore.QTimer.singleShot(150, self._fit_charts_in_view)
      
         return
+
+    def populate_yogas_list(self):
+        self.listWidget_yogas.clear()
+        
+        for key, data in yogadoshas_common.yogadoshas_dict.items():
+            name = data.get("name", "Unknown")
+            yoga_type = data.get("type", "Yoga")
+            exists = data.get("exist", False)
+            
+            # Create list item
+            item = QtWidgets.QListWidgetItem(name)
+            
+            # Set colors based on conditions
+            if exists:
+                if yoga_type.lower() == "yoga":
+                    item.setBackground(QtGui.QColor("#90EE90")) # Light green
+                else:
+                    item.setBackground(QtGui.QColor("#FFCCCB")) # Light pale red
+            else:
+                item.setBackground(QtGui.QColor("#D3D3D3")) # Light grey
+                
+            # Store the key to access details later
+            item.setData(Qt.UserRole, key)
+            
+            # Optional formatting for text readability
+            font = item.font()
+            font.setPointSize(11)
+            item.setFont(font)
+            
+            self.listWidget_yogas.addItem(item)
+            
+    def on_yoga_item_double_clicked(self, item):
+        key = item.data(Qt.UserRole)
+        if not key: return
+        
+        data = yogadoshas_common.yogadoshas_dict.get(key, {})
+        if not data: return
+        
+        self.current_selected_yoga = key
+        
+        name = data.get("name", "")
+        # Remove suffix 'Yoga' or 'Dosha'
+        name_without_suffix = name.replace(" Yoga", "").replace(" Dosha", "").replace(" Panchamahapurusha", "")
+        
+        yoga_type = data.get("type", "Unknown")
+        exists = data.get("exist", False)
+        status = "Existing" if exists else "Cancelled"
+        
+        self.label_yogaName.setText(f"Name:- {name_without_suffix}")
+        self.label_yogaType.setText(f"Type:- {yoga_type}")
+        self.label_yogaStatus.setText(f"Status:- {status}")
+        
+        relevant_planets = data.get("relevant_planets", [])
+        
+        # Determine current styles
+        lang_keys = ["english", "kannada", "hindi"]
+        style_keys = ["north", "south"]
+        
+        idx_lang = self.cmb_language.currentIndex()
+        language = lang_keys[idx_lang] if idx_lang >= 0 else "english"
+        
+        idx_style = self.cmb_chartStyle.currentIndex()
+        chart_style = style_keys[idx_style] if idx_style >= 0 else "north"
+        
+        sign_keys = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Saggitarius", "Capricorn", "Aquarius", "Pisces"]
+        idx_sign = self.comboBox_firsthouse.currentIndex()
+        firsthouse = sign_keys[idx_sign] if idx_sign >= 0 else "Aries"
+            
+        # Ensure the directory exists
+        if not os.path.exists("./images/yogadoshas"):
+            os.makedirs("./images/yogadoshas")
+            
+        # Call partial chart drawing
+        try:
+            chart.plot_partial_astrochart(
+                "./images/yogadoshas/", "YogaChart",
+                gvar.astrodata, relevant_planets,
+                div="D1", firsthousesign=firsthouse,
+                language=language, chart_style=chart_style
+            )
+            self.load_svg_in_yoga_graphicsview("./images/yogadoshas/YogaChart.svg")
+        except Exception as e:
+            self.status.setText(f"Failed to load partial chart for {name}: {str(e)}")
+            
+    def load_svg_in_yoga_graphicsview(self, svg_path):
+        self.yogaScene.clear()
+        self.svg_item_yoga = QGraphicsSvgItem(svg_path)
+        self.svg_item_yoga.setFlags(QtWidgets.QGraphicsItem.ItemClipsToShape)
+        self.yogaScene.addItem(self.svg_item_yoga)
+        self.graphicsView_yogaChart.setSceneRect(self.svg_item_yoga.boundingRect())
+        self.graphicsView_yogaChart.update()
+        QtWidgets.QApplication.processEvents()
+        QtCore.QTimer.singleShot(50, lambda: self.graphicsView_yogaChart.fitInView(self.svg_item_yoga, Qt.KeepAspectRatio))
+        
+    def open_yoga_masterclass(self):
+        if not hasattr(self, 'current_selected_yoga') or not self.current_selected_yoga:
+            QtWidgets.QMessageBox.information(self.centralwidget, "Information", "Please double click on a Yoga or Dosha from the list first.")
+            return
+            
+        data = yogadoshas_common.yogadoshas_dict.get(self.current_selected_yoga, {})
+        if not data: return
+        
+        name = data.get("name", "")
+        # Remove anything after hyphen (e.g. "Papa Kartari Dosha - House 2" -> "Papa Kartari Dosha")
+        base_name = name.split("-")[0].strip()
+        
+        safe_name = base_name.replace(" ", "_")
+        if "Panchamahapurusha" in safe_name:
+            safe_name = safe_name.replace("Panchamahapurusha", "Yoga")
+            
+        if safe_name in ["Neecha_Bhanga", "Neecha_Bhanga_Raja"]:
+            safe_name = "Neecha_Bhanga_Raja_Yoga"
+            
+        md_filename = f"{safe_name}_Masterclass.md"
+        doc_path = os.path.join(os.path.dirname(__file__), "Learn", "YogaDoshas", md_filename)
+        
+        if not os.path.exists(doc_path):
+            # Try replacing Dosha with Yoga
+            alt_md_filename = md_filename.replace("Dosha", "Yoga")
+            alt_doc_path = os.path.join(os.path.dirname(__file__), "Learn", "YogaDoshas", alt_md_filename)
+            if os.path.exists(alt_doc_path):
+                doc_path = alt_doc_path
+            else:
+                QtWidgets.QMessageBox.warning(self.centralwidget, "Not Found", f"Masterclass document not found for {base_name}\nExpected: {md_filename}")
+                return
+            
+        try:
+            import markdown
+            with open(doc_path, "r", encoding="utf-8") as f:
+                md_text = f.read()
+                
+            html = markdown.markdown(md_text, extensions=['extra'])
+            
+            self.yoga_learn_window = QtWidgets.QWidget()
+            self.yoga_learn_window.setWindowTitle(f"{name} Masterclass")
+            self.yoga_learn_window.resize(800, 600)
+            layout = QtWidgets.QVBoxLayout(self.yoga_learn_window)
+            
+            text_browser = QtWidgets.QTextBrowser()
+            text_browser.setHtml(html)
+            text_browser.setOpenExternalLinks(True)
+            
+            layout.addWidget(text_browser)
+            self.yoga_learn_window.show()
+            
+        except Exception as e:
+            QtWidgets.QMessageBox.warning(self.centralwidget, "Error", f"Could not load Learn document: {e}")
 
     def browse_save_location(self):
         folder = QtWidgets.QFileDialog.getExistingDirectory(self.centralwidget, "Select Folder for Report")

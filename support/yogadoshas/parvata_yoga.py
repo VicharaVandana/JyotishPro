@@ -21,8 +21,8 @@ def ParvataYoga(charts):
     Note = ""
     relevant_planets = []
 
-    benefics = charts["D1"]["classifications"]["benefics"].copy()
-    malefics = charts["D1"]["classifications"]["malefics"].copy()
+    benefics = charts["D1"]["classifications"]["natural-benefics"].copy()
+    malefics = charts["D1"]["classifications"]["natural-malefics"].copy()
     malefics.extend(["Rahu", "Ketu"])
     
     planets_in_kendras = []
@@ -32,25 +32,21 @@ def ParvataYoga(charts):
         planets_in_house = gen.get_planets_in_house(house, charts["D1"]["planets"])
         planets_in_kendras.extend(planets_in_house)
         
-    benefics_in_kendras = gen.list_intersection(benefics, planets_in_kendras)
-    
     planets_in_6th = gen.get_planets_in_house(6, charts["D1"]["planets"])
     planets_in_8th = gen.get_planets_in_house(8, charts["D1"]["planets"])
     
-    malefics_in_6_8 = gen.list_intersection(malefics, planets_in_6th + planets_in_8th)
-    benefics_in_6_8 = gen.list_intersection(benefics, planets_in_6th + planets_in_8th)
+    all_target_planets = planets_in_kendras + planets_in_6th + planets_in_8th
+    malefics_in_targets = gen.list_intersection(malefics, all_target_planets)
     
-    if len(benefics_in_kendras) > 0 and len(malefics_in_6_8) == 0:
+    if len(all_target_planets) > 0 and len(malefics_in_targets) == 0:
         IsParvataYogaPresent = True
         
-        Rule = f"Benefic planet(s) {benefics_in_kendras} are in Kendras (1,4,7,10) and the 6th and 8th houses are devoid of any malefic planets."
-        if len(benefics_in_6_8) > 0:
-            Rule += f" Additionally, benefics {benefics_in_6_8} are placed in the 6th/8th houses."
+        Rule = f"The Kendras (1,4,7,10) and the 6th and 8th houses contain only benefic planets: {all_target_planets} and are devoid of any malefic planets."
             
         Results = '''According to Phaladeepika and BV Raman, the native with Parvata Yoga will have lasting wealth and prosperity. They will be charitable, highly learned, very passionate, and will be a leader or head of a town, city, or organization. They will lead a life of comfort, possess enduring fame, and command immense respect.'''
         Note = "This yoga represents the strength of a 'Mountain' (Parvata), granting stability, unshakeable status, and monumental heights to the native's life."
         
-        for p in benefics_in_kendras + planets_in_6th + planets_in_8th:
+        for p in all_target_planets:
             if p[0:2] not in relevant_planets:
                 relevant_planets.append(p[0:2])
                 
