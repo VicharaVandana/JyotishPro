@@ -357,3 +357,106 @@ def SreenathaYoga(charts):
             
 
     return IsSreenathaYogaPresent
+
+# ==========================================================================================
+# Function Name: ChatussagaraYoga
+# Purpose: Calculates the presence of Chatussagara Yoga in the provided horoscope.
+# Description: Checks if all four Kendra houses (1st, 4th, 7th, 10th) are occupied by planets.
+# Expected Impact: 
+# Parameters:
+#   - charts (dict): Comprehensive dictionary containing D1, D9 charts and planetary attributes.
+# Returns:
+#   - Boolean/String: True if the yoga/dosha is present, False otherwise.
+# ==========================================================================================
+def ChatussagaraYoga(charts):
+    IsChatussagaraPresent = False
+    
+    Rule = ""
+    Results = ""
+    Note = ""
+    relevant_planets = set()
+    
+    # Check all kendras (1, 4, 7, 10)
+    kendras = [1, 4, 7, 10]
+    valid_planets = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+    
+    kendra_planets = {1: [], 4: [], 7: [], 10: []}
+    
+    for house in kendras:
+        planets_in_house = gen.get_planets_in_house(house, charts["D1"]["planets"])
+        for p in planets_in_house:
+            if p in valid_planets:
+                kendra_planets[house].append(p)
+                relevant_planets.add(p)
+                
+    if all(len(kendra_planets[house]) > 0 for house in kendras):
+        IsChatussagaraPresent = True
+        
+    if IsChatussagaraPresent:
+        Rule = f'''All the Kendra houses (1st, 4th, 7th, and 10th) are occupied by planets.'''
+        Results = f'''According to B.V. Raman, this yoga endows the native with a good reputation, status comparable to a ruler, a long, healthy, and prosperous life, and good children. The native's fame and influence will spread to the confines of the four oceans.'''
+        Note = f'''The strength of this yoga depends on the dignity of the planets occupying the kendras. Exalted or own-sign planets enhance the results significantly.'''
+        
+        key = f"CHATUSSSAGARA_D1"
+        common.yogadoshas_dict[key] = {}
+        common.yogadoshas_dict[key]["name"] = f"Chatussagara Yoga"
+        common.yogadoshas_dict[key]["type"] = "Yoga"
+        common.yogadoshas_dict[key]["exist"] = True
+        common.yogadoshas_dict[key]["Rule"] = common.iterativeReplace(Rule,"\\n ", "\\n")
+        common.yogadoshas_dict[key]["Result"] = common.iterativeReplace(Results,"\\n ", "\\n").replace("\\n","\\n        ") 
+        
+        # Dynamic Note Calculation
+        exaltation_signs = {"Sun": "Aries", "Moon": "Taurus", "Mars": "Capricorn", "Mercury": "Virgo", "Jupiter": "Cancer", "Venus": "Pisces", "Saturn": "Libra"}
+        own_signs = {"Sun": ["Leo"], "Moon": ["Cancer"], "Mars": ["Aries", "Scorpio"], "Mercury": ["Gemini", "Virgo"], "Jupiter": ["Sagittarius", "Pisces"], "Venus": ["Taurus", "Libra"], "Saturn": ["Capricorn", "Aquarius"]}
+        debilitation_signs = {"Sun": "Libra", "Moon": "Scorpio", "Mars": "Cancer", "Mercury": "Pisces", "Jupiter": "Capricorn", "Venus": "Virgo", "Saturn": "Aries"}
+        
+        benefics = charts["D1"]["classifications"]["natural-benefics"]
+        malefics = charts["D1"]["classifications"]["natural-malefics"]
+        
+        exalted = []
+        own_sign = []
+        debilitated = []
+        benefics_present = []
+        malefics_present = []
+        
+        planet_list = list(relevant_planets)
+        for p in planet_list:
+            sign = charts["D1"]["planets"][p]["sign"]
+            if sign == exaltation_signs.get(p):
+                exalted.append(p)
+            elif sign in own_signs.get(p, []):
+                own_sign.append(p)
+            elif sign == debilitation_signs.get(p):
+                debilitated.append(p)
+                
+            if p in benefics:
+                benefics_present.append(p)
+            elif p in malefics:
+                malefics_present.append(p)
+        
+        dynamic_note = "Chart-Specific Analysis:\\n"
+        if exalted:
+            dynamic_note += f"- Exalted Planets: {', '.join(exalted)} (Massively strengthens the yoga)\\n"
+        if own_sign:
+            dynamic_note += f"- Planets in Own Sign: {', '.join(own_sign)} (Adds significant stability and power)\\n"
+        if debilitated:
+            dynamic_note += f"- Debilitated Planets: {', '.join(debilitated)} (May introduce initial struggles or weaknesses before success)\\n"
+        if not exalted and not own_sign and not debilitated:
+            dynamic_note += "- The planets are in neutral/friendly/enemy signs. The results will be moderate.\\n"
+            
+        dynamic_note += f"- Benefics contributing: {', '.join(benefics_present) if benefics_present else 'None'}\\n"
+        dynamic_note += f"- Malefics contributing: {', '.join(malefics_present) if malefics_present else 'None'}\\n"
+        
+        if len(benefics_present) > len(malefics_present):
+            dynamic_note += "- Conclusion: The yoga is dominated by benefics, bringing power through righteous, peaceful, and harmonious means."
+        elif len(malefics_present) > len(benefics_present):
+            dynamic_note += "- Conclusion: The yoga is dominated by malefics, suggesting that success and authority will come through intense struggle, aggressive action, or overcoming significant opposition."
+        else:
+            dynamic_note += "- Conclusion: A balanced mix of benefics and malefics, providing both the aggressive drive to succeed and the wisdom to sustain it."
+        
+        common.yogadoshas_dict[key]["Note"] = dynamic_note
+        common.yogadoshas_dict[key]["Source"] = "B.V. Raman"
+        
+        common.yogadoshas_dict[key]["relevant_planets"] = [p[0:2] for p in planet_list]
+        
+    return IsChatussagaraPresent

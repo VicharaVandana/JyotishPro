@@ -62,27 +62,6 @@
         },
         "comments": "Widely used horoscope in Vedic astrology. Birth time should be verified with the chosen source."
     },
-    "Mahatma Gandhi": {
-        "name": "Mahatma Gandhi",
-        "gender": "male",
-        "DOB": {
-            "year": "1869",
-            "month": "10",
-            "day": "2"
-        },
-        "TOB": {
-            "hour": "7",
-            "min": "11",
-            "sec": "0"
-        },
-        "POB": {
-            "name": "Porbandar",
-            "lon": "+69.629265",
-            "lat": "+21.641706",
-            "timezone": "+5.5"
-        },
-        "comments": "Commonly used Vedic horoscope. Verify birth time with AstroDatabank or published source."
-    },
     "Jawaharlal Nehru": {
         "name": "Jawaharlal Nehru",
         "gender": "male",
@@ -145,5 +124,26 @@
             "timezone": "+5.5"
         },
         "comments": "Popular Vedic astrology chart. Verify with Kundli Sangraha or AstroDatabank."
+    },
+    "Mahatma Gandhi": {
+        "name": "Mahatma Gandhi",
+        "gender": "male",
+        "DOB": {
+            "year": "1869",
+            "month": "10",
+            "day": "2"
+        },
+        "TOB": {
+            "hour": "8",
+            "min": "36",
+            "sec": "19"
+        },
+        "POB": {
+            "name": "Porbandar",
+            "lon": "69.60929",
+            "lat": "21.64219",
+            "timezone": "+5.5"
+        },
+        "comments": "Commonly used Vedic horoscope. Verify birth time with AstroDatabank or published source."
     }
 }

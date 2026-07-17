@@ -15,8 +15,9 @@ from .parvata_yoga import ParvataYoga
 from .kahala_yoga import KahalaYoga
 from .guru_yogadoshas import GuruYogaDoshas
 from .nabhasa_yogas import ParivarthanaYoga, AashrayaYoga, DalaYoga, AakritiYoga, SankhyaYoga
-from .raja_yogas import DharmaKarmadhipatiYoga, NeechaBhangaRajaYoga, KendraTrikonaYoga, SreenathaYoga
+from .raja_yogas import DharmaKarmadhipatiYoga, NeechaBhangaRajaYoga, KendraTrikonaYoga, SreenathaYoga, ChatussagaraYoga
 from .karthari_yogadoshas import KarthariYogaDoshas
+from .dhana_yogas import VasumathiYoga
 
 # Note: Placeholder for dhana_yogas will be imported here when functions are added.
 
@@ -57,6 +58,10 @@ def ComputeYogaDoshas(charts):
     NeechaBhangaRajaYoga(charts)
     KendraTrikonaYoga(charts)
     SreenathaYoga(charts)
+    ChatussagaraYoga(charts)
+    
+    # Dhana Yogas
+    VasumathiYoga(charts)
     
     # Gaja Kesari Yoga
     GajaKesariYoga(charts)
